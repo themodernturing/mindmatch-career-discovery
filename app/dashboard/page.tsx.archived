@@ -1,0 +1,382 @@
+"use client"
+
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { Brain, BarChart3, Sparkles, LogOut, ArrowRight, Trophy, Target, Zap } from 'lucide-react'
+import { careers } from '@/lib/careers'
+
+interface ScoreData {
+  riasec_realistic: number
+  riasec_investigative: number
+  riasec_artistic: number
+  riasec_social: number
+  riasec_enterprising: number
+  riasec_conventional: number
+  big5_openness: number
+  big5_conscientiousness: number
+  big5_extraversion: number
+  big5_agreeableness: number
+  big5_emotional_stability: number
+  strength_analytical_thinking: number
+  strength_creativity: number
+  strength_leadership: number
+  strength_empathy: number
+  strength_organization: number
+  strength_communication: number
+}
+
+interface CareerMatchData {
+  career_id: string
+  overall_match: number
+  rank: number
+}
+
+const RIASEC_LABELS: Record<string, string> = {
+  riasec_realistic: 'Realistic',
+  riasec_investigative: 'Investigative',
+  riasec_artistic: 'Artistic',
+  riasec_social: 'Social',
+  riasec_enterprising: 'Enterprising',
+  riasec_conventional: 'Conventional',
+}
+
+const RIASEC_COLORS: Record<string, string> = {
+  riasec_realistic: 'bg-emerald-500',
+  riasec_investigative: 'bg-blue-500',
+  riasec_artistic: 'bg-purple-500',
+  riasec_social: 'bg-amber-500',
+  riasec_enterprising: 'bg-rose-500',
+  riasec_conventional: 'bg-slate-400',
+}
+
+const BIG5_LABELS: Record<string, string> = {
+  big5_openness: 'Openness',
+  big5_conscientiousness: 'Conscientiousness',
+  big5_extraversion: 'Extraversion',
+  big5_agreeableness: 'Agreeableness',
+  big5_emotional_stability: 'Emotional Stability',
+}
+
+const STRENGTH_LABELS: Record<string, string> = {
+  strength_analytical_thinking: 'Analytical Thinking',
+  strength_creativity: 'Creativity',
+  strength_leadership: 'Leadership',
+  strength_empathy: 'Empathy',
+  strength_organization: 'Organization',
+  strength_communication: 'Communication',
+}
+
+export default function DashboardPage() {
+  const router = useRouter()
+  const supabase = createClient()
+
+  const [loading, setLoading] = useState(true)
+  const [userName, setUserName] = useState('')
+  const [scores, setScores] = useState<ScoreData | null>(null)
+  const [careerMatches, setCareerMatches] = useState<CareerMatchData[]>([])
+  const [completedAt, setCompletedAt] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadData()
+  }, [])
+
+  const loadData = async () => {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { router.push('/auth'); return }
+
+    // Get profile
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('first_name, role')
+      .eq('id', user.id)
+      .single()
+
+    if (!profile) { router.push('/auth'); return }
+    if (profile.role === 'institution') { router.push('/institution'); return }
+
+    setUserName(profile.first_name)
+
+    // Get latest completed assessment
+    const { data: assessment } = await supabase
+      .from('assessments')
+      .select('id, completed_at')
+      .eq('user_id', user.id)
+      .eq('status', 'completed')
+      .order('completed_at', { ascending: false })
+      .limit(1)
+      .single()
+
+    if (!assessment) {
+      setLoading(false)
+      return
+    }
+
+    setCompletedAt(assessment.completed_at)
+
+    // Get score profile
+    const { data: scoreProfile } = await supabase
+      .from('score_profiles')
+      .select('*')
+      .eq('assessment_id', assessment.id)
+      .single()
+
+    if (scoreProfile) setScores(scoreProfile)
+
+    // Get career matches
+    const { data: matches } = await supabase
+      .from('career_matches')
+      .select('career_id, overall_match, rank')
+      .eq('user_id', user.id)
+      .order('rank', { ascending: true })
+      .limit(5)
+
+    if (matches) setCareerMatches(matches)
+
+    setLoading(false)
+  }
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut()
+    router.push('/')
+  }
+
+  const getTopRIASEC = () => {
+    if (!scores) return []
+    return Object.entries(RIASEC_LABELS)
+      .map(([key, label]) => ({ key, label, value: scores[key as keyof ScoreData] as number }))
+      .sort((a, b) => b.value - a.value)
+  }
+
+  const getTopStrengths = () => {
+    if (!scores) return []
+    return Object.entries(STRENGTH_LABELS)
+      .map(([key, label]) => ({ key, label, value: scores[key as keyof ScoreData] as number }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 3)
+  }
+
+  const getCareerById = (id: string) => careers.find(c => c.id === id)
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0f] flex items-center justify-center">
+        <div className="text-white/40 text-sm animate-pulse">Loading your profile...</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0f] text-white">
+      {/* Header */}
+      <header className="border-b border-white/5 px-6 py-4 flex items-center justify-between max-w-6xl mx-auto">
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
+            <Brain className="w-5 h-5 text-white" />
+          </div>
+          <span className="font-extrabold tracking-tight">Mind<span className="text-blue-500">Match</span></span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="text-slate-400 text-sm">Hi, {userName}</span>
+          <button onClick={handleSignOut} className="flex items-center gap-2 text-slate-500 hover:text-white text-sm transition-colors">
+            <LogOut className="w-4 h-4" />
+            Sign out
+          </button>
+        </div>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-6 py-10">
+        {!scores ? (
+          /* No results yet */
+          <div className="text-center py-20">
+            <div className="w-16 h-16 rounded-2xl bg-blue-600/10 flex items-center justify-center mx-auto mb-6">
+              <Target className="w-8 h-8 text-blue-400" />
+            </div>
+            <h2 className="text-2xl font-bold mb-3">No assessment yet</h2>
+            <p className="text-slate-400 mb-8">Take the assessment to discover your career matches.</p>
+            <button
+              onClick={() => { window.location.href = '/?start=1' }}
+              className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-3 rounded-full transition-colors"
+            >
+              Start Assessment
+            </button>
+          </div>
+        ) : (
+          <>
+            {/* Welcome */}
+            <div className="mb-10">
+              <h1 className="text-3xl font-black tracking-tight mb-1">Your Career Profile</h1>
+              {completedAt && (
+                <p className="text-slate-500 text-sm">
+                  Completed {new Date(completedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                </p>
+              )}
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-6">
+              {/* Left column */}
+              <div className="lg:col-span-2 space-y-6">
+
+                {/* RIASEC Profile */}
+                <div className="bg-[#12121a] rounded-2xl border border-white/10 p-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-8 h-8 rounded-lg bg-blue-600/20 flex items-center justify-center">
+                      <BarChart3 className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <h2 className="font-bold text-white">Your Interest Profile</h2>
+                      <p className="text-xs text-slate-500">RIASEC Model — Holland Codes</p>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    {getTopRIASEC().map(({ key, label, value }) => (
+                      <div key={key}>
+                        <div className="flex justify-between text-sm mb-1">
+                          <span className="font-medium text-slate-300">{label}</span>
+                          <span className="font-bold text-white">{Math.round(value)}%</span>
+                        </div>
+                        <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div
+                            className={`h-full rounded-full ${RIASEC_COLORS[key]} transition-all duration-700`}
+                            style={{ width: `${value}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-white/5">
+                    <p className="text-xs text-slate-500">
+                      Your top code: <span className="text-white font-bold">{getTopRIASEC()[0]?.label}</span>
+                      {getTopRIASEC()[1] && <> — <span className="text-white font-bold">{getTopRIASEC()[1]?.label}</span></>}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Career Matches */}
+                <div className="bg-[#12121a] rounded-2xl border border-white/10 p-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-600/20 flex items-center justify-center">
+                      <Trophy className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div>
+                      <h2 className="font-bold text-white">Top Career Matches</h2>
+                      <p className="text-xs text-slate-500">Based on your full psychometric profile</p>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    {careerMatches.map((match) => {
+                      const career = getCareerById(match.career_id)
+                      if (!career) return null
+                      return (
+                        <div key={match.career_id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/8 transition-colors">
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs font-bold text-slate-600 w-5">#{match.rank}</span>
+                            <div>
+                              <div className="font-semibold text-white text-sm">{career.name}</div>
+                              <div className="text-xs text-slate-500">{career.category}</div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <div className="text-right">
+                              <div className="text-lg font-black text-emerald-400">{match.overall_match}%</div>
+                              <div className="text-[10px] text-slate-600">match</div>
+                            </div>
+                            <ArrowRight className="w-4 h-4 text-slate-600" />
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Right column */}
+              <div className="space-y-6">
+                {/* Big Five */}
+                <div className="bg-[#12121a] rounded-2xl border border-white/10 p-6">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-8 h-8 rounded-lg bg-purple-600/20 flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-purple-400" />
+                    </div>
+                    <div>
+                      <h2 className="font-bold text-white text-sm">Personality Traits</h2>
+                      <p className="text-xs text-slate-500">Big Five Model</p>
+                    </div>
+                  </div>
+                  <div className="space-y-3">
+                    {Object.entries(BIG5_LABELS).map(([key, label]) => {
+                      const value = scores[key as keyof ScoreData] as number
+                      return (
+                        <div key={key}>
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-slate-400">{label}</span>
+                            <span className="font-bold text-white">{Math.round(value)}</span>
+                          </div>
+                          <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                            <div
+                              className="h-full rounded-full bg-purple-500"
+                              style={{ width: `${value}%` }}
+                            />
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Top Strengths */}
+                <div className="bg-[#12121a] rounded-2xl border border-white/10 p-6">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-8 h-8 rounded-lg bg-amber-600/20 flex items-center justify-center">
+                      <Zap className="w-4 h-4 text-amber-400" />
+                    </div>
+                    <div>
+                      <h2 className="font-bold text-white text-sm">Top Strengths</h2>
+                      <p className="text-xs text-slate-500">Your dominant abilities</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {getTopStrengths().map(({ label, value }) => (
+                      <div key={label} className="flex items-center justify-between p-3 bg-white/5 rounded-xl">
+                        <span className="text-sm font-medium text-slate-300">{label}</span>
+                        <span className="text-sm font-black text-amber-400">{Math.round(value)}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                        {/* Retake — 6-month lock */}
+                {(() => {
+                  if (!completedAt) return null
+                  const SIX_MONTHS = 6 * 30 * 24 * 60 * 60 * 1000
+                  const elapsed = Date.now() - new Date(completedAt).getTime()
+                  const canRetake = elapsed >= SIX_MONTHS
+                  const nextRetakeDate = new Date(new Date(completedAt).getTime() + SIX_MONTHS)
+                    .toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+
+                  if (canRetake) {
+                    return (
+                      <button
+                        onClick={() => { window.location.href = '/?start=1' }}
+                        className="w-full py-3 rounded-xl border border-white/10 text-slate-400 hover:text-white hover:border-white/20 text-sm font-semibold transition-all"
+                      >
+                        Retake Assessment
+                      </button>
+                    )
+                  }
+
+                  return (
+                    <div className="w-full py-3 px-4 rounded-xl border border-white/5 bg-white/3 text-center">
+                      <p className="text-xs text-slate-600">Next retake available</p>
+                      <p className="text-xs font-bold text-slate-500 mt-0.5">{nextRetakeDate}</p>
+                    </div>
+                  )
+                })()}
+              </div>
+            </div>
+          </>
+        )}
+      </main>
+    </div>
+  )
+}
