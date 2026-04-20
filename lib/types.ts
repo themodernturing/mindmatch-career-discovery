@@ -100,7 +100,7 @@ export interface Career {
   description: string
   typical_tasks: string[]
   required_skills: { name: string; importance: string; category: string }[]
-  education_pathways: { level: string; field: string; duration: string }[]
+  education_pathways: { level: string; field: string; duration: string; universities?: string[] }[]
   riasec_profile: {
     realistic: number
     investigative: number

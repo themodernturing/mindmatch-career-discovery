@@ -776,13 +776,22 @@ function CareersTab({ matchedCareers }: { matchedCareers: (Career & { match: num
             {career.required_skills.slice(0, 4).map((skill) => (
               <span key={skill.name} className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs rounded-full font-medium">{skill.name}</span>
             ))}
-            {career.education_pathways.length > 0 && (
-              <span className="ml-auto flex items-center gap-1 text-xs text-indigo-600 font-medium">
-                <GraduationCap className="w-3.5 h-3.5" />
-                {career.education_pathways[0].level} · {career.education_pathways[0].field}
-              </span>
-            )}
           </div>
+          {career.education_pathways.length > 0 && (
+            <div className="pt-2 border-t border-slate-100 mt-1">
+              <div className="flex items-center gap-1.5 text-xs text-indigo-700 font-semibold mb-1.5">
+                <GraduationCap className="w-3.5 h-3.5" />
+                {career.education_pathways[0].level.charAt(0).toUpperCase() + career.education_pathways[0].level.slice(1)} · {career.education_pathways[0].field}
+              </div>
+              {career.education_pathways[0].universities && career.education_pathways[0].universities.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {career.education_pathways[0].universities.map((uni) => (
+                    <span key={uni} className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs rounded-full border border-indigo-100">{uni}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
       ))}
     </div>
@@ -956,6 +965,12 @@ export function ResultsDashboard({
             <span className="font-black text-slate-900 text-lg tracking-tight">MindMatch</span>
           </div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => { if (typeof window !== 'undefined') window.open('/parent-report', '_blank') }}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-indigo-200 text-indigo-600 text-sm font-medium hover:bg-indigo-50 transition-colors"
+            >
+              <GraduationCap className="w-4 h-4" /> Parent Report
+            </button>
             <button
               onClick={() => { if (typeof window !== 'undefined') window.print() }}
               className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-slate-600 text-sm font-medium hover:bg-slate-50 transition-colors"

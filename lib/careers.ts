@@ -21,7 +21,7 @@ export const careers: Career[] = [
       { name: 'Continuous learning', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Computer Science, Software Engineering', duration: '4 years' },
+      { level: 'bachelor', field: 'Computer Science, Software Engineering', duration: '4 years', universities: ['LUMS', 'NUST', 'FAST-NUCES (Lahore/Karachi/Islamabad)', 'COMSATS University', 'UET Lahore'] },
       { level: 'certificate', field: 'Coding Bootcamp', duration: '3-6 months' }
     ],
     riasec_profile: { realistic: 35, investigative: 85, artistic: 45, social: 30, enterprising: 40, conventional: 55 },
@@ -48,8 +48,8 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'master', field: 'Data Science, Statistics', duration: '2 years' },
-      { level: 'bachelor', field: 'Mathematics, Statistics, Computer Science', duration: '4 years' }
+      { level: 'master', field: 'Data Science, Statistics', duration: '2 years', universities: ['LUMS', 'NUST', 'IBA Karachi', 'ITU Lahore'] },
+      { level: 'bachelor', field: 'Mathematics, Statistics, Computer Science', duration: '4 years', universities: ['LUMS', 'QAU Islamabad', 'University of Karachi', 'GC University Lahore'] }
     ],
     riasec_profile: { realistic: 25, investigative: 95, artistic: 35, social: 30, enterprising: 40, conventional: 60 },
     salary_range: { entry: 75000, median: 120000, experienced: 180000 },
@@ -75,7 +75,7 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Human-Computer Interaction, Design', duration: '4 years' },
+      { level: 'bachelor', field: 'Human-Computer Interaction, Design', duration: '4 years', universities: ['NCA Lahore', 'Indus Valley School of Art (Karachi)', 'LUMS', 'Beaconhouse National University'] },
       { level: 'certificate', field: 'UX/UI Design Bootcamp', duration: '3-6 months' }
     ],
     riasec_profile: { realistic: 25, investigative: 55, artistic: 85, social: 60, enterprising: 40, conventional: 35 },
@@ -102,8 +102,8 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'Clinical Psychology, Counseling Psychology', duration: '4-6 years' },
-      { level: 'master', field: 'Psychology, Counseling', duration: '2-3 years' }
+      { level: 'doctorate', field: 'Clinical Psychology, Counseling Psychology', duration: '4-6 years', universities: ['University of Karachi', 'QAU Islamabad', 'University of the Punjab'] },
+      { level: 'master', field: 'Psychology, Counseling', duration: '2-3 years', universities: ['LUMS', 'University of Karachi', 'Forman Christian College', 'QAU Islamabad'] }
     ],
     riasec_profile: { realistic: 20, investigative: 75, artistic: 40, social: 95, enterprising: 30, conventional: 50 },
     salary_range: { entry: 55000, median: 85000, experienced: 140000 },
@@ -129,7 +129,7 @@ export const careers: Career[] = [
       { name: 'Adaptability', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Education or subject-specific', duration: '4 years' }
+      { level: 'bachelor', field: 'Education or subject-specific', duration: '4 years', universities: ['Allama Iqbal Open University', 'University of the Punjab', 'University of Education Lahore', 'IER University of Karachi'] }
     ],
     riasec_profile: { realistic: 25, investigative: 50, artistic: 45, social: 95, enterprising: 55, conventional: 60 },
     salary_range: { entry: 42000, median: 62000, experienced: 85000 },
@@ -155,8 +155,8 @@ export const careers: Career[] = [
       { name: 'Creativity', importance: 'important', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Marketing, Business Administration', duration: '4 years' },
-      { level: 'master', field: 'MBA, Marketing', duration: '2 years' }
+      { level: 'bachelor', field: 'Marketing, Business Administration', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School', 'Institute of Business Management (IoBM)'] },
+      { level: 'master', field: 'MBA, Marketing', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School', 'CBM Karachi'] }
     ],
     riasec_profile: { realistic: 20, investigative: 45, artistic: 55, social: 70, enterprising: 90, conventional: 50 },
     salary_range: { entry: 55000, median: 95000, experienced: 150000 },
@@ -182,7 +182,7 @@ export const careers: Career[] = [
       { name: 'Project management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Mechanical Engineering', duration: '4 years' }
+      { level: 'bachelor', field: 'Mechanical Engineering', duration: '4 years', universities: ['UET Lahore', 'NUST', 'NED University Karachi', 'GIKI', 'UET Taxila'] }
     ],
     riasec_profile: { realistic: 80, investigative: 75, artistic: 25, social: 30, enterprising: 35, conventional: 50 },
     salary_range: { entry: 65000, median: 95000, experienced: 140000 },
@@ -208,7 +208,7 @@ export const careers: Career[] = [
       { name: 'Physical stamina', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Nursing (BSN)', duration: '4 years' },
+      { level: 'bachelor', field: 'Nursing (BSN)', duration: '4 years', universities: ['Aga Khan University', 'CMH Nursing College', 'Dow University of Health Sciences', 'University of Health Sciences Lahore'] },
       { level: 'associate', field: 'Nursing (ADN)', duration: '2 years' }
     ],
     riasec_profile: { realistic: 50, investigative: 55, artistic: 25, social: 95, enterprising: 35, conventional: 65 },
@@ -235,7 +235,7 @@ export const careers: Career[] = [
       { name: 'Time management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Graphic Design, Fine Arts', duration: '4 years' },
+      { level: 'bachelor', field: 'Graphic Design, Fine Arts', duration: '4 years', universities: ['NCA Lahore', 'Indus Valley School of Art (Karachi)', 'Beaconhouse National University', 'Textile Institute of Pakistan'] },
       { level: 'associate', field: 'Graphic Design', duration: '2 years' }
     ],
     riasec_profile: { realistic: 30, investigative: 25, artistic: 95, social: 40, enterprising: 45, conventional: 40 },
@@ -262,7 +262,7 @@ export const careers: Career[] = [
       { name: 'Networking', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Business, Engineering', duration: '4 years' }
+      { level: 'bachelor', field: 'Business, Engineering', duration: '4 years', universities: ['LUMS', 'IBA Karachi', 'NUST Business School', 'IoBM Karachi'] }
     ],
     riasec_profile: { realistic: 40, investigative: 45, artistic: 60, social: 50, enterprising: 95, conventional: 35 },
     salary_range: { entry: 0, median: 75000, experienced: 250000 },
@@ -288,7 +288,7 @@ export const careers: Career[] = [
       { name: 'Decision-making under pressure', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'Medicine (MD or DO)', duration: '4 years + residency' }
+      { level: 'doctorate', field: 'Medicine (MD or DO)', duration: '4 years + residency', universities: ['Aga Khan Medical College', 'NUST Medical', 'CMH Lahore Medical College', 'Dow University of Health Sciences', 'KEMU Lahore'] }
     ],
     riasec_profile: { realistic: 35, investigative: 85, artistic: 25, social: 85, enterprising: 40, conventional: 55 },
     salary_range: { entry: 200000, median: 250000, experienced: 400000 },
@@ -314,8 +314,8 @@ export const careers: Career[] = [
       { name: 'Attention to detail', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Finance, Accounting, Economics', duration: '4 years' },
-      { level: 'master', field: 'MBA, Finance', duration: '2 years' }
+      { level: 'bachelor', field: 'Finance, Accounting, Economics', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School', 'CBM Karachi', 'Forman Christian College'] },
+      { level: 'master', field: 'MBA, Finance', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] }
     ],
     riasec_profile: { realistic: 20, investigative: 75, artistic: 20, social: 30, enterprising: 60, conventional: 85 },
     salary_range: { entry: 60000, median: 90000, experienced: 150000 },
@@ -341,7 +341,7 @@ export const careers: Career[] = [
       { name: 'Attention to detail', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Civil Engineering', duration: '4 years' }
+      { level: 'bachelor', field: 'Civil Engineering', duration: '4 years', universities: ['UET Lahore', 'NUST', 'NED University Karachi', 'GIKI', 'UET Peshawar'] }
     ],
     riasec_profile: { realistic: 75, investigative: 65, artistic: 25, social: 35, enterprising: 45, conventional: 60 },
     salary_range: { entry: 60000, median: 88000, experienced: 130000 },
@@ -367,7 +367,7 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Game Design, Computer Science', duration: '4 years' }
+      { level: 'bachelor', field: 'Game Design, Computer Science', duration: '4 years', universities: ['FAST-NUCES', 'NUST', 'Virtual University', 'COMSATS University'] }
     ],
     riasec_profile: { realistic: 35, investigative: 45, artistic: 90, social: 40, enterprising: 50, conventional: 30 },
     salary_range: { entry: 50000, median: 85000, experienced: 140000 },
@@ -393,7 +393,7 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'master', field: 'Architecture', duration: '5 years' }
+      { level: 'master', field: 'Architecture', duration: '5 years', universities: ['NCA Lahore', 'NED University Karachi', 'UET Lahore (Arch)', 'Mehran University', 'Dawood University Karachi'] }
     ],
     riasec_profile: { realistic: 50, investigative: 55, artistic: 90, social: 45, enterprising: 50, conventional: 45 },
     salary_range: { entry: 55000, median: 85000, experienced: 135000 },
@@ -445,7 +445,7 @@ export const careers: Career[] = [
       { name: 'Problem-solving', importance: 'important', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'Physical Therapy (DPT)', duration: '3 years' }
+      { level: 'doctorate', field: 'Physical Therapy (DPT)', duration: '3 years', universities: ['Aga Khan University', 'University of Lahore', 'Riphah International University', 'Shifa Tameer-e-Millat University'] }
     ],
     riasec_profile: { realistic: 60, investigative: 50, artistic: 25, social: 95, enterprising: 35, conventional: 50 },
     salary_range: { entry: 65000, median: 95000, experienced: 120000 },
@@ -471,8 +471,8 @@ export const careers: Career[] = [
       { name: 'Presentation skills', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Business, Economics, Engineering', duration: '4 years' },
-      { level: 'master', field: 'MBA', duration: '2 years' }
+      { level: 'bachelor', field: 'Business, Economics, Engineering', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School', 'Forman Christian College'] },
+      { level: 'master', field: 'MBA', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] }
     ],
     riasec_profile: { realistic: 25, investigative: 70, artistic: 35, social: 65, enterprising: 85, conventional: 50 },
     salary_range: { entry: 75000, median: 120000, experienced: 200000 },
@@ -498,7 +498,7 @@ export const careers: Career[] = [
       { name: 'Organization', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'master', field: 'School Counseling', duration: '2-3 years' }
+      { level: 'master', field: 'School Counseling', duration: '2-3 years', universities: ['University of Karachi', 'Forman Christian College', 'University of the Punjab', 'LUMS'] }
     ],
     riasec_profile: { realistic: 20, investigative: 45, artistic: 35, social: 95, enterprising: 45, conventional: 55 },
     salary_range: { entry: 45000, median: 62000, experienced: 85000 },
@@ -524,8 +524,8 @@ export const careers: Career[] = [
       { name: 'Negotiation', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Finance, Economics, Business', duration: '4 years' },
-      { level: 'master', field: 'MBA', duration: '2 years' }
+      { level: 'bachelor', field: 'Finance, Economics, Business', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School', 'CBM Karachi'] },
+      { level: 'master', field: 'MBA', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] }
     ],
     riasec_profile: { realistic: 20, investigative: 65, artistic: 25, social: 60, enterprising: 95, conventional: 70 },
     salary_range: { entry: 100000, median: 200000, experienced: 500000 },
@@ -551,8 +551,8 @@ export const careers: Career[] = [
       { name: 'Critical thinking', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'master', field: 'Computer Science, AI, Data Science', duration: '2 years' },
-      { level: 'bachelor', field: 'Computer Science, Mathematics', duration: '4 years' }
+      { level: 'master', field: 'Computer Science, AI, Data Science', duration: '2 years', universities: ['LUMS', 'NUST', 'ITU Lahore', 'FAST-NUCES'] },
+      { level: 'bachelor', field: 'Computer Science, Mathematics', duration: '4 years', universities: ['LUMS', 'NUST', 'FAST-NUCES', 'COMSATS University', 'ITU Lahore'] }
     ],
     riasec_profile: { realistic: 30, investigative: 95, artistic: 40, social: 25, enterprising: 45, conventional: 50 },
     salary_range: { entry: 80000, median: 140000, experienced: 220000 },
@@ -578,7 +578,7 @@ export const careers: Career[] = [
       { name: 'Problem-solving', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Cybersecurity, Computer Science', duration: '4 years' },
+      { level: 'bachelor', field: 'Cybersecurity, Computer Science', duration: '4 years', universities: ['NUST', 'FAST-NUCES', 'Air University Islamabad', 'COMSATS University', 'UET Lahore'] },
       { level: 'certificate', field: 'CISSP, CEH, CompTIA Security+', duration: '6-12 months' }
     ],
     riasec_profile: { realistic: 55, investigative: 90, artistic: 20, social: 25, enterprising: 45, conventional: 65 },
@@ -605,8 +605,8 @@ export const careers: Career[] = [
       { name: 'User empathy', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Computer Science, Business, Engineering', duration: '4 years' },
-      { level: 'master', field: 'MBA, Product Management', duration: '2 years' }
+      { level: 'bachelor', field: 'Computer Science, Business, Engineering', duration: '4 years', universities: ['LUMS', 'IBA Karachi', 'NUST', 'FAST-NUCES'] },
+      { level: 'master', field: 'MBA, Product Management', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] }
     ],
     riasec_profile: { realistic: 20, investigative: 70, artistic: 55, social: 70, enterprising: 85, conventional: 40 },
     salary_range: { entry: 70000, median: 120000, experienced: 200000 },
@@ -632,8 +632,8 @@ export const careers: Career[] = [
       { name: 'Attention to detail', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'LLB (Law)', duration: '5 years' },
-      { level: 'master', field: 'LLM', duration: '1-2 years' }
+      { level: 'bachelor', field: 'LLB (Law)', duration: '5 years', universities: ['University of the Punjab Law College', 'Karachi University Law Faculty', 'International Islamic University Islamabad', 'Quaid-e-Azam Law College', 'LUMS (LLB)'] },
+      { level: 'master', field: 'LLM', duration: '1-2 years', universities: ['University of the Punjab', 'LUMS', 'International Islamic University Islamabad'] }
     ],
     riasec_profile: { realistic: 15, investigative: 75, artistic: 45, social: 65, enterprising: 90, conventional: 60 },
     salary_range: { entry: 50000, median: 100000, experienced: 250000 },
@@ -659,8 +659,8 @@ export const careers: Career[] = [
       { name: 'Integrity', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'certificate', field: 'CA / ACCA / ICMA', duration: '3-5 years' },
-      { level: 'bachelor', field: 'Accounting, Finance', duration: '4 years' }
+      { level: 'certificate', field: 'CA / ACCA / ICMA', duration: '3-5 years', universities: ['ICAP (Institute of Chartered Accountants Pakistan)', 'ACCA Pakistan', 'ICMA Pakistan'] },
+      { level: 'bachelor', field: 'Accounting, Finance', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'CBM Karachi', 'University of the Punjab Commerce', 'FAST-NUCES'] }
     ],
     riasec_profile: { realistic: 20, investigative: 65, artistic: 15, social: 30, enterprising: 55, conventional: 95 },
     salary_range: { entry: 55000, median: 90000, experienced: 180000 },
@@ -686,7 +686,7 @@ export const careers: Career[] = [
       { name: 'Media ethics', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Journalism, Mass Communication', duration: '4 years' }
+      { level: 'bachelor', field: 'Journalism, Mass Communication', duration: '4 years', universities: ['University of the Punjab (MCM)', 'University of Karachi', 'Beaconhouse National University', 'Iqra University', 'Forman Christian College'] }
     ],
     riasec_profile: { realistic: 20, investigative: 65, artistic: 80, social: 70, enterprising: 65, conventional: 30 },
     salary_range: { entry: 35000, median: 60000, experienced: 110000 },
@@ -712,8 +712,8 @@ export const careers: Career[] = [
       { name: 'Integrity and discipline', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Any field (CSS exam qualification)', duration: '4 years' },
-      { level: 'master', field: 'Public Administration, Political Science', duration: '2 years' }
+      { level: 'bachelor', field: 'Any field (CSS exam qualification)', duration: '4 years', universities: ['Any HEC-recognised university — CSS is exam-based, not degree-specific'] },
+      { level: 'master', field: 'Public Administration, Political Science', duration: '2 years', universities: ['QAU Islamabad', 'University of the Punjab', 'University of Karachi', 'International Islamic University Islamabad'] }
     ],
     riasec_profile: { realistic: 30, investigative: 70, artistic: 35, social: 75, enterprising: 80, conventional: 65 },
     salary_range: { entry: 60000, median: 120000, experienced: 250000 },
@@ -739,7 +739,7 @@ export const careers: Career[] = [
       { name: 'Strategic thinking', importance: 'important', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'PMA Long Course / Cadet College / ISSB', duration: '2-4 years' }
+      { level: 'bachelor', field: 'PMA Long Course / Cadet College / ISSB', duration: '2-4 years', universities: ['Pakistan Military Academy (PMA) Kakul', 'Pakistan Naval Academy Karachi', 'Pakistan Air Force Academy Risalpur', 'Cadet College Hasanabdal', 'Cadet College Petaro'] }
     ],
     riasec_profile: { realistic: 75, investigative: 50, artistic: 20, social: 60, enterprising: 85, conventional: 70 },
     salary_range: { entry: 70000, median: 150000, experienced: 300000 },
@@ -765,8 +765,8 @@ export const careers: Career[] = [
       { name: 'Employment law knowledge', importance: 'important', category: 'technical' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Human Resources, Business Administration', duration: '4 years' },
-      { level: 'master', field: 'HRM, MBA', duration: '2 years' }
+      { level: 'bachelor', field: 'Human Resources, Business Administration', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'IoBM Karachi', 'University of the Punjab Commerce'] },
+      { level: 'master', field: 'HRM, MBA', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] }
     ],
     riasec_profile: { realistic: 15, investigative: 50, artistic: 40, social: 90, enterprising: 65, conventional: 60 },
     salary_range: { entry: 45000, median: 75000, experienced: 130000 },
@@ -792,8 +792,8 @@ export const careers: Career[] = [
       { name: 'Patience and precision', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'Science (Biology, Chemistry, Physics)', duration: '4-5 years' },
-      { level: 'master', field: 'Research-focused science', duration: '2 years' }
+      { level: 'doctorate', field: 'Science (Biology, Chemistry, Physics)', duration: '4-5 years', universities: ['QAU Islamabad', 'University of Karachi', 'University of the Punjab', 'NUST', 'GC University Lahore'] },
+      { level: 'master', field: 'Research-focused science', duration: '2 years', universities: ['QAU Islamabad', 'University of Karachi', 'NUST', 'GC University Lahore'] }
     ],
     riasec_profile: { realistic: 35, investigative: 95, artistic: 40, social: 35, enterprising: 30, conventional: 60 },
     salary_range: { entry: 55000, median: 85000, experienced: 140000 },
@@ -819,7 +819,7 @@ export const careers: Career[] = [
       { name: 'Consistency and discipline', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Media Studies, Communications, Marketing', duration: '4 years' },
+      { level: 'bachelor', field: 'Media Studies, Communications, Marketing', duration: '4 years', universities: ['Beaconhouse National University', 'Iqra University', 'University of the Punjab (MCM)', 'Forman Christian College'] },
       { level: 'certificate', field: 'Self-taught / online courses', duration: 'varies' }
     ],
     riasec_profile: { realistic: 20, investigative: 35, artistic: 90, social: 75, enterprising: 70, conventional: 25 },
@@ -846,7 +846,7 @@ export const careers: Career[] = [
       { name: 'Patient care', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Pharmacy (Pharm-D)', duration: '5 years' }
+      { level: 'bachelor', field: 'Pharmacy (Pharm-D)', duration: '5 years', universities: ['University of Karachi (Pharmacy)', 'University of the Punjab (Pharmacy)', 'Riphah International University', 'COMSATS University', 'Dow University of Health Sciences'] }
     ],
     riasec_profile: { realistic: 45, investigative: 80, artistic: 20, social: 65, enterprising: 35, conventional: 75 },
     salary_range: { entry: 60000, median: 95000, experienced: 150000 },
@@ -872,8 +872,8 @@ export const careers: Career[] = [
       { name: 'Problem-solving', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Environmental Science, Biology, Chemistry', duration: '4 years' },
-      { level: 'master', field: 'Environmental Management', duration: '2 years' }
+      { level: 'bachelor', field: 'Environmental Science, Biology, Chemistry', duration: '4 years', universities: ['QAU Islamabad', 'University of Karachi', 'COMSATS University', 'GC University Lahore'] },
+      { level: 'master', field: 'Environmental Management', duration: '2 years', universities: ['QAU Islamabad', 'NUST', 'University of the Punjab'] }
     ],
     riasec_profile: { realistic: 65, investigative: 85, artistic: 35, social: 45, enterprising: 35, conventional: 55 },
     salary_range: { entry: 50000, median: 75000, experienced: 120000 },
@@ -899,7 +899,7 @@ export const careers: Career[] = [
       { name: 'Business sense', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Fashion Design, Textile Design', duration: '4 years' },
+      { level: 'bachelor', field: 'Fashion Design, Textile Design', duration: '4 years', universities: ['NCA Lahore', 'Textile Institute of Pakistan', 'Indus Valley School of Art (Karachi)', 'Pakistan Institute of Fashion & Design (PIFD)'] },
       { level: 'associate', field: 'Fashion Design Diploma', duration: '2 years' }
     ],
     riasec_profile: { realistic: 45, investigative: 30, artistic: 95, social: 50, enterprising: 55, conventional: 35 },
@@ -926,8 +926,8 @@ export const careers: Career[] = [
       { name: 'Problem-solving', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Business Administration, Industrial Engineering', duration: '4 years' },
-      { level: 'master', field: 'MBA, Operations Management', duration: '2 years' }
+      { level: 'bachelor', field: 'Business Administration, Industrial Engineering', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'UET Lahore (Industrial Eng)', 'NUST Business School'] },
+      { level: 'master', field: 'MBA, Operations Management', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] }
     ],
     riasec_profile: { realistic: 40, investigative: 60, artistic: 25, social: 65, enterprising: 85, conventional: 70 },
     salary_range: { entry: 55000, median: 95000, experienced: 160000 },
@@ -956,7 +956,7 @@ export const careers: Career[] = [
       { name: 'Attention to detail', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'MBBS (5 years) + House Job (1 year) + FCPS Specialisation (4-6 years)', duration: '10-12 years total' }
+      { level: 'doctorate', field: 'MBBS (5 years) + House Job (1 year) + FCPS Specialisation (4-6 years)', duration: '10-12 years total', universities: ['Aga Khan Medical College', 'NUST Medical (Army Medical College)', 'CMH Lahore Medical College', 'Dow University of Health Sciences', 'KEMU Lahore', 'Allama Iqbal Medical College'] }
     ],
     riasec_profile: { realistic: 55, investigative: 88, artistic: 25, social: 85, enterprising: 40, conventional: 60 },
     salary_range: { entry: 80000, median: 350000, experienced: 1200000 },
@@ -982,7 +982,7 @@ export const careers: Career[] = [
       { name: 'Spatial and 3D thinking', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'MBBS + FCPS Surgery / Orthopaedics / Neurosurgery / ENT / Ophthalmology', duration: '11-13 years' }
+      { level: 'doctorate', field: 'MBBS + FCPS Surgery / Orthopaedics / Neurosurgery / ENT / Ophthalmology', duration: '11-13 years', universities: ['Aga Khan Medical College', 'CMH Lahore Medical College', 'Dow University of Health Sciences', 'KEMU Lahore', 'JPMC / SIMS Lahore'] }
     ],
     riasec_profile: { realistic: 88, investigative: 85, artistic: 30, social: 60, enterprising: 45, conventional: 58 },
     salary_range: { entry: 150000, median: 500000, experienced: 1500000 },
@@ -1008,7 +1008,7 @@ export const careers: Career[] = [
       { name: 'Report writing', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'MBBS + FCPS Radiology / Pathology / Haematology', duration: '10-12 years' }
+      { level: 'doctorate', field: 'MBBS + FCPS Radiology / Pathology / Haematology', duration: '10-12 years', universities: ['Aga Khan Medical College', 'CMH Lahore Medical College', 'Dow University of Health Sciences', 'KEMU Lahore', 'Allama Iqbal Medical College'] }
     ],
     riasec_profile: { realistic: 60, investigative: 95, artistic: 30, social: 35, enterprising: 25, conventional: 80 },
     salary_range: { entry: 120000, median: 450000, experienced: 1200000 },
@@ -1034,7 +1034,7 @@ export const careers: Career[] = [
       { name: 'Emotional resilience', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'MBBS + FCPS Psychiatry', duration: '10-11 years' }
+      { level: 'doctorate', field: 'MBBS + FCPS Psychiatry', duration: '10-11 years', universities: ['Aga Khan Medical College', 'Institute of Psychiatry Rawalpindi', 'Dow University of Health Sciences', 'KEMU Lahore'] }
     ],
     riasec_profile: { realistic: 25, investigative: 88, artistic: 50, social: 92, enterprising: 35, conventional: 55 },
     salary_range: { entry: 120000, median: 350000, experienced: 900000 },
@@ -1060,7 +1060,7 @@ export const careers: Career[] = [
       { name: 'Spatial and visual thinking', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BDS — Bachelor of Dental Surgery (5 years)', duration: '5 years' },
+      { level: 'bachelor', field: 'BDS — Bachelor of Dental Surgery (5 years)', duration: '5 years', universities: ['Aga Khan University Dental College', 'Dow Dental College', 'de\'Montmorency College of Dentistry Lahore', 'Fatima Jinnah Dental College', 'Nishtar Institute of Dentistry'] },
       { level: 'master', field: 'FCPS Orthodontics / Oral Surgery / Prosthodontics', duration: '4-5 years' }
     ],
     riasec_profile: { realistic: 78, investigative: 75, artistic: 45, social: 70, enterprising: 52, conventional: 65 },
@@ -1087,7 +1087,7 @@ export const careers: Career[] = [
       { name: 'Problem-solving', importance: 'important', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BS Physiotherapy / Pharmacy (Pharm-D) / MLT / Nutrition / Occupational Therapy', duration: '4-5 years' }
+      { level: 'bachelor', field: 'BS Physiotherapy / Pharmacy (Pharm-D) / MLT / Nutrition / Occupational Therapy', duration: '4-5 years', universities: ['Riphah International University', 'University of Lahore', 'Aga Khan University', 'Shifa Tameer-e-Millat University', 'Dow University of Health Sciences'] }
     ],
     riasec_profile: { realistic: 55, investigative: 72, artistic: 28, social: 82, enterprising: 35, conventional: 68 },
     salary_range: { entry: 45000, median: 100000, experienced: 220000 },
@@ -1113,7 +1113,7 @@ export const careers: Career[] = [
       { name: 'Problem-solving', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'DVM — Doctor of Veterinary Medicine (5 years)', duration: '5 years' }
+      { level: 'bachelor', field: 'DVM — Doctor of Veterinary Medicine (5 years)', duration: '5 years', universities: ['University of Agriculture Faisalabad (UAF)', 'UVAS Lahore', 'SBBUVAS Quetta', 'University of Arid Agriculture Rawalpindi'] }
     ],
     riasec_profile: { realistic: 72, investigative: 80, artistic: 30, social: 65, enterprising: 35, conventional: 55 },
     salary_range: { entry: 50000, median: 100000, experienced: 220000 },
@@ -1142,7 +1142,7 @@ export const careers: Career[] = [
       { name: 'Project management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BE/BSc Electrical Engineering', duration: '4 years' }
+      { level: 'bachelor', field: 'BE/BSc Electrical Engineering', duration: '4 years', universities: ['UET Lahore', 'NUST', 'NED University Karachi', 'GIKI', 'COMSATS University'] }
     ],
     riasec_profile: { realistic: 80, investigative: 85, artistic: 20, social: 30, enterprising: 40, conventional: 65 },
     salary_range: { entry: 60000, median: 110000, experienced: 200000 },
@@ -1168,7 +1168,7 @@ export const careers: Career[] = [
       { name: 'Analytical thinking', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BE/BSc Chemical Engineering', duration: '4 years' }
+      { level: 'bachelor', field: 'BE/BSc Chemical Engineering', duration: '4 years', universities: ['UET Lahore', 'NUST', 'NED University Karachi', 'GIKI', 'University of Engineering Taxila'] }
     ],
     riasec_profile: { realistic: 65, investigative: 90, artistic: 20, social: 30, enterprising: 40, conventional: 65 },
     salary_range: { entry: 65000, median: 115000, experienced: 210000 },
@@ -1194,7 +1194,7 @@ export const careers: Career[] = [
       { name: 'Project management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BE Petroleum Engineering (NED, UET)', duration: '4 years' }
+      { level: 'bachelor', field: 'BE Petroleum Engineering (NED, UET)', duration: '4 years', universities: ['NED University Karachi', 'UET Lahore', 'MUET Jamshoro', 'Dawood University Karachi'] }
     ],
     riasec_profile: { realistic: 80, investigative: 85, artistic: 15, social: 25, enterprising: 55, conventional: 60 },
     salary_range: { entry: 100000, median: 250000, experienced: 600000 },
@@ -1220,8 +1220,8 @@ export const careers: Career[] = [
       { name: 'Communication with medical staff', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BE Biomedical Engineering', duration: '4 years' },
-      { level: 'master', field: 'MS Biomedical Engineering', duration: '2 years' }
+      { level: 'bachelor', field: 'BE Biomedical Engineering', duration: '4 years', universities: ['NUST', 'NED University Karachi', 'COMSATS University', 'Riphah International University'] },
+      { level: 'master', field: 'MS Biomedical Engineering', duration: '2 years', universities: ['NUST', 'COMSATS University'] }
     ],
     riasec_profile: { realistic: 65, investigative: 90, artistic: 30, social: 55, enterprising: 35, conventional: 60 },
     salary_range: { entry: 65000, median: 120000, experienced: 220000 },
@@ -1247,7 +1247,7 @@ export const careers: Career[] = [
       { name: 'Precision and attention to detail', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BE Aerospace Engineering (CAE, NUST)', duration: '4 years' }
+      { level: 'bachelor', field: 'BE Aerospace Engineering (CAE, NUST)', duration: '4 years', universities: ['College of Aeronautical Engineering (CAE) NUST', 'PAF KIET Karachi', 'Air University Islamabad'] }
     ],
     riasec_profile: { realistic: 75, investigative: 95, artistic: 30, social: 25, enterprising: 40, conventional: 60 },
     salary_range: { entry: 80000, median: 180000, experienced: 400000 },
@@ -1273,7 +1273,7 @@ export const careers: Career[] = [
       { name: 'Project management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'BE Telecommunications Engineering', duration: '4 years' }
+      { level: 'bachelor', field: 'BE Telecommunications Engineering', duration: '4 years', universities: ['NUST', 'UET Lahore', 'COMSATS University', 'NED University Karachi', 'FAST-NUCES'] }
     ],
     riasec_profile: { realistic: 70, investigative: 85, artistic: 20, social: 30, enterprising: 40, conventional: 65 },
     salary_range: { entry: 65000, median: 120000, experienced: 220000 },
@@ -1302,8 +1302,8 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Mathematics, Statistics, Actuarial Science', duration: '4 years' },
-      { level: 'certificate', field: 'Actuarial exams (SOA/CAS/IFoA)', duration: '3-7 years' }
+      { level: 'bachelor', field: 'Mathematics, Statistics, Actuarial Science', duration: '4 years', universities: ['University of Karachi', 'LUMS', 'QAU Islamabad', 'Institute of Business Administration (IBA)'] },
+      { level: 'certificate', field: 'Actuarial exams (SOA/CAS/IFoA)', duration: '3-7 years', universities: ['Pakistan Society of Actuaries (PSA) — self-study + exams'] }
     ],
     riasec_profile: { realistic: 20, investigative: 90, artistic: 20, social: 30, enterprising: 55, conventional: 95 },
     salary_range: { entry: 100000, median: 200000, experienced: 500000 },
@@ -1329,8 +1329,8 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Supply Chain Management, Business Administration', duration: '4 years' },
-      { level: 'master', field: 'MBA, MS Supply Chain', duration: '2 years' }
+      { level: 'bachelor', field: 'Supply Chain Management, Business Administration', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School', 'IoBM Karachi'] },
+      { level: 'master', field: 'MBA, MS Supply Chain', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] }
     ],
     riasec_profile: { realistic: 50, investigative: 65, artistic: 20, social: 55, enterprising: 80, conventional: 75 },
     salary_range: { entry: 60000, median: 110000, experienced: 220000 },
@@ -1356,7 +1356,7 @@ export const careers: Career[] = [
       { name: 'Project management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Business, Finance, Civil Engineering', duration: '4 years' },
+      { level: 'bachelor', field: 'Business, Finance, Civil Engineering', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'UET Lahore (Civil)', 'NUST Business School'] },
       { level: 'certificate', field: 'Real Estate Certifications', duration: 'varies' }
     ],
     riasec_profile: { realistic: 60, investigative: 55, artistic: 40, social: 60, enterprising: 90, conventional: 60 },
@@ -1386,7 +1386,7 @@ export const careers: Career[] = [
       { name: 'Attention to detail', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Computer Science, Software Engineering', duration: '4 years' },
+      { level: 'bachelor', field: 'Computer Science, Software Engineering', duration: '4 years', universities: ['NUST', 'FAST-NUCES', 'LUMS', 'COMSATS University', 'UET Lahore'] },
       { level: 'certificate', field: 'AWS/Azure/GCP Certifications', duration: '6-12 months' }
     ],
     riasec_profile: { realistic: 65, investigative: 85, artistic: 20, social: 25, enterprising: 40, conventional: 70 },
@@ -1413,7 +1413,7 @@ export const careers: Career[] = [
       { name: 'Attention to detail', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Computer Science, Networking', duration: '4 years' },
+      { level: 'bachelor', field: 'Computer Science, Networking', duration: '4 years', universities: ['NUST', 'FAST-NUCES', 'COMSATS University', 'Air University Islamabad'] },
       { level: 'certificate', field: 'CCNA, CCNP', duration: '6-18 months' }
     ],
     riasec_profile: { realistic: 70, investigative: 80, artistic: 15, social: 25, enterprising: 35, conventional: 70 },
@@ -1443,7 +1443,7 @@ export const careers: Career[] = [
       { name: 'Mentoring', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'doctorate', field: 'PhD in relevant field', duration: '4-6 years' }
+      { level: 'doctorate', field: 'PhD in relevant field', duration: '4-6 years', universities: ['QAU Islamabad', 'NUST', 'University of Karachi', 'LUMS', 'GC University Lahore'] }
     ],
     riasec_profile: { realistic: 25, investigative: 90, artistic: 55, social: 70, enterprising: 45, conventional: 55 },
     salary_range: { entry: 80000, median: 150000, experienced: 300000 },
@@ -1469,7 +1469,7 @@ export const careers: Career[] = [
       { name: 'Subject matter knowledge', importance: 'essential', category: 'technical' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Education, HR, Psychology, Business', duration: '4 years' },
+      { level: 'bachelor', field: 'Education, HR, Psychology, Business', duration: '4 years', universities: ['University of the Punjab', 'IBA Karachi', 'Forman Christian College', 'IoBM Karachi'] },
       { level: 'certificate', field: 'L&D Certifications (CIPD, ATD)', duration: '6-12 months' }
     ],
     riasec_profile: { realistic: 20, investigative: 55, artistic: 60, social: 90, enterprising: 65, conventional: 50 },
@@ -1499,8 +1499,8 @@ export const careers: Career[] = [
       { name: 'Data analysis tools', importance: 'important', category: 'technical' }
     ],
     education_pathways: [
-      { level: 'master', field: 'Economics, Econometrics', duration: '2 years' },
-      { level: 'bachelor', field: 'Economics (LUMS, IBA, QAU)', duration: '4 years' }
+      { level: 'master', field: 'Economics, Econometrics', duration: '2 years', universities: ['LUMS', 'IBA Karachi', 'QAU Islamabad', 'University of Karachi'] },
+      { level: 'bachelor', field: 'Economics (LUMS, IBA, QAU)', duration: '4 years', universities: ['LUMS', 'IBA Karachi', 'QAU Islamabad', 'Forman Christian College', 'GC University Lahore'] }
     ],
     riasec_profile: { realistic: 20, investigative: 90, artistic: 40, social: 50, enterprising: 60, conventional: 70 },
     salary_range: { entry: 70000, median: 140000, experienced: 300000 },
@@ -1526,8 +1526,8 @@ export const careers: Career[] = [
       { name: 'Interpersonal skills', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'International Relations, Political Science, Law', duration: '4 years' },
-      { level: 'master', field: 'International Relations, Diplomacy', duration: '2 years' }
+      { level: 'bachelor', field: 'International Relations, Political Science, Law', duration: '4 years', universities: ['QAU Islamabad', 'LUMS', 'University of Karachi', 'Forman Christian College', 'International Islamic University Islamabad'] },
+      { level: 'master', field: 'International Relations, Diplomacy', duration: '2 years', universities: ['QAU Islamabad', 'LUMS', 'International Islamic University Islamabad'] }
     ],
     riasec_profile: { realistic: 20, investigative: 75, artistic: 50, social: 80, enterprising: 85, conventional: 55 },
     salary_range: { entry: 100000, median: 200000, experienced: 400000 },
@@ -1553,8 +1553,8 @@ export const careers: Career[] = [
       { name: 'Report writing', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Social Work, Sociology, Development Studies', duration: '4 years' },
-      { level: 'master', field: 'MSW, Development Studies', duration: '2 years' }
+      { level: 'bachelor', field: 'Social Work, Sociology, Development Studies', duration: '4 years', universities: ['University of Karachi', 'University of the Punjab', 'QAU Islamabad', 'Forman Christian College'] },
+      { level: 'master', field: 'MSW, Development Studies', duration: '2 years', universities: ['University of Karachi', 'University of the Punjab', 'Aga Khan University Institute for Educational Development'] }
     ],
     riasec_profile: { realistic: 25, investigative: 55, artistic: 45, social: 95, enterprising: 60, conventional: 45 },
     salary_range: { entry: 50000, median: 90000, experienced: 180000 },
@@ -1580,8 +1580,8 @@ export const careers: Career[] = [
       { name: 'Discipline and precision', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'certificate', field: 'CPL / ATPL (CAA Pakistan)', duration: '2-4 years' },
-      { level: 'bachelor', field: 'Avionics, Aerospace Engineering', duration: '4 years' }
+      { level: 'certificate', field: 'CPL / ATPL (CAA Pakistan)', duration: '2-4 years', universities: ['PAF Academy', 'Airblue / PIA Ground School', 'Pakistan Flying Club Karachi', 'Rawalpindi Aero Club'] },
+      { level: 'bachelor', field: 'Avionics, Aerospace Engineering', duration: '4 years', universities: ['Air University Islamabad', 'CAE NUST', 'PAF KIET Karachi'] }
     ],
     riasec_profile: { realistic: 80, investigative: 75, artistic: 25, social: 45, enterprising: 60, conventional: 75 },
     salary_range: { entry: 200000, median: 500000, experienced: 1200000 },
@@ -1610,7 +1610,7 @@ export const careers: Career[] = [
       { name: 'Communication', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Film Studies, Media Production, Mass Communication', duration: '4 years' }
+      { level: 'bachelor', field: 'Film Studies, Media Production, Mass Communication', duration: '4 years', universities: ['Beaconhouse National University', 'University of the Punjab (MCM)', 'NCA Lahore', 'SZABIST Karachi'] }
     ],
     riasec_profile: { realistic: 40, investigative: 50, artistic: 95, social: 60, enterprising: 75, conventional: 25 },
     salary_range: { entry: 40000, median: 120000, experienced: 500000 },
@@ -1636,7 +1636,7 @@ export const careers: Career[] = [
       { name: 'Time management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Animation, Fine Arts, Design', duration: '4 years' },
+      { level: 'bachelor', field: 'Animation, Fine Arts, Design', duration: '4 years', universities: ['NCA Lahore', 'Indus Valley School of Art (Karachi)', 'Beaconhouse National University', 'SZABIST Karachi'] },
       { level: 'certificate', field: 'Animation Bootcamp / Online courses', duration: '6-12 months' }
     ],
     riasec_profile: { realistic: 50, investigative: 55, artistic: 95, social: 35, enterprising: 40, conventional: 45 },
@@ -1663,7 +1663,7 @@ export const careers: Career[] = [
       { name: 'Project management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Interior Design, Architecture', duration: '4 years' },
+      { level: 'bachelor', field: 'Interior Design, Architecture', duration: '4 years', universities: ['NCA Lahore', 'Indus Valley School of Art (Karachi)', 'Beaconhouse National University', 'SZABIST Karachi'] },
       { level: 'associate', field: 'Interior Design Diploma', duration: '2 years' }
     ],
     riasec_profile: { realistic: 50, investigative: 40, artistic: 90, social: 55, enterprising: 60, conventional: 45 },
@@ -1690,7 +1690,7 @@ export const careers: Career[] = [
       { name: 'Self-editing and critique', importance: 'important', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'English Literature, Creative Writing, Mass Comm', duration: '4 years' }
+      { level: 'bachelor', field: 'English Literature, Creative Writing, Mass Comm', duration: '4 years', universities: ['LUMS', 'Forman Christian College', 'University of Karachi', 'Beaconhouse National University', 'GC University Lahore'] }
     ],
     riasec_profile: { realistic: 15, investigative: 70, artistic: 95, social: 50, enterprising: 45, conventional: 40 },
     salary_range: { entry: 25000, median: 70000, experienced: 300000 },
@@ -1716,7 +1716,7 @@ export const careers: Career[] = [
       { name: 'Client management', importance: 'important', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Advertising, Marketing, Design, Mass Communication', duration: '4 years' }
+      { level: 'bachelor', field: 'Advertising, Marketing, Design, Mass Communication', duration: '4 years', universities: ['Iqra University', 'Beaconhouse National University', 'SZABIST Karachi', 'University of the Punjab (MCM)'] }
     ],
     riasec_profile: { realistic: 20, investigative: 50, artistic: 90, social: 65, enterprising: 85, conventional: 30 },
     salary_range: { entry: 60000, median: 150000, experienced: 400000 },
@@ -1745,8 +1745,8 @@ export const careers: Career[] = [
       { name: 'Attention to detail', importance: 'essential', category: 'soft' }
     ],
     education_pathways: [
-      { level: 'master', field: 'Biochemistry, Microbiology', duration: '2 years' },
-      { level: 'bachelor', field: 'BS Biochemistry / Microbiology', duration: '4 years' }
+      { level: 'master', field: 'Biochemistry, Microbiology', duration: '2 years', universities: ['QAU Islamabad', 'University of Karachi', 'University of the Punjab', 'COMSATS University'] },
+      { level: 'bachelor', field: 'BS Biochemistry / Microbiology', duration: '4 years', universities: ['QAU Islamabad', 'University of Karachi', 'GC University Lahore', 'COMSATS University', 'University of Agriculture Faisalabad'] }
     ],
     riasec_profile: { realistic: 45, investigative: 95, artistic: 30, social: 35, enterprising: 30, conventional: 65 },
     salary_range: { entry: 50000, median: 90000, experienced: 180000 },
@@ -1772,8 +1772,8 @@ export const careers: Career[] = [
       { name: 'Problem-solving', importance: 'essential', category: 'cognitive' }
     ],
     education_pathways: [
-      { level: 'bachelor', field: 'Agriculture (UAF, UAAR, SAU)', duration: '4 years' },
-      { level: 'master', field: 'MS Agriculture / Plant Sciences', duration: '2 years' }
+      { level: 'bachelor', field: 'Agriculture (UAF, UAAR, SAU)', duration: '4 years', universities: ['University of Agriculture Faisalabad (UAF)', 'University of Arid Agriculture Rawalpindi', 'Sindh Agriculture University Tandojam', 'PMAS Arid Agriculture University'] },
+      { level: 'master', field: 'MS Agriculture / Plant Sciences', duration: '2 years', universities: ['University of Agriculture Faisalabad (UAF)', 'QAU Islamabad', 'PMAS Arid Agriculture University'] }
     ],
     riasec_profile: { realistic: 70, investigative: 80, artistic: 30, social: 55, enterprising: 40, conventional: 55 },
     salary_range: { entry: 50000, median: 90000, experienced: 180000 },
