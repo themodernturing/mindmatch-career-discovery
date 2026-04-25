@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Brain, Loader2 } from 'lucide-react'
@@ -25,7 +24,6 @@ import { Brain, Loader2 } from 'lucide-react'
 
 export default function AuthPage() {
   const supabase = createClient()
-  const router = useRouter()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
