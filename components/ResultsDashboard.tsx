@@ -962,7 +962,7 @@ export function ResultsDashboard({
             <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="font-black text-slate-900 text-lg tracking-tight">MindMatch</span>
+            <span className="font-black text-slate-900 text-lg tracking-tight">CareerLens</span>
           </div>
           <div className="flex items-center gap-3">
             <button

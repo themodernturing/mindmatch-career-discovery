@@ -58,9 +58,12 @@ export function CareerCoachInline({
   const top5Careers = matchedCareers.slice(0, 5);
   const top3Strengths = topStrengths.slice(0, 3);
 
+  const goals = userContext?.goals?.trim()
   const openingMessage = isReturningUser
     ? `Welcome back, ${firstName}. You're a **${archetype}**${top5Careers[0] ? ` — top match is **${top5Careers[0].name}** at ${top5Careers[0].match}%` : ''}. What do you want to explore?`
-    : `Hi ${firstName}! You're a **${archetype}**${top5Careers[0] ? ` — your top match is **${top5Careers[0].name}** at ${top5Careers[0].match}% fit` : ''}. Ask me anything about your results, career paths, or what to do next.`;
+    : goals
+      ? `Hi ${firstName}! You came in asking: *"${goals}"* — I've got your results in front of me and I can speak directly to that. You're a **${archetype}**${top5Careers[0] ? `, top match **${top5Careers[0].name}** at ${top5Careers[0].match}%` : ''}. Ask me anything or I can start by addressing your question.`
+      : `Hi ${firstName}! You're a **${archetype}**${top5Careers[0] ? ` — your top match is **${top5Careers[0].name}** at ${top5Careers[0].match}% fit` : ''}. Ask me anything about your results, career paths, or what to do next.`;
 
   useEffect(() => {
     setMessages([{ id: '1', role: 'assistant', content: openingMessage }]);

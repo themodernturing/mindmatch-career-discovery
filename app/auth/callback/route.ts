@@ -1,5 +1,9 @@
+// force rebuild
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+
+const APP_ID = process.env.NEXT_PUBLIC_APP_ID ?? 'careerlens'
+console.log('APP_ID:', process.env.NEXT_PUBLIC_APP_ID)
 
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
@@ -29,7 +33,11 @@ export async function GET(request: Request) {
             last_name: lastName,
             email: user.email || '',
             role: 'student',
+            app_id: APP_ID,
           })
+        } else {
+          // Trigger sets DEFAULT 'careerlens' — correct it to the actual app
+          await supabase.from('profiles').update({ app_id: APP_ID }).eq('id', user.id)
         }
 
         if (profile?.role === 'institution') {

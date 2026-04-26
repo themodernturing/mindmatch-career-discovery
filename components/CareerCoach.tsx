@@ -56,11 +56,14 @@ export function CareerCoach({ isOpen, onClose, userName, matchedCareers = [], to
   const archetype = userContext?.archetype || 'a unique profile';
   const firstName = userName || 'there';
 
+  const goals = userContext?.goals?.trim()
   const openingMessage = isReturningUser
     ? `Welcome back, ${firstName}. Your results are still here — you came out as a **${archetype}**${top3Careers[0] ? `, with **${top3Careers[0].name}** as your top match at ${top3Careers[0].match}% fit` : ''}. What do you want to dig into?`
-    : `Hi ${firstName}! I've analysed your results. You came out as a **${archetype}** — ${
-        top3Careers[0] ? `and your top career match is **${top3Careers[0].name}** at ${top3Careers[0].match}% fit` : 'with a strong and unique profile'
-      }. Ask me anything about your results, career paths, or what to do next.`;
+    : goals
+      ? `Hi ${firstName}! You came in asking: *"${goals}"* — I've got your results and I can speak directly to that. You're a **${archetype}**${top3Careers[0] ? `, top match **${top3Careers[0].name}** at ${top3Careers[0].match}%` : ''}. Ask me anything or I can start by addressing your question.`
+      : `Hi ${firstName}! I've analysed your results. You came out as a **${archetype}** — ${
+          top3Careers[0] ? `and your top career match is **${top3Careers[0].name}** at ${top3Careers[0].match}% fit` : 'with a strong and unique profile'
+        }. Ask me anything about your results, career paths, or what to do next.`;
 
   useEffect(() => {
     setMessages([{ id: '1', role: 'assistant', content: openingMessage }]);

@@ -9,8 +9,12 @@ CREATE TABLE IF NOT EXISTS profiles (
   id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
   email TEXT,
   first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100),
   age INTEGER CHECK (age >= 14 AND age <= 100),
+  gender VARCHAR(50),
   education_level VARCHAR(50),
+  school_name VARCHAR(255),
+  goals TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );

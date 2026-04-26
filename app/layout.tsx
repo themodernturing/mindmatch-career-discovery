@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "MindMatch - Find Your Perfect Career Path",
+  title: "CareerLens - Find Your Perfect Career Path",
   description: "AI-powered career assessment for students ages 14-25. Discover careers that match your interests, personality, and strengths.",
 };
 

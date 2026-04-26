@@ -25,7 +25,9 @@ import {
   GraduationCap
 } from 'lucide-react'
 
-type Step = 'landing' | 'onboarding' | 'assessment' | 'transition' | 'bridge' | 'results' | 'onet_assessment'
+const ENABLE_GOOGLE = process.env.NEXT_PUBLIC_ENABLE_GOOGLE_AUTH === 'true'
+
+type Step = 'landing' | 'onboarding' | 'welcome' | 'assessment' | 'transition' | 'bridge' | 'results' | 'onet_assessment'
 type UserStage = 'school' | 'university'
 
 function UserAvatar({ authUser, showMenu, setShowMenu, onLogout }: {
@@ -80,6 +82,9 @@ export default function Home() {
   const [isGeneratingClarifier, setIsGeneratingClarifier] = useState(false)
   const [hasSavedSession, setHasSavedSession] = useState(false)
   const [showClinicalAudit, setShowClinicalAudit] = useState(false)
+  const [isSavingResults, setIsSavingResults] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const [pendingCompletionState, setPendingCompletionState] = useState<AdaptiveAssessmentState | null>(null)
   const [userName, setUserName] = useState('')
   const [userAge, setUserAge] = useState('')
   const [userGender, setUserGender] = useState('')
@@ -109,11 +114,25 @@ export default function Home() {
     setShowUserMenu(false)
   }
 
+  const handleGoogleSignIn = async () => {
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    })
+  }
+
   // 0. Check auth on mount
   useEffect(() => {
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
+        // Redirect institution admins immediately — they don't use this page
+        const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
+        if (profile?.role === 'institution') {
+          window.location.href = '/institution'
+          return
+        }
+
         const name = user.user_metadata?.full_name?.split(' ')[0] || user.email?.split('@')[0] || 'Student'
         const avatar = user.user_metadata?.avatar_url || null
         setAuthUser({ id: user.id, name, email: user.email, avatar })
@@ -319,10 +338,46 @@ export default function Home() {
     }
   }, [adaptiveState, step])
 
+  const completeAssessment = async (finalState: AdaptiveAssessmentState) => {
+    const finalScores = calculateCurrentProfile(finalState)
+    const finalCareers = calculateCareerMatches(finalScores, finalState.current_traits)
+
+    setScores(finalScores)
+    setMatchedCareers(finalCareers)
+    setAdaptiveState(finalState)
+    setPendingCompletionState(finalState)
+    setSaveError(null)
+
+    if (!authUser) {
+      setPendingCompletionState(null)
+      setStep('transition')
+      return
+    }
+
+    setIsSavingResults(true)
+    try {
+      const assessmentId = await saveAssessmentResults(finalScores, finalCareers, finalState)
+      if (!assessmentId) {
+        throw new Error('save_failed')
+      }
+      setPendingCompletionState(null)
+      setStep('transition')
+    } catch (error) {
+      console.error('Assessment save error:', error)
+      setSaveError('We couldn’t save your results yet. Please retry before continuing.')
+    } finally {
+      setIsSavingResults(false)
+    }
+  }
+
+  const handleRetrySave = async () => {
+    if (!pendingCompletionState || isSavingResults) return
+    await completeAssessment(pendingCompletionState)
+  }
+
 
   const handleBeginAssessment = () => {
     localStorage.removeItem('mind_match_session')
-    // Save profile data to Supabase (silent fail if columns not yet added)
     if (authUser) {
       supabase.from('profiles').update({
         first_name: userName.trim() || undefined,
@@ -337,6 +392,10 @@ export default function Home() {
     setAdaptiveState(initialState)
     setCurrentQuestion(firstQ)
     setCurrentValue(3)
+    setStep('welcome')
+  }
+
+  const handleStartAssessment = () => {
     setStep('assessment')
   }
 
@@ -353,16 +412,7 @@ export default function Home() {
 
     if (stopDecision.shouldStop) {
       // 3. Complete assessment
-      const finalScores = calculateCurrentProfile(newState)
-      const finalCareers = calculateCareerMatches(finalScores, newState.current_traits)
-      setScores(finalScores)
-      setMatchedCareers(finalCareers)
-      setAdaptiveState(newState) // Update state before moving to results
-      setStep('transition')
-      // Save to Supabase
-      if (authUser) {
-        saveAssessmentResults(finalScores, finalCareers, newState)
-      }
+      await completeAssessment(newState)
     } else if (stopDecision.reason === 'clarifier_needed') {
       // PHASE 4: TRIGGER AI CLARIFIER
       setIsGeneratingClarifier(true)
@@ -405,15 +455,7 @@ export default function Home() {
 
       // Edge case: selector returned null but stopDecision said continue
       if (!nextQ) {
-        const finalScores = calculateCurrentProfile(newState)
-        const finalCareers = calculateCareerMatches(finalScores, newState.current_traits)
-        setScores(finalScores)
-        setMatchedCareers(finalCareers)
-        setAdaptiveState(newState)
-        setStep('transition')
-        if (authUser) {
-          saveAssessmentResults(finalScores, finalCareers, newState)
-        }
+        await completeAssessment(newState)
         return
       }
 
@@ -532,7 +574,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-black tracking-tight">MindMatch</span>
+            <span className="text-sm font-black tracking-tight">CareerLens</span>
           </div>
           {authUser && <UserAvatar authUser={authUser} showMenu={showUserMenu} setShowMenu={setShowUserMenu} onLogout={handleLogout} />}
         </header>
@@ -641,7 +683,7 @@ export default function Home() {
             disabled={!userName.trim()}
             className="w-full h-14 text-base font-black bg-blue-600 hover:bg-white hover:text-black rounded-full shadow-2xl shadow-blue-600/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
           >
-            Begin Assessment
+            Continue
             <ChevronRight className="ml-2 w-5 h-5" />
           </Button>
 
@@ -657,6 +699,93 @@ export default function Home() {
     )
   }
 
+  if (step === 'welcome') {
+    return (
+      <div className="bg-[#0B0C10] min-h-screen text-white flex flex-col items-center justify-center px-4 relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] rounded-full bg-blue-600/10 blur-[120px]" />
+        </div>
+
+        <div className="relative w-full max-w-lg">
+          {/* Step indicator */}
+          <div className="flex items-center gap-3 mb-12">
+            {[{ label: 'Setup', done: true }, { label: 'Assessment', done: false, active: true }, { label: 'Your Results', done: false }].map(({ label, done, active }, i) => (
+              <div key={label} className="flex items-center gap-3">
+                {i > 0 && <div className={`h-px w-8 ${done || active ? 'bg-blue-500/60' : 'bg-white/10'}`} />}
+                <div className="flex items-center gap-2">
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black border
+                    ${done ? 'bg-blue-600 border-blue-600 text-white' : active ? 'border-blue-500 text-blue-400' : 'border-white/15 text-slate-600'}`}>
+                    {done ? '✓' : i + 1}
+                  </div>
+                  <span className={`text-xs font-bold ${active ? 'text-white' : done ? 'text-blue-400' : 'text-slate-600'}`}>{label}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Heading */}
+          <h2 className="text-4xl font-black tracking-tighter mb-3">
+            {userName ? `You're all set, ${userName}.` : "You're all set."}
+          </h2>
+          <p className="text-slate-400 mb-10">Here&apos;s what happens next.</p>
+
+          {/* What to expect */}
+          <div className="space-y-4 mb-10">
+            {[
+              {
+                num: '01',
+                title: '20–30 adaptive questions',
+                desc: 'The assessment adjusts based on your answers — so every question is tailored to you specifically.',
+                color: 'text-blue-400',
+                border: 'border-blue-500/20',
+                bg: 'bg-blue-500/5',
+              },
+              {
+                num: '02',
+                title: 'No right or wrong answers',
+                desc: 'This is not a test you can pass or fail. Answer honestly — the more genuine you are, the more accurate your results.',
+                color: 'text-violet-400',
+                border: 'border-violet-500/20',
+                bg: 'bg-violet-500/5',
+              },
+              {
+                num: '03',
+                title: 'Your results are waiting at the end',
+                desc: 'Career matches, subject recommendations, and a full personality breakdown — all generated from your unique profile.',
+                color: 'text-emerald-400',
+                border: 'border-emerald-500/20',
+                bg: 'bg-emerald-500/5',
+              },
+            ].map(({ num, title, desc, color, border, bg }) => (
+              <div key={num} className={`${bg} border ${border} rounded-2xl p-5 flex gap-4`}>
+                <span className={`text-2xl font-black ${color} shrink-0 leading-none mt-0.5`}>{num}</span>
+                <div>
+                  <p className="text-sm font-black text-white mb-1">{title}</p>
+                  <p className="text-xs text-slate-400 leading-relaxed">{desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Psychologist's note */}
+          <div className="bg-white/3 border border-white/8 rounded-2xl p-5 mb-10">
+            <p className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2">A note from our psychologist</p>
+            <p className="text-sm text-slate-300 leading-relaxed italic">
+              &ldquo;Most students already have a sense of who they are — they just haven&apos;t had a framework to articulate it. This assessment gives you that language. Trust your first instinct on every question.&rdquo;
+            </p>
+          </div>
+
+          <button
+            onClick={handleStartAssessment}
+            className="w-full h-14 text-base font-black bg-blue-600 hover:bg-blue-500 rounded-full shadow-2xl shadow-blue-600/20 transition-all text-white"
+          >
+            Start Assessment →
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   if (step === 'landing') {
     // If user is already logged in OR returning from OAuth — show loading spinner, never show the landing page
     const hasAuthParam = typeof window !== 'undefined' && (window.location.search.includes('start=1') || window.location.search.includes('results=1'))
@@ -667,19 +796,11 @@ export default function Home() {
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-5 animate-pulse">
               <Brain className="w-7 h-7 text-white" />
             </div>
-            <p className="text-white font-black text-lg">MindMatch</p>
+            <p className="text-white font-black text-lg">CareerLens</p>
             <p className="text-slate-400 text-sm mt-1">Setting up your assessment…</p>
           </div>
         </div>
       )
-    }
-
-    // ─── Google OAuth handler (reused across page) ──────────────────────
-    const handleGoogleSignIn = async () => {
-      await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: `${window.location.origin}/auth/callback?next=/?start=1` },
-      })
     }
 
     return (
@@ -698,7 +819,7 @@ export default function Home() {
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30">
               <Brain className="w-5 h-5 text-white" />
             </div>
-            <span className="font-black tracking-tight text-lg">Mind<span className="text-blue-400">Match</span></span>
+            <span className="font-black tracking-tight text-lg">Career<span className="text-blue-400">Lens</span></span>
           </div>
           <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
             <span className="hidden sm:flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />O*NET Certified</span>
@@ -745,20 +866,31 @@ export default function Home() {
             </ul>
 
             {/* CTA */}
-            <div className="animate-slide-up-3 flex flex-col items-start gap-2">
-              <button
-                onClick={handleGoogleSignIn}
-                className="h-16 px-10 flex items-center justify-center gap-3 text-base font-black bg-white text-gray-800 border border-slate-200 hover:bg-gray-50 rounded-2xl shadow-[0_0_50px_rgba(99,102,241,0.35)] hover:shadow-[0_0_70px_rgba(99,102,241,0.55)] active:scale-[0.98] transition-all duration-300"
+            <div className="animate-slide-up-3 flex flex-col items-start gap-3">
+              <a
+                href="/auth/register"
+                className="h-16 px-10 flex items-center justify-center gap-3 text-base font-black bg-blue-600 text-white hover:bg-blue-500 rounded-2xl shadow-[0_0_50px_rgba(99,102,241,0.35)] hover:shadow-[0_0_70px_rgba(99,102,241,0.55)] active:scale-[0.98] transition-all duration-300"
               >
-                <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                </svg>
-                Continue with Google
-              </button>
-              <p className="text-xs text-slate-500 ml-1">Free • Takes ~20–30 min • No spam</p>
+                Get Started
+              </a>
+              {ENABLE_GOOGLE && (
+                <button
+                  onClick={handleGoogleSignIn}
+                  className="flex items-center justify-center gap-3 bg-white text-gray-800 font-semibold py-3 px-6 rounded-2xl hover:bg-gray-50 transition-colors shadow-lg"
+                >
+                  <svg className="w-5 h-5 flex-none" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                  </svg>
+                  Continue with Google
+                </button>
+              )}
+              <p className="text-xs text-slate-500 ml-1">
+                Already registered?{' '}
+                <a href="/auth" className="text-blue-400 hover:underline font-semibold">Sign in</a>
+              </p>
               {hasSavedSession && (
                 <button onClick={handleResume} className="text-xs font-semibold text-blue-400 hover:text-blue-300 flex items-center gap-2 ml-1">
                   <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
@@ -779,7 +911,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Your result</p>
-                    <p className="text-sm font-black text-white">MindMatch Report</p>
+                    <p className="text-sm font-black text-white">CareerLens Report</p>
                   </div>
                 </div>
                 <p className="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Personality Type</p>
@@ -886,11 +1018,11 @@ export default function Home() {
             SECTION 5 — BEFORE vs AFTER
         ══════════════════════════════════════════════════════════════ */}
         <section className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10 pb-16">
-          <p className="text-2xl sm:text-3xl font-black text-white text-center mb-8">Before vs after MindMatch</p>
+          <p className="text-2xl sm:text-3xl font-black text-white text-center mb-8">Before vs after CareerLens</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Before */}
             <div className="bg-red-500/5 border border-red-500/15 rounded-2xl p-6">
-              <p className="text-xs font-black text-red-400 uppercase tracking-widest mb-4">Before MindMatch</p>
+              <p className="text-xs font-black text-red-400 uppercase tracking-widest mb-4">Before CareerLens</p>
               <ul className="space-y-3">
                 {[
                   'Not sure which subjects to choose',
@@ -906,7 +1038,7 @@ export default function Home() {
             </div>
             {/* After */}
             <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-6">
-              <p className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-4">After MindMatch</p>
+              <p className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-4">After CareerLens</p>
               <ul className="space-y-3">
                 {[
                   'Clear subject choices based on your profile',
@@ -927,37 +1059,67 @@ export default function Home() {
             SECTION 6 — TESTIMONIALS
         ══════════════════════════════════════════════════════════════ */}
         <section className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10 pb-16">
-          <p className="text-[11px] text-slate-600 uppercase tracking-widest font-bold text-center mb-6">What students say</p>
+          <p className="text-[11px] text-slate-600 uppercase tracking-widest font-bold text-center mb-2">What students say</p>
+          <p className="text-2xl sm:text-3xl font-black text-white text-center mb-8">From students across Pakistan.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+            {[
+              {
+                quote: 'I thought I wanted pre-med just because everyone else did. CareerLens showed me I\'m built for engineering. Best 20 minutes I\'ve spent.',
+                name: 'Omar', school: 'A-Levels, Faisalabad',
+                img: '/avatar-omar.jpg', ring: 'ring-blue-400/30',
+              },
+              {
+                quote: 'My dad kept saying law, I kept saying no. The results gave us something to actually talk about. We both agreed on business after seeing my profile.',
+                name: 'Bilal', school: 'O-Levels, Karachi',
+                img: '/avatar-bilal.jpg', ring: 'ring-indigo-400/30',
+              },
+              {
+                quote: 'I knew I liked physics but didn\'t know what to do with it. CareerLens pointed me to data science — never even considered it before.',
+                name: 'Danish', school: 'A-Levels, Daska',
+                img: '/avatar-danish.jpg', ring: 'ring-violet-400/30',
+              },
+              {
+                quote: 'I\'ve been the creative one in a family of doctors. Seeing it confirmed in the results gave me the confidence to actually say it out loud.',
+                name: 'Maryam', school: 'FSc, Lahore',
+                img: '/avatar-maryam.jpg', ring: 'ring-pink-400/30',
+              },
+            ].map(({ quote, name, school, img, ring }) => (
+              <div key={name} className="bg-white/3 border border-white/6 rounded-2xl p-5 flex flex-col gap-4 hover:-translate-y-0.5 hover:border-white/12 transition-all duration-200">
+                <div className="flex items-center gap-3">
+                  <div className={`w-12 h-12 rounded-full overflow-hidden shrink-0 ring-2 ${ring}`}>
+                    <img src={img} alt={name} className="w-full h-full object-cover object-top" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-white leading-none">{name}</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">{school}</p>
+                  </div>
+                </div>
+                <p className="text-sm text-slate-300 leading-relaxed italic">&ldquo;{quote}&rdquo;</p>
+              </div>
+            ))}
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               {
-                quote: 'Finally understood why I hate rote learning — and what I should do instead.',
-                name: 'Fatima', school: 'A-Levels, Lahore',
-                img: '/avatar-fatima.png', ring: 'ring-blue-400/30',
-                bg: 'linear-gradient(to bottom, #0d1e3a 0%, #1a3060 100%)', origin: '50% 38%',
+                quote: 'I just wanted to know if I should pick Commerce or Science. I got a full breakdown of how I actually think. Way more than I expected.',
+                name: 'Ibrahim', school: 'O-Levels, Sargodha',
+                img: '/avatar-ibrahim.jpg', ring: 'ring-teal-400/30',
               },
               {
-                quote: 'This showed me CS was right for me before I even realized it.',
-                name: 'Hassan', school: 'O-Levels, Karachi',
-                img: '/avatar-hassan.png', ring: 'ring-violet-400/30',
-                bg: 'linear-gradient(to bottom, #140d2e 0%, #241448 100%)', origin: '50% 22%',
+                quote: 'Didn\'t believe an online test could be this specific. My top match was architecture and I\'ve been secretly drawing buildings since I was 10.',
+                name: 'Sana', school: 'A-Levels, Peshawar',
+                img: '/avatar-sana.jpg', ring: 'ring-emerald-400/30',
               },
               {
-                quote: 'My parents actually agreed with my career choice after seeing this.',
-                name: 'Zara', school: 'FSc, Islamabad',
-                img: '/avatar-zara.png', ring: 'ring-teal-400/30',
-                bg: 'linear-gradient(to bottom, #0a2025 0%, #0e3035 100%)', origin: '50% 38%',
+                quote: 'Took it to confirm I chose the right degree. Turns out I did — but it also showed me specializations I hadn\'t even thought about.',
+                name: 'Nadia', school: 'BS Psychology, Rawalpindi',
+                img: '/avatar-nadia.jpg', ring: 'ring-amber-400/30',
               },
-            ].map(({ quote, name, school, img, ring, bg, origin }) => (
+            ].map(({ quote, name, school, img, ring }) => (
               <div key={name} className="bg-white/3 border border-white/6 rounded-2xl p-5 flex flex-col gap-4 hover:-translate-y-0.5 hover:border-white/12 transition-all duration-200">
                 <div className="flex items-center gap-3">
-                  <div className={`w-16 h-16 rounded-full overflow-hidden shrink-0 ring-2 ${ring}`} style={{ background: bg }}>
-                    <img
-                      src={img}
-                      alt={name}
-                      className="w-full h-full object-cover scale-[2.2]"
-                      style={{ transformOrigin: origin }}
-                    />
+                  <div className={`w-12 h-12 rounded-full overflow-hidden shrink-0 ring-2 ${ring}`}>
+                    <img src={img} alt={name} className="w-full h-full object-cover object-top" />
                   </div>
                   <div>
                     <p className="text-sm font-bold text-white leading-none">{name}</p>
@@ -978,19 +1140,16 @@ export default function Home() {
             <div className="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 rounded-full bg-blue-500/15 blur-[60px]" />
             <h2 className="relative text-3xl sm:text-4xl font-black tracking-tight mb-2">Don&apos;t guess your future.</h2>
             <p className="relative text-slate-400 text-base mb-7">Find your best-fit path today.</p>
-            <button
-              onClick={handleGoogleSignIn}
-              className="inline-flex items-center justify-center gap-3 h-14 px-10 text-base font-black bg-white text-gray-800 hover:bg-gray-50 rounded-2xl shadow-[0_0_40px_rgba(99,102,241,0.3)] hover:shadow-[0_0_60px_rgba(99,102,241,0.45)] transition-all duration-300"
+            <a
+              href="/auth/register"
+              className="inline-flex items-center justify-center h-14 px-10 text-base font-black bg-blue-600 text-white hover:bg-blue-500 rounded-2xl shadow-[0_0_40px_rgba(99,102,241,0.3)] hover:shadow-[0_0_60px_rgba(99,102,241,0.45)] transition-all duration-300"
             >
-              <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-              </svg>
-              Continue with Google
-            </button>
-            <p className="text-xs text-slate-600 mt-3">Free • Takes ~20–30 min • No spam</p>
+              Get Started
+            </a>
+            <p className="text-xs text-slate-600 mt-3">
+              Already registered?{' '}
+              <a href="/auth" className="text-blue-400 hover:underline">Sign in</a>
+            </p>
           </div>
         </section>
 
@@ -1015,11 +1174,18 @@ export default function Home() {
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center">
                   <Brain className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-semibold text-slate-800">MindMatch</span>
+                <span className="font-semibold text-slate-800">CareerLens</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-sm text-slate-500">Question {adaptiveState.answered_ids.length + 1}</span>
-                {authUser && <UserAvatar authUser={authUser} showMenu={showUserMenu} setShowMenu={setShowUserMenu} onLogout={handleLogout} />}
+                {authUser && (
+                  <button
+                    onClick={handleLogout}
+                    className="text-xs font-semibold text-slate-400 hover:text-rose-500 transition-colors px-2 py-1 rounded-lg hover:bg-rose-50"
+                  >
+                    Sign out
+                  </button>
+                )}
               </div>
             </div>
             <Progress value={progress} className="h-2" />
@@ -1031,6 +1197,22 @@ export default function Home() {
 
         {/* Question */}
         <main className="max-w-2xl mx-auto px-4 pt-12 pb-28">
+          {saveError && (
+            <Card className="border border-rose-200 bg-rose-50 shadow-sm mb-6">
+              <CardContent className="pt-5 pb-5">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                  <div>
+                    <p className="text-sm font-bold text-rose-700">Result save failed</p>
+                    <p className="text-sm text-rose-600 mt-1">{saveError}</p>
+                  </div>
+                  <Button onClick={handleRetrySave} disabled={isSavingResults} className="bg-rose-600 hover:bg-rose-700">
+                    {isSavingResults ? 'Retrying...' : 'Retry Save'}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
           {isGeneratingClarifier ? (
             <Card className="border-0 shadow-lg bg-white overflow-hidden transition-all duration-500 animate-in fade-in zoom-in-95">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 to-indigo-600 animate-infinite-scroll" />
@@ -1131,8 +1313,8 @@ export default function Home() {
         {!isGeneratingClarifier && (
           <div className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-100 px-4 py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
             <div className="max-w-2xl mx-auto flex justify-end">
-              <Button onClick={handleNext} className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-100 group">
-                {adaptiveState.answered_ids.length >= 14 ? 'Process & Continue' : 'Next'}
+              <Button onClick={handleNext} disabled={isSavingResults} className="h-12 px-8 rounded-xl bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-100 group disabled:opacity-60">
+                {isSavingResults ? 'Saving Results...' : adaptiveState.answered_ids.length >= 14 ? 'Process & Continue' : 'Next'}
                 <ChevronRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
@@ -1184,10 +1366,6 @@ export default function Home() {
       return null
     }
 
-    // Live RIASEC scores — derived from all committed answers + current pending selection
-    const liveScores = scoreOnetResponses({ ...onetResponses, [q.id]: onetCurrentValue })
-    const leadingDimEntry = Object.entries(liveScores).sort((a, b) => b[1] - a[1])[0]
-    const leadingDim = leadingDimEntry?.[0]
 
     const milestoneMsg = getMilestoneMessage()
 
@@ -1202,7 +1380,7 @@ export default function Home() {
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
                 <Brain className="w-4 h-4 text-white" />
               </div>
-              <span className="text-sm font-black tracking-tight text-slate-900">MindMatch</span>
+              <span className="text-sm font-black tracking-tight text-slate-900">CareerLens</span>
             </div>
             <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Round {roundIndex} of 6 Complete</div>
           </header>
@@ -1252,7 +1430,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-black tracking-tight text-slate-900">MindMatch</span>
+            <span className="text-sm font-black tracking-tight text-slate-900">CareerLens</span>
           </div>
           <div className="text-right">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Round {roundIndex + 1} of 6</p>
@@ -1300,36 +1478,6 @@ export default function Home() {
             <h2 className="text-2xl font-bold text-slate-900 leading-snug">{q.text}</h2>
           </div>
 
-          {/* ── Live RIASEC Meter ─────────────────────────────────────── */}
-          <div className="mb-8 rounded-2xl border border-slate-100 bg-slate-50 px-4 pt-3 pb-4">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Your Profile — Live</p>
-              {leadingDim && (
-                <span className={`text-xs font-bold ${DIM_META[leadingDim].text}`}>
-                  {DIM_META[leadingDim].name} is leading
-                </span>
-              )}
-            </div>
-            <div className="space-y-2">
-              {ROUNDS.map(({ code }) => {
-                const score = liveScores[code] ?? 0
-                const isLeading = code === leadingDim
-                return (
-                  <div key={code} className="flex items-center gap-3">
-                    <span className={`text-xs font-black w-4 ${isLeading ? DIM_META[code].text : 'text-slate-400'}`}>{code}</span>
-                    <div className="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full ${DIM_META[code].color} rounded-full transition-all duration-500 ease-out ${isLeading ? 'opacity-100' : 'opacity-60'}`}
-                        style={{ width: `${score}%` }}
-                      />
-                    </div>
-                    <span className={`text-xs font-bold w-7 text-right tabular-nums ${isLeading ? DIM_META[code].text : 'text-slate-400'}`}>{score}</span>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-          {/* ────────────────────────────────────────────────────────── */}
 
           <div className="space-y-3 mb-10">
             {([
@@ -1402,7 +1550,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="font-black tracking-tight">Mind<span className="text-blue-400">Match</span></span>
+            <span className="font-black tracking-tight">Career<span className="text-blue-400">Lens</span></span>
           </div>
         </header>
 
@@ -1496,7 +1644,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="font-black tracking-tight">Mind<span className="text-blue-400">Match</span></span>
+            <span className="font-black tracking-tight">Career<span className="text-blue-400">Lens</span></span>
           </div>
           <div className="ml-auto flex items-center gap-2">
             <div className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full">

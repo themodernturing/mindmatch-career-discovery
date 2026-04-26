@@ -100,7 +100,7 @@ export default function OnboardingPage() {
             <Brain className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-sm font-black tracking-tighter uppercase leading-none">MindMatch</h1>
+            <h1 className="text-sm font-black tracking-tighter uppercase leading-none">CareerLens</h1>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Career Discovery</p>
           </div>
         </div>
