@@ -3,10 +3,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { APP_CONFIG } from '@/lib/config'
 import { Brain, Loader2 } from 'lucide-react'
-
-const ENABLE_GOOGLE = process.env.NEXT_PUBLIC_ENABLE_GOOGLE_AUTH === 'true'
-const REQUIRE_PAYMENT = process.env.NEXT_PUBLIC_REQUIRE_PAYMENT !== 'false'
 
 export default function AuthPage() {
   const supabase = createClient()
@@ -38,7 +36,7 @@ export default function AuthPage() {
         return
       }
 
-      if (REQUIRE_PAYMENT && profile.payment_status !== 'approved') {
+      if (APP_CONFIG.requirePayment && profile.payment_status !== 'approved') {
         window.location.replace('/payment-pending')
         return
       }
@@ -82,7 +80,7 @@ export default function AuthPage() {
       return
     }
 
-    if (REQUIRE_PAYMENT && profile?.payment_status !== 'approved') {
+    if (APP_CONFIG.requirePayment && profile?.payment_status !== 'approved') {
       window.location.href = '/payment-pending'
       return
     }
@@ -113,7 +111,7 @@ export default function AuthPage() {
           <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center mb-4">
             <Brain className="w-7 h-7 text-white" />
           </div>
-          <h1 className="text-2xl font-black text-white tracking-tight">CareerLens</h1>
+          <h1 className="text-2xl font-black text-white tracking-tight">{APP_CONFIG.appName}</h1>
           <p className="text-slate-500 text-sm mt-1">Sign in to your account</p>
         </div>
 
@@ -157,7 +155,7 @@ export default function AuthPage() {
           </button>
         </form>
 
-        {ENABLE_GOOGLE && (
+        {APP_CONFIG.enableGoogleAuth && (
           <>
             <div className="flex items-center gap-3 my-5">
               <div className="flex-1 h-px bg-white/10" />
@@ -179,14 +177,16 @@ export default function AuthPage() {
           </>
         )}
 
-        <div className="mt-6 text-center">
-          <p className="text-slate-500 text-sm">
-            Don&apos;t have an account?{' '}
-            <Link href="/auth/register" className="text-blue-400 hover:underline font-semibold">
-              Register &amp; Pay
-            </Link>
-          </p>
-        </div>
+        {APP_CONFIG.showPaidRegistration && (
+          <div className="mt-6 text-center">
+            <p className="text-slate-500 text-sm">
+              Don&apos;t have an account?{' '}
+              <Link href="/auth/register" className="text-blue-400 hover:underline font-semibold">
+                Register &amp; Pay
+              </Link>
+            </p>
+          </div>
+        )}
 
         <p className="text-slate-700 text-xs text-center mt-6">
           By continuing you agree to our Terms of Service and Privacy Policy

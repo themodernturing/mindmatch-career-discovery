@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { APP_CONFIG } from '@/lib/config'
 import { Brain, Clock, CheckCircle, LogOut } from 'lucide-react'
 
 export default function PaymentPendingPage() {
@@ -58,7 +59,7 @@ export default function PaymentPendingPage() {
           </div>
         </div>
 
-        <h1 className="text-2xl font-black text-white mb-2">CareerLens</h1>
+        <h1 className="text-2xl font-black text-white mb-2">{APP_CONFIG.appName}</h1>
 
         <div className="bg-[#12121a] border border-white/10 rounded-2xl p-8 mb-6">
           <div className="flex justify-center mb-4">

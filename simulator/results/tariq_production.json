@@ -1,0 +1,175 @@
+{
+  "persona": "Tariq",
+  "mode": "production",
+  "timestamp": "2026-05-01T17:12:13.696312",
+  "answers_count": {
+    "adaptive": 22,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 93.3,
+    "riasec_investigative": 66.7,
+    "riasec_artistic": 33.3,
+    "riasec_social": 25.0,
+    "riasec_enterprising": 40.0,
+    "riasec_conventional": 73.3
+  },
+  "onet_scores": {
+    "riasec_realistic": 98,
+    "riasec_investigative": 60,
+    "riasec_artistic": 15,
+    "riasec_social": 12,
+    "riasec_enterprising": 25,
+    "riasec_conventional": 65
+  },
+  "blended_scores": {
+    "riasec_realistic": 95.2,
+    "riasec_investigative": 64.0,
+    "riasec_artistic": 26.0,
+    "riasec_social": 19.8,
+    "riasec_enterprising": 34.0,
+    "riasec_conventional": 70.0
+  },
+  "top_careers": [
+    {
+      "career": "Electrician",
+      "score": 93.6,
+      "penalties": []
+    },
+    {
+      "career": "Civil Engineer",
+      "score": 85.3,
+      "penalties": []
+    },
+    {
+      "career": "Mechanical Engineer",
+      "score": 84.6,
+      "penalties": []
+    },
+    {
+      "career": "Network Engineer",
+      "score": 80.0,
+      "penalties": []
+    },
+    {
+      "career": "Electrical Engineer",
+      "score": 66.5,
+      "penalties": [
+        "investigative deficit (-18%)"
+      ]
+    },
+    {
+      "career": "Telecommunications Engineer",
+      "score": 60.2,
+      "penalties": [
+        "investigative deficit (-18%)"
+      ]
+    },
+    {
+      "career": "DevOps / Cloud Engineer",
+      "score": 57.8,
+      "penalties": [
+        "investigative deficit (-18%)"
+      ]
+    },
+    {
+      "career": "Financial Analyst",
+      "score": 56.7,
+      "penalties": [
+        "enterprising deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Commercial Airline Pilot",
+      "score": 54.9,
+      "penalties": [
+        "social deficit (-11%)",
+        "enterprising deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Petroleum Engineer",
+      "score": 53.4,
+      "penalties": [
+        "investigative deficit (-18%)",
+        "enterprising deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Software Engineer",
+      "score": 52.4,
+      "penalties": [
+        "investigative deficit (-18%)"
+      ]
+    },
+    {
+      "career": "Chemical Engineer",
+      "score": 47.9,
+      "penalties": [
+        "investigative deficit (-23%)"
+      ]
+    },
+    {
+      "career": "Agricultural Scientist",
+      "score": 47.7,
+      "penalties": [
+        "social deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Cybersecurity Analyst",
+      "score": 45.7,
+      "penalties": [
+        "investigative deficit (-23%)"
+      ]
+    },
+    {
+      "career": "Aerospace Engineer",
+      "score": 43.9,
+      "penalties": [
+        "investigative deficit (-29%)"
+      ]
+    },
+    {
+      "career": "Environmental Scientist",
+      "score": 42.7,
+      "penalties": [
+        "investigative deficit (-18%)",
+        "social deficit (-11%)"
+      ]
+    },
+    {
+      "career": "Veterinarian (DVM)",
+      "score": 40.9,
+      "penalties": [
+        "social deficit (-29%)"
+      ]
+    },
+    {
+      "career": "Chartered Accountant",
+      "score": 40.7,
+      "penalties": [
+        "enterprising deficit (-12%)",
+        "conventional deficit (-24%)"
+      ]
+    },
+    {
+      "career": "Surgeon (MBBS + Surgical Specialisation)",
+      "score": 40.7,
+      "penalties": [
+        "investigative deficit (-18%)",
+        "social deficit (-24%)"
+      ]
+    },
+    {
+      "career": "Dentist (BDS)",
+      "score": 40.3,
+      "penalties": [
+        "social deficit (-35%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

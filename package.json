@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy:mindmatch": "netlify deploy --prod --site=mind-match-assessment-at",
+    "deploy:careerlens": "NEXT_PUBLIC_APP_ID=careerlens NEXT_PUBLIC_REQUIRE_PAYMENT=true NEXT_PUBLIC_ENABLE_GOOGLE_AUTH=false netlify deploy --prod --site=careerlens-at"
   },
   "dependencies": {
     "@ai-sdk/openai": "^3.0.41",

@@ -1,0 +1,189 @@
+{
+  "persona": "Sara",
+  "mode": "full_signal",
+  "timestamp": "2026-05-01T17:12:13.658080",
+  "answers_count": {
+    "adaptive": 96,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 0,
+    "riasec_investigative": 66.7,
+    "riasec_artistic": 91.5,
+    "riasec_social": 40.0,
+    "riasec_enterprising": 38.5,
+    "riasec_conventional": 71.1
+  },
+  "onet_scores": {
+    "riasec_realistic": 20,
+    "riasec_investigative": 50,
+    "riasec_artistic": 90,
+    "riasec_social": 25,
+    "riasec_enterprising": 25,
+    "riasec_conventional": 62
+  },
+  "blended_scores": {
+    "riasec_realistic": 8.0,
+    "riasec_investigative": 60.0,
+    "riasec_artistic": 90.9,
+    "riasec_social": 34.0,
+    "riasec_enterprising": 33.1,
+    "riasec_conventional": 67.5
+  },
+  "top_careers": [
+    {
+      "career": "Writer / Author",
+      "score": 83.6,
+      "penalties": []
+    },
+    {
+      "career": "Graphic Designer",
+      "score": 65.8,
+      "penalties": [
+        "realistic deficit (-7%)"
+      ]
+    },
+    {
+      "career": "Video Game Designer",
+      "score": 65.2,
+      "penalties": [
+        "realistic deficit (-9%)"
+      ]
+    },
+    {
+      "career": "UX/UI Designer",
+      "score": 60.3,
+      "penalties": [
+        "social deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Animator / Motion Graphics Designer",
+      "score": 58.0,
+      "penalties": [
+        "realistic deficit (-21%)"
+      ]
+    },
+    {
+      "career": "Architect",
+      "score": 55.5,
+      "penalties": [
+        "realistic deficit (-21%)"
+      ]
+    },
+    {
+      "career": "Financial Analyst",
+      "score": 52.0,
+      "penalties": [
+        "enterprising deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Fashion / Textile Designer",
+      "score": 38.5,
+      "penalties": [
+        "realistic deficit (-17%)",
+        "enterprising deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Software Engineer",
+      "score": 38.4,
+      "penalties": [
+        "realistic deficit (-9%)",
+        "investigative deficit (-21%)"
+      ]
+    },
+    {
+      "career": "Chartered Accountant",
+      "score": 36.4,
+      "penalties": [
+        "enterprising deficit (-12%)",
+        "conventional deficit (-26%)"
+      ]
+    },
+    {
+      "career": "Civil Engineer",
+      "score": 35.9,
+      "penalties": [
+        "realistic deficit (-38%)"
+      ]
+    },
+    {
+      "career": "Nail Technician",
+      "score": 33.8,
+      "penalties": [
+        "realistic deficit (-26%)",
+        "social deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Interior Designer",
+      "score": 31.2,
+      "penalties": [
+        "realistic deficit (-21%)",
+        "social deficit (-12%)",
+        "enterprising deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Data Scientist",
+      "score": 30.6,
+      "penalties": [
+        "investigative deficit (-33%)"
+      ]
+    },
+    {
+      "career": "Economist",
+      "score": 29.2,
+      "penalties": [
+        "investigative deficit (-27%)",
+        "enterprising deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Network Engineer",
+      "score": 28.8,
+      "penalties": [
+        "realistic deficit (-35%)",
+        "investigative deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Journalist / Reporter",
+      "score": 26.6,
+      "penalties": [
+        "social deficit (-25%)",
+        "enterprising deficit (-21%)"
+      ]
+    },
+    {
+      "career": "DevOps / Cloud Engineer",
+      "score": 26.0,
+      "penalties": [
+        "realistic deficit (-32%)",
+        "investigative deficit (-21%)"
+      ]
+    },
+    {
+      "career": "Pharmacist",
+      "score": 25.9,
+      "penalties": [
+        "realistic deficit (-17%)",
+        "investigative deficit (-16%)",
+        "social deficit (-20%)"
+      ]
+    },
+    {
+      "career": "Research Scientist",
+      "score": 24.5,
+      "penalties": [
+        "realistic deficit (-9%)",
+        "investigative deficit (-33%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

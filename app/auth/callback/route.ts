@@ -1,5 +1,6 @@
 // force rebuild
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 const APP_ID = process.env.NEXT_PUBLIC_APP_ID ?? 'careerlens'
@@ -16,29 +17,26 @@ export async function GET(request: Request) {
     if (!error) {
       const { data: { user } } = await supabase.auth.getUser()
       if (user) {
-        // Ensure profile exists
-        const { data: profile } = await supabase
+        const admin = createAdminClient()
+
+        // Upsert profile with correct app_id using service role (bypasses RLS)
+        const fullName = user.user_metadata?.full_name || ''
+        const firstName = fullName.split(' ')[0] || user.email?.split('@')[0] || 'Student'
+        const lastName = fullName.split(' ').slice(1).join(' ') || ''
+        await admin.from('profiles').upsert({
+          id: user.id,
+          first_name: firstName,
+          last_name: lastName,
+          email: user.email || '',
+          role: 'student',
+          app_id: APP_ID,
+        }, { onConflict: 'id', ignoreDuplicates: false })
+
+        const { data: profile } = await admin
           .from('profiles')
-          .select('id, role')
+          .select('role')
           .eq('id', user.id)
           .single()
-
-        if (!profile) {
-          const fullName = user.user_metadata?.full_name || ''
-          const firstName = fullName.split(' ')[0] || user.email?.split('@')[0] || 'Student'
-          const lastName = fullName.split(' ').slice(1).join(' ') || ''
-          await supabase.from('profiles').insert({
-            id: user.id,
-            first_name: firstName,
-            last_name: lastName,
-            email: user.email || '',
-            role: 'student',
-            app_id: APP_ID,
-          })
-        } else {
-          // Trigger sets DEFAULT 'careerlens' — correct it to the actual app
-          await supabase.from('profiles').update({ app_id: APP_ID }).eq('id', user.id)
-        }
 
         if (profile?.role === 'institution') {
           return NextResponse.redirect(`${origin}/institution`)

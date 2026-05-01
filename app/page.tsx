@@ -28,7 +28,7 @@ import {
 const ENABLE_GOOGLE = process.env.NEXT_PUBLIC_ENABLE_GOOGLE_AUTH === 'true'
 
 type Step = 'landing' | 'onboarding' | 'welcome' | 'assessment' | 'transition' | 'bridge' | 'results' | 'onet_assessment'
-type UserStage = 'school' | 'university'
+type UserStage = 'school' | 'college' | 'university'
 
 function UserAvatar({ authUser, showMenu, setShowMenu, onLogout }: {
   authUser: { name: string; avatar?: string | null }
@@ -90,7 +90,7 @@ export default function Home() {
   const [userGender, setUserGender] = useState('')
   const [userSchool, setUserSchool] = useState('')
   const [userGoals, setUserGoals] = useState('')
-  const [userStage, setUserStage] = useState<UserStage>('school')
+  const [userStage, setUserStage] = useState<UserStage | ''>('')
   const [authUser, setAuthUser] = useState<{ id: string; name: string; email?: string; avatar?: string | null } | null>(null)
 
   const [showUserMenu, setShowUserMenu] = useState(false)
@@ -599,24 +599,16 @@ export default function Home() {
           {/* Stage */}
           <div className="mb-6">
             <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">Where are you right now?</label>
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => setUserStage('school')}
-                className={`p-5 rounded-xl border-2 text-left transition-all ${userStage === 'school' ? 'border-blue-600 bg-blue-600/10' : 'border-white/10 hover:border-white/20'}`}
-              >
-                <GraduationCap className={`w-6 h-6 mb-3 ${userStage === 'school' ? 'text-blue-400' : 'text-slate-500'}`} />
-                <div className="font-black text-sm uppercase tracking-wide">In School</div>
-                <div className="text-xs text-slate-500 mt-1">O/A Levels or equivalent</div>
-              </button>
-              <button
-                onClick={() => setUserStage('university')}
-                className={`p-5 rounded-xl border-2 text-left transition-all ${userStage === 'university' ? 'border-blue-600 bg-blue-600/10' : 'border-white/10 hover:border-white/20'}`}
-              >
-                <Briefcase className={`w-6 h-6 mb-3 ${userStage === 'university' ? 'text-blue-400' : 'text-slate-500'}`} />
-                <div className="font-black text-sm uppercase tracking-wide">University</div>
-                <div className="text-xs text-slate-500 mt-1">Undergraduate or postgrad</div>
-              </button>
-            </div>
+            <select
+              value={userStage}
+              onChange={e => setUserStage(e.target.value as UserStage)}
+              className="w-full bg-[#1a1a2e] border border-white/10 rounded-xl px-5 py-4 text-white text-base font-medium focus:outline-none focus:border-blue-600/60 transition-all appearance-none cursor-pointer"
+            >
+              <option value="" disabled>Select your stage</option>
+              <option value="school">School (Grade 8–10 — Matric / O-Level stage)</option>
+              <option value="college">College (Grade 11–12 — Intermediate / A-Levels)</option>
+              <option value="university">University</option>
+            </select>
           </div>
 
           {/* Age + Gender row */}
@@ -651,12 +643,19 @@ export default function Home() {
 
           {/* School Name */}
           <div className="mb-6">
-            <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">School / University Name</label>
+            <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">
+              {userStage === 'school' ? 'School Name' : userStage === 'college' ? 'College Name' : userStage === 'university' ? 'University Name' : 'School / University Name'}
+            </label>
             <input
               type="text"
               value={userSchool}
               onChange={e => setUserSchool(e.target.value)}
-              placeholder="e.g. Lahore Grammar School"
+              placeholder={
+                userStage === 'school' ? 'Enter your school name' : 
+                userStage === 'college' ? 'Enter your college name' : 
+                userStage === 'university' ? 'Enter your university name' : 
+                'Enter your institution name'
+              }
               className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-base font-medium placeholder:text-slate-600 focus:outline-none focus:border-blue-600/60 focus:bg-white/8 transition-all"
             />
           </div>
@@ -680,7 +679,7 @@ export default function Home() {
 
           <Button
             onClick={handleBeginAssessment}
-            disabled={!userName.trim()}
+            disabled={!userName.trim() || !userStage}
             className="w-full h-14 text-base font-black bg-blue-600 hover:bg-white hover:text-black rounded-full shadow-2xl shadow-blue-600/20 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
           >
             Continue

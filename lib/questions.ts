@@ -22,7 +22,17 @@ export const coreQuestions: Question[] = [
   { id: 111, section: 'interest_exploration', category: 'core', text: 'I am energized by negotiating deals, winning arguments, or closing sales.', dimensions: [{ dimension: 'riasec_enterprising', weight: 4 }, { dimension: 'strength_leadership', weight: 3 }], reverse_scored: false, active: true, tags: ['enterprising', 'leadership'] },
   { id: 112, section: 'interest_exploration', category: 'core', text: 'When a project lacks direction, I have no problem stepping up and telling people what to do.', dimensions: [{ dimension: 'riasec_enterprising', weight: 4 }, { dimension: 'strength_leadership', weight: 3 }], reverse_scored: false, active: true, tags: ['enterprising', 'leadership'] },
 
-  // Big Five Openness - 3 Variations
+  // Realistic (Behavioral) - 3 Core Variations (added to guarantee early R sampling)
+  { id: 167, section: 'interest_exploration', category: 'core', text: 'I enjoy working with physical tools, materials, or equipment rather than just ideas or people.', dimensions: [{ dimension: 'riasec_realistic', weight: 4 }], reverse_scored: false, active: true, tags: ['realistic'] },
+  { id: 168, section: 'interest_exploration', category: 'core', text: 'I feel most satisfied when I can see or touch the result of my work at the end of the day.', dimensions: [{ dimension: 'riasec_realistic', weight: 4 }], reverse_scored: false, active: true, tags: ['realistic'] },
+  { id: 169, section: 'interest_exploration', category: 'core', text: 'Hands-on tasks like building, repairing, or assembling things appeal to me more than desk-based tasks.', dimensions: [{ dimension: 'riasec_realistic', weight: 4 }], reverse_scored: false, active: true, tags: ['realistic'] },
+
+  // Conventional (Behavioral) - 3 Core Variations (added to guarantee early C sampling)
+  { id: 170, section: 'interest_exploration', category: 'core', text: 'I prefer work that has clear rules, defined steps, and predictable outcomes.', dimensions: [{ dimension: 'riasec_conventional', weight: 4 }, { dimension: 'strength_organization', weight: 2 }], reverse_scored: false, active: true, tags: ['conventional', 'organization'] },
+  { id: 171, section: 'interest_exploration', category: 'core', text: 'I like managing data, records, and organized systems more than creative or open-ended tasks.', dimensions: [{ dimension: 'riasec_conventional', weight: 4 }, { dimension: 'strength_organization', weight: 2 }], reverse_scored: false, active: true, tags: ['conventional', 'organization'] },
+  { id: 172, section: 'interest_exploration', category: 'core', text: 'Accuracy and attention to detail matter more to me than generating new ideas.', dimensions: [{ dimension: 'riasec_conventional', weight: 4 }, { dimension: 'strength_organization', weight: 2 }], reverse_scored: false, active: true, tags: ['conventional', 'organization'] },
+
+
   { id: 113, section: 'personality_traits', category: 'core', text: 'I actively seek out unconventional ideas and completely new experiences.', dimensions: [{ dimension: 'big5_openness', weight: 3 }], reverse_scored: false, active: true, tags: ['openness'] },
   { id: 114, section: 'personality_traits', category: 'core', text: 'I get bored quickly if I am forced to follow the same routine every single day.', dimensions: [{ dimension: 'big5_openness', weight: 3 }], reverse_scored: false, active: true, tags: ['openness'] },
   { id: 115, section: 'personality_traits', category: 'core', text: 'I love philosophical discussions and theoretical debates, even if they have no practical application.', dimensions: [{ dimension: 'big5_openness', weight: 3 }], reverse_scored: false, active: true, tags: ['openness'] },

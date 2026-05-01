@@ -170,18 +170,29 @@ export const calculateCurrentProfile = (state: AdaptiveAssessmentState): ScorePr
         if (col) profile[col] = trait.score;
     });
 
-    // Fill defaults for missing dimensions
-    const allColumns = [
-        'riasec_realistic', 'riasec_investigative', 'riasec_artistic', 'riasec_social', 'riasec_enterprising', 'riasec_conventional',
+    // Fill defaults for missing dimensions.
+    // RIASEC dimensions default to 25 (not 50) because an unsampled dimension means
+    // "no evidence of interest" — not "moderate interest". Using 50 caused engineering
+    // and mechanical careers to score comparably to creative ones for introverted users
+    // whose Realistic/Conventional dimensions were never asked due to early termination.
+    const riasecColumns = [
+        'riasec_realistic', 'riasec_investigative', 'riasec_artistic',
+        'riasec_social', 'riasec_enterprising', 'riasec_conventional',
+    ];
+    const otherColumns = [
         'big5_openness', 'big5_conscientiousness', 'big5_extraversion', 'big5_agreeableness', 'big5_emotional_stability',
         'strength_analytical_thinking', 'strength_creativity', 'strength_leadership', 'strength_empathy', 'strength_organization', 'strength_communication',
         'work_independence', 'work_structure', 'work_pace',
         'motivation_achievement', 'motivation_helping', 'motivation_autonomy', 'motivation_financial', 'motivation_creativity', 'motivation_work_life_balance'
     ];
 
-    allColumns.forEach(col => {
-        if (profile[col] === undefined) profile[col] = 50;
+    riasecColumns.forEach(col => {
+        if (profile[col] === undefined) profile[col] = 25; // Low default: no evidence ≠ neutral
     });
+    otherColumns.forEach(col => {
+        if (profile[col] === undefined) profile[col] = 50; // Neutral default for non-RIASEC
+    });
+
 
     return profile as unknown as ScoreProfile;
 };

@@ -1,0 +1,167 @@
+{
+  "persona": "Fatima",
+  "mode": "production",
+  "timestamp": "2026-05-01T17:12:13.699506",
+  "answers_count": {
+    "adaptive": 22,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 33.3,
+    "riasec_investigative": 30.0,
+    "riasec_artistic": 64.2,
+    "riasec_social": 100,
+    "riasec_enterprising": 80.0,
+    "riasec_conventional": 60.0
+  },
+  "onet_scores": {
+    "riasec_realistic": 8,
+    "riasec_investigative": 35,
+    "riasec_artistic": 57,
+    "riasec_social": 98,
+    "riasec_enterprising": 65,
+    "riasec_conventional": 50
+  },
+  "blended_scores": {
+    "riasec_realistic": 23.2,
+    "riasec_investigative": 32.0,
+    "riasec_artistic": 61.3,
+    "riasec_social": 99.2,
+    "riasec_enterprising": 74.0,
+    "riasec_conventional": 56.0
+  },
+  "top_careers": [
+    {
+      "career": "HR Manager",
+      "score": 86.3,
+      "penalties": []
+    },
+    {
+      "career": "High School Teacher",
+      "score": 86.2,
+      "penalties": []
+    },
+    {
+      "career": "School Counselor",
+      "score": 78.7,
+      "penalties": []
+    },
+    {
+      "career": "Corporate Trainer / L&D Specialist",
+      "score": 76.3,
+      "penalties": [
+        "investigative deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Marketing Manager",
+      "score": 74.8,
+      "penalties": []
+    },
+    {
+      "career": "Social Worker / NGO Professional",
+      "score": 71.9,
+      "penalties": [
+        "investigative deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Cosmetics Brand Manager",
+      "score": 70.5,
+      "penalties": []
+    },
+    {
+      "career": "Beauty Entrepreneur",
+      "score": 68.5,
+      "penalties": []
+    },
+    {
+      "career": "Salon Owner",
+      "score": 67.2,
+      "penalties": [
+        "realistic deficit (-10%)"
+      ]
+    },
+    {
+      "career": "Cosmetologist",
+      "score": 50.7,
+      "penalties": [
+        "realistic deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Entrepreneur",
+      "score": 48.8,
+      "penalties": [
+        "enterprising deficit (-20%)"
+      ]
+    },
+    {
+      "career": "Diplomat / Foreign Service Officer",
+      "score": 43.8,
+      "penalties": [
+        "investigative deficit (-32%)"
+      ]
+    },
+    {
+      "career": "Registered Nurse",
+      "score": 43.6,
+      "penalties": [
+        "realistic deficit (-13%)",
+        "investigative deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Content Creator / YouTuber",
+      "score": 42.9,
+      "penalties": [
+        "artistic deficit (-26%)"
+      ]
+    },
+    {
+      "career": "Beauty Content Creator",
+      "score": 42.3,
+      "penalties": [
+        "artistic deficit (-26%)"
+      ]
+    },
+    {
+      "career": "Civil Service Officer (CSS)",
+      "score": 42.1,
+      "penalties": [
+        "investigative deficit (-27%)"
+      ]
+    },
+    {
+      "career": "Operations Manager",
+      "score": 41.2,
+      "penalties": [
+        "investigative deficit (-17%)"
+      ]
+    },
+    {
+      "career": "Product Manager",
+      "score": 40.8,
+      "penalties": [
+        "investigative deficit (-27%)"
+      ]
+    },
+    {
+      "career": "Physical Therapist",
+      "score": 40.0,
+      "penalties": [
+        "realistic deficit (-22%)"
+      ]
+    },
+    {
+      "career": "Journalist / Reporter",
+      "score": 39.6,
+      "penalties": [
+        "investigative deficit (-21%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

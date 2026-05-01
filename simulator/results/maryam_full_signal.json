@@ -1,0 +1,192 @@
+{
+  "persona": "Maryam",
+  "mode": "full_signal",
+  "timestamp": "2026-05-01T17:12:13.676574",
+  "answers_count": {
+    "adaptive": 96,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 0,
+    "riasec_investigative": 0,
+    "riasec_artistic": 37.6,
+    "riasec_social": 50.0,
+    "riasec_enterprising": 80.0,
+    "riasec_conventional": 88.9
+  },
+  "onet_scores": {
+    "riasec_realistic": 25,
+    "riasec_investigative": 68,
+    "riasec_artistic": 8,
+    "riasec_social": 50,
+    "riasec_enterprising": 75,
+    "riasec_conventional": 85
+  },
+  "blended_scores": {
+    "riasec_realistic": 10.0,
+    "riasec_investigative": 27.2,
+    "riasec_artistic": 25.7,
+    "riasec_social": 50.0,
+    "riasec_enterprising": 78.0,
+    "riasec_conventional": 87.3
+  },
+  "top_careers": [
+    {
+      "career": "Investment Banker",
+      "score": 47.8,
+      "penalties": [
+        "investigative deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Marketing Manager",
+      "score": 46.6,
+      "penalties": [
+        "artistic deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Chartered Accountant",
+      "score": 45.0,
+      "penalties": [
+        "investigative deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Operations Manager",
+      "score": 43.6,
+      "penalties": [
+        "realistic deficit (-12%)",
+        "investigative deficit (-20%)"
+      ]
+    },
+    {
+      "career": "Financial Analyst",
+      "score": 39.0,
+      "penalties": [
+        "investigative deficit (-36%)"
+      ]
+    },
+    {
+      "career": "Management Consultant",
+      "score": 36.5,
+      "penalties": [
+        "investigative deficit (-30%)"
+      ]
+    },
+    {
+      "career": "Supply Chain Manager",
+      "score": 35.3,
+      "penalties": [
+        "realistic deficit (-20%)",
+        "investigative deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Lawyer / Advocate",
+      "score": 34.3,
+      "penalties": [
+        "investigative deficit (-36%)"
+      ]
+    },
+    {
+      "career": "Cosmetics Brand Manager",
+      "score": 34.0,
+      "penalties": [
+        "investigative deficit (-11%)",
+        "artistic deficit (-26%)"
+      ]
+    },
+    {
+      "career": "Military Officer",
+      "score": 33.4,
+      "penalties": [
+        "realistic deficit (-38%)",
+        "investigative deficit (-11%)"
+      ]
+    },
+    {
+      "career": "Entrepreneur",
+      "score": 32.3,
+      "penalties": [
+        "realistic deficit (-12%)",
+        "artistic deficit (-21%)"
+      ]
+    },
+    {
+      "career": "Real Estate Developer",
+      "score": 30.6,
+      "penalties": [
+        "realistic deficit (-30%)",
+        "investigative deficit (-15%)"
+      ]
+    },
+    {
+      "career": "Civil Service Officer (CSS)",
+      "score": 29.6,
+      "penalties": [
+        "investigative deficit (-30%)",
+        "social deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Beauty Entrepreneur",
+      "score": 29.3,
+      "penalties": [
+        "realistic deficit (-9%)",
+        "artistic deficit (-31%)"
+      ]
+    },
+    {
+      "career": "Product Manager",
+      "score": 25.4,
+      "penalties": [
+        "investigative deficit (-30%)",
+        "artistic deficit (-16%)"
+      ]
+    },
+    {
+      "career": "HR Manager",
+      "score": 25.3,
+      "penalties": [
+        "investigative deficit (-11%)",
+        "social deficit (-36%)"
+      ]
+    },
+    {
+      "career": "Salon Owner",
+      "score": 23.7,
+      "penalties": [
+        "realistic deficit (-16%)",
+        "artistic deficit (-31%)"
+      ]
+    },
+    {
+      "career": "High School Teacher",
+      "score": 17.8,
+      "penalties": [
+        "investigative deficit (-11%)",
+        "social deficit (-43%)"
+      ]
+    },
+    {
+      "career": "School Counselor",
+      "score": 16.6,
+      "penalties": [
+        "social deficit (-43%)"
+      ]
+    },
+    {
+      "career": "Diplomat / Foreign Service Officer",
+      "score": 15.6,
+      "penalties": [
+        "investigative deficit (-36%)",
+        "artistic deficit (-12%)",
+        "social deficit (-24%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

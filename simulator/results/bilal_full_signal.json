@@ -1,0 +1,176 @@
+{
+  "persona": "Bilal",
+  "mode": "full_signal",
+  "timestamp": "2026-05-01T17:12:13.683308",
+  "answers_count": {
+    "adaptive": 96,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 60.0,
+    "riasec_investigative": 60.0,
+    "riasec_artistic": 60.0,
+    "riasec_social": 60.0,
+    "riasec_enterprising": 60.0,
+    "riasec_conventional": 60.0
+  },
+  "onet_scores": {
+    "riasec_realistic": 50,
+    "riasec_investigative": 50,
+    "riasec_artistic": 50,
+    "riasec_social": 50,
+    "riasec_enterprising": 50,
+    "riasec_conventional": 50
+  },
+  "blended_scores": {
+    "riasec_realistic": 56.0,
+    "riasec_investigative": 56.0,
+    "riasec_artistic": 56.0,
+    "riasec_social": 56.0,
+    "riasec_enterprising": 56.0,
+    "riasec_conventional": 56.0
+  },
+  "top_careers": [
+    {
+      "career": "Civil Engineer",
+      "score": 75.7,
+      "penalties": []
+    },
+    {
+      "career": "Dentist (BDS)",
+      "score": 64.0,
+      "penalties": [
+        "realistic deficit (-17%)"
+      ]
+    },
+    {
+      "career": "Agricultural Scientist",
+      "score": 59.5,
+      "penalties": [
+        "investigative deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Veterinarian (DVM)",
+      "score": 56.7,
+      "penalties": [
+        "investigative deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Supply Chain Manager",
+      "score": 55.7,
+      "penalties": [
+        "enterprising deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Civil Service Officer (CSS)",
+      "score": 53.4,
+      "penalties": [
+        "enterprising deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Journalist / Reporter",
+      "score": 52.6,
+      "penalties": [
+        "artistic deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Commercial Airline Pilot",
+      "score": 52.6,
+      "penalties": [
+        "realistic deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Allied Health Professional",
+      "score": 52.0,
+      "penalties": [
+        "social deficit (-21%)"
+      ]
+    },
+    {
+      "career": "Cosmetologist",
+      "score": 51.4,
+      "penalties": [
+        "artistic deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Esthetician / Skin Care Specialist",
+      "score": 50.0,
+      "penalties": [
+        "artistic deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Salon Owner",
+      "score": 50.0,
+      "penalties": [
+        "enterprising deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Pharmacist",
+      "score": 49.9,
+      "penalties": [
+        "investigative deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Environmental Scientist",
+      "score": 49.9,
+      "penalties": [
+        "investigative deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Operations Manager",
+      "score": 48.6,
+      "penalties": [
+        "enterprising deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Real Estate Developer",
+      "score": 47.5,
+      "penalties": [
+        "enterprising deficit (-31%)"
+      ]
+    },
+    {
+      "career": "Management Consultant",
+      "score": 46.4,
+      "penalties": [
+        "enterprising deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Military Officer",
+      "score": 46.4,
+      "penalties": [
+        "enterprising deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Mechanical Engineer",
+      "score": 46.1,
+      "penalties": [
+        "realistic deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Product Manager",
+      "score": 45.9,
+      "penalties": [
+        "enterprising deficit (-25%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

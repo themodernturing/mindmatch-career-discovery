@@ -4,6 +4,7 @@ import { useState, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Brain, Upload, CheckCircle, Tag, X, Loader2 } from 'lucide-react'
+import { APP_CONFIG } from '@/lib/config'
 
 const BASE_PRICE = 5000
 const BANK_DETAILS = {
@@ -129,7 +130,7 @@ export default function RegisterPage() {
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center mb-3">
             <Brain className="w-6 h-6 text-white" />
           </div>
-          <h1 className="text-xl font-black text-white">CareerLens</h1>
+          <h1 className="text-xl font-black text-white">{APP_CONFIG.appName}</h1>
           <p className="text-slate-500 text-sm mt-1">Career Assessment Platform</p>
         </div>
 

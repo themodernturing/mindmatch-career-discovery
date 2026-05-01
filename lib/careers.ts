@@ -24,7 +24,7 @@ export const careers: Career[] = [
       { level: 'bachelor', field: 'Computer Science, Software Engineering', duration: '4 years', universities: ['LUMS', 'NUST', 'FAST-NUCES (Lahore/Karachi/Islamabad)', 'COMSATS University', 'UET Lahore'] },
       { level: 'certificate', field: 'Coding Bootcamp', duration: '3-6 months' }
     ],
-    riasec_profile: { realistic: 35, investigative: 85, artistic: 45, social: 30, enterprising: 40, conventional: 55 },
+    riasec_profile: { realistic: 40, investigative: 90, artistic: 45, social: 30, enterprising: 35, conventional: 60 },
     salary_range: { entry: 65000, median: 110000, experienced: 180000 },
     outlook: { growth: 'rapidly_growing', demand: 'very_high' }
   },
@@ -51,7 +51,7 @@ export const careers: Career[] = [
       { level: 'master', field: 'Data Science, Statistics', duration: '2 years', universities: ['LUMS', 'NUST', 'IBA Karachi', 'ITU Lahore'] },
       { level: 'bachelor', field: 'Mathematics, Statistics, Computer Science', duration: '4 years', universities: ['LUMS', 'QAU Islamabad', 'University of Karachi', 'GC University Lahore'] }
     ],
-    riasec_profile: { realistic: 25, investigative: 95, artistic: 35, social: 30, enterprising: 40, conventional: 60 },
+    riasec_profile: { realistic: 35, investigative: 95, artistic: 35, social: 30, enterprising: 30, conventional: 65 },
     salary_range: { entry: 75000, median: 120000, experienced: 180000 },
     outlook: { growth: 'rapidly_growing', demand: 'very_high' }
   },
@@ -554,7 +554,7 @@ export const careers: Career[] = [
       { level: 'master', field: 'Computer Science, AI, Data Science', duration: '2 years', universities: ['LUMS', 'NUST', 'ITU Lahore', 'FAST-NUCES'] },
       { level: 'bachelor', field: 'Computer Science, Mathematics', duration: '4 years', universities: ['LUMS', 'NUST', 'FAST-NUCES', 'COMSATS University', 'ITU Lahore'] }
     ],
-    riasec_profile: { realistic: 30, investigative: 95, artistic: 40, social: 25, enterprising: 45, conventional: 50 },
+    riasec_profile: { realistic: 30, investigative: 95, artistic: 40, social: 25, enterprising: 35, conventional: 55 },
     salary_range: { entry: 80000, median: 140000, experienced: 220000 },
     outlook: { growth: 'rapidly_growing', demand: 'very_high' }
   },
@@ -795,7 +795,7 @@ export const careers: Career[] = [
       { level: 'doctorate', field: 'Science (Biology, Chemistry, Physics)', duration: '4-5 years', universities: ['QAU Islamabad', 'University of Karachi', 'University of the Punjab', 'NUST', 'GC University Lahore'] },
       { level: 'master', field: 'Research-focused science', duration: '2 years', universities: ['QAU Islamabad', 'University of Karachi', 'NUST', 'GC University Lahore'] }
     ],
-    riasec_profile: { realistic: 35, investigative: 95, artistic: 40, social: 35, enterprising: 30, conventional: 60 },
+    riasec_profile: { realistic: 45, investigative: 95, artistic: 40, social: 40, enterprising: 30, conventional: 70 },
     salary_range: { entry: 55000, median: 85000, experienced: 140000 },
     outlook: { growth: 'growing', demand: 'moderate' }
   },
@@ -1748,7 +1748,7 @@ export const careers: Career[] = [
       { level: 'master', field: 'Biochemistry, Microbiology', duration: '2 years', universities: ['QAU Islamabad', 'University of Karachi', 'University of the Punjab', 'COMSATS University'] },
       { level: 'bachelor', field: 'BS Biochemistry / Microbiology', duration: '4 years', universities: ['QAU Islamabad', 'University of Karachi', 'GC University Lahore', 'COMSATS University', 'University of Agriculture Faisalabad'] }
     ],
-    riasec_profile: { realistic: 45, investigative: 95, artistic: 30, social: 35, enterprising: 30, conventional: 65 },
+    riasec_profile: { realistic: 55, investigative: 95, artistic: 25, social: 35, enterprising: 30, conventional: 75 },
     salary_range: { entry: 50000, median: 90000, experienced: 180000 },
     outlook: { growth: 'growing', demand: 'high' }
   },
@@ -1777,6 +1777,222 @@ export const careers: Career[] = [
     ],
     riasec_profile: { realistic: 70, investigative: 80, artistic: 30, social: 55, enterprising: 40, conventional: 55 },
     salary_range: { entry: 50000, median: 90000, experienced: 180000 },
+    outlook: { growth: 'growing', demand: 'high' }
+  },
+
+  // ── BEAUTY & WELLNESS ─────────────────────────────────────────────────────────
+
+  {
+    id: 'makeup-artist',
+    name: 'Makeup Artist',
+    category: 'Beauty & Wellness',
+    description: 'Applies makeup and creates looks for weddings, events, fashion shoots, film, TV, and theatre. Pakistan\'s wedding industry drives strong demand for skilled artists.',
+    typical_tasks: [
+      'Consult clients on looks suited to their features and occasion',
+      'Apply bridal, editorial, and special-effects makeup',
+      'Build and maintain a professional kit of products and tools',
+      'Collaborate with photographers and stylists on shoots',
+      'Manage bookings and grow a client portfolio',
+    ],
+    required_skills: [
+      { name: 'Colour theory and skin tone matching', importance: 'essential', category: 'technical' },
+      { name: 'Blending and application technique', importance: 'essential', category: 'technical' },
+      { name: 'Client communication', importance: 'essential', category: 'soft' },
+      { name: 'Creativity and aesthetic sense', importance: 'essential', category: 'cognitive' },
+      { name: 'Hygiene and product knowledge', importance: 'important', category: 'soft' },
+    ],
+    education_pathways: [
+      { level: 'certificate', field: 'Makeup Artistry / Beauty Diploma', duration: '3-12 months', universities: ['Pakistan Institute of Fashion & Design (PIFD)', 'Depilex Beauty College Lahore', 'Nabila\'s N-Pro Academy Karachi', 'Online — QC Makeup Academy, Makeup Artist School'] },
+    ],
+    riasec_profile: { realistic: 55, investigative: 20, artistic: 90, social: 65, enterprising: 60, conventional: 30 },
+    salary_range: { entry: 30000, median: 80000, experienced: 300000 },
+    outlook: { growth: 'growing', demand: 'high' }
+  },
+  {
+    id: 'cosmetologist',
+    name: 'Cosmetologist',
+    category: 'Beauty & Wellness',
+    description: 'Provides a full range of beauty services including hair, skin, and nail care. Works in salons, spas, or as a freelancer serving a loyal personal clientele.',
+    typical_tasks: [
+      'Cut, colour, and style hair for clients',
+      'Perform facials, waxing, and skin treatments',
+      'Advise clients on personal care routines',
+      'Keep up with beauty trends and new techniques',
+      'Manage client relationships and appointment schedules',
+    ],
+    required_skills: [
+      { name: 'Hair and skin care techniques', importance: 'essential', category: 'technical' },
+      { name: 'Client service and communication', importance: 'essential', category: 'soft' },
+      { name: 'Creativity and attention to detail', importance: 'essential', category: 'cognitive' },
+      { name: 'Product knowledge', importance: 'important', category: 'technical' },
+      { name: 'Physical stamina (standing hours)', importance: 'important', category: 'soft' },
+    ],
+    education_pathways: [
+      { level: 'certificate', field: 'Cosmetology / Beauty Therapy', duration: '6-18 months', universities: ['Depilex Beauty College Lahore', 'Nabila\'s School of Beauty Karachi', 'Pivot Point Pakistan', 'TAFE equivalent diplomas'] },
+    ],
+    riasec_profile: { realistic: 50, investigative: 20, artistic: 80, social: 75, enterprising: 55, conventional: 35 },
+    salary_range: { entry: 25000, median: 60000, experienced: 150000 },
+    outlook: { growth: 'growing', demand: 'high' }
+  },
+  {
+    id: 'beauty-entrepreneur',
+    name: 'Beauty Entrepreneur',
+    category: 'Beauty & Wellness',
+    description: 'Launches and grows a beauty-related business — a salon chain, product line, academy, or beauty-tech platform. Combines creative passion with business strategy.',
+    typical_tasks: [
+      'Develop a beauty brand concept and business plan',
+      'Source suppliers, manage inventory, and set pricing',
+      'Build and lead a team of beauty professionals',
+      'Market the brand through social media and events',
+      'Manage finances, growth, and customer experience',
+    ],
+    required_skills: [
+      { name: 'Business and financial management', importance: 'essential', category: 'technical' },
+      { name: 'Leadership and team management', importance: 'essential', category: 'soft' },
+      { name: 'Marketing and branding', importance: 'essential', category: 'cognitive' },
+      { name: 'Industry knowledge', importance: 'essential', category: 'technical' },
+      { name: 'Resilience and risk tolerance', importance: 'essential', category: 'soft' },
+    ],
+    education_pathways: [
+      { level: 'bachelor', field: 'Business Administration, Marketing', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'IoBM Karachi'] },
+      { level: 'certificate', field: 'Beauty Business / Entrepreneurship', duration: '3-6 months' },
+    ],
+    riasec_profile: { realistic: 35, investigative: 45, artistic: 70, social: 65, enterprising: 90, conventional: 45 },
+    salary_range: { entry: 40000, median: 150000, experienced: 600000 },
+    outlook: { growth: 'rapidly_growing', demand: 'high' }
+  },
+  {
+    id: 'esthetician',
+    name: 'Esthetician / Skin Care Specialist',
+    category: 'Beauty & Wellness',
+    description: 'Specialises in skin health and treatments including facials, chemical peels, laser therapy, and anti-ageing procedures. Growing with Pakistan\'s expanding derma-clinic market.',
+    typical_tasks: [
+      'Assess client skin conditions and recommend treatments',
+      'Perform facials, extractions, peels, and microdermabrasion',
+      'Operate advanced skin-care equipment (laser, IPL)',
+      'Educate clients on home care routines and products',
+      'Track client progress and adjust treatment plans',
+    ],
+    required_skills: [
+      { name: 'Skin anatomy and physiology', importance: 'essential', category: 'technical' },
+      { name: 'Treatment techniques and equipment use', importance: 'essential', category: 'technical' },
+      { name: 'Client consultation and empathy', importance: 'essential', category: 'soft' },
+      { name: 'Attention to detail', importance: 'essential', category: 'soft' },
+      { name: 'Product and ingredient knowledge', importance: 'important', category: 'technical' },
+    ],
+    education_pathways: [
+      { level: 'certificate', field: 'Esthetics / Skin Care Diploma', duration: '6-12 months', universities: ['Depilex Beauty College', 'Nabila\'s N-Pro Academy', 'International Dermal Institute (online)'] },
+      { level: 'bachelor', field: 'Dermatology support / Paramedical Esthetics', duration: '2-4 years' },
+    ],
+    riasec_profile: { realistic: 65, investigative: 25, artistic: 80, social: 75, enterprising: 40, conventional: 35 },
+    salary_range: { entry: 35000, median: 75000, experienced: 180000 },
+    outlook: { growth: 'rapidly_growing', demand: 'high' }
+  },
+  {
+    id: 'nail-technician',
+    name: 'Nail Technician',
+    category: 'Beauty & Wellness',
+    description: 'Creates and maintains nail art and enhancements including gel, acrylic, and intricate nail designs. A low-barrier creative career with strong freelance and salon opportunities.',
+    typical_tasks: [
+      'Apply, shape, and design natural and artificial nails',
+      'Create nail art using brushes, stamps, and embellishments',
+      'Advise clients on nail health and maintenance',
+      'Stay current with nail art trends and techniques',
+      'Manage a client base and product inventory',
+    ],
+    required_skills: [
+      { name: 'Precision and manual dexterity', importance: 'essential', category: 'technical' },
+      { name: 'Artistic design ability', importance: 'essential', category: 'cognitive' },
+      { name: 'Product knowledge (gels, acrylics)', importance: 'essential', category: 'technical' },
+      { name: 'Client care and communication', importance: 'important', category: 'soft' },
+      { name: 'Hygiene and safety standards', importance: 'essential', category: 'soft' },
+    ],
+    education_pathways: [
+      { level: 'certificate', field: 'Nail Technology Diploma', duration: '1-6 months', universities: ['Depilex Beauty College', 'Local beauty academies (Lahore, Karachi, Islamabad)', 'Online — Young Nails, Nail Career Education'] },
+    ],
+    riasec_profile: { realistic: 55, investigative: 15, artistic: 90, social: 55, enterprising: 45, conventional: 40 },
+    salary_range: { entry: 20000, median: 50000, experienced: 120000 },
+    outlook: { growth: 'growing', demand: 'moderate' }
+  },
+  {
+    id: 'cosmetics-brand-manager',
+    name: 'Cosmetics Brand Manager',
+    category: 'Beauty & Wellness',
+    description: 'Manages the strategy, marketing, and growth of a cosmetics brand. Bridges the beauty industry with business, working for local brands or multinationals like L\'Oréal or Unilever Pakistan.',
+    typical_tasks: [
+      'Develop brand strategy and annual marketing plans',
+      'Manage product launches, campaigns, and promotions',
+      'Analyse sales data and market trends',
+      'Coordinate with agencies, retailers, and influencers',
+      'Manage brand budgets and P&L accountability',
+    ],
+    required_skills: [
+      { name: 'Brand strategy and marketing', importance: 'essential', category: 'cognitive' },
+      { name: 'Data analysis and reporting', importance: 'essential', category: 'technical' },
+      { name: 'Project management', importance: 'essential', category: 'soft' },
+      { name: 'Communication and presentation', importance: 'essential', category: 'soft' },
+      { name: 'Beauty industry knowledge', importance: 'important', category: 'technical' },
+    ],
+    education_pathways: [
+      { level: 'bachelor', field: 'Marketing, Business Administration', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School', 'IoBM Karachi'] },
+      { level: 'master', field: 'MBA, Brand Management', duration: '2 years', universities: ['IBA Karachi', 'LUMS', 'NUST Business School'] },
+    ],
+    riasec_profile: { realistic: 15, investigative: 50, artistic: 65, social: 60, enterprising: 90, conventional: 55 },
+    salary_range: { entry: 60000, median: 110000, experienced: 220000 },
+    outlook: { growth: 'growing', demand: 'high' }
+  },
+  {
+    id: 'beauty-content-creator',
+    name: 'Beauty Content Creator',
+    category: 'Beauty & Wellness',
+    description: 'Creates beauty, skincare, and lifestyle content on YouTube, Instagram, TikTok, and blogs. Builds an audience through tutorials, reviews, and personal brand. Pakistan\'s beauty creator space is rapidly growing.',
+    typical_tasks: [
+      'Film and edit makeup tutorials, reviews, and vlogs',
+      'Write captions and scripts for multi-platform content',
+      'Engage with followers and build a community',
+      'Partner with beauty brands for sponsored content',
+      'Analyse analytics and optimise content strategy',
+    ],
+    required_skills: [
+      { name: 'Video production and editing', importance: 'essential', category: 'technical' },
+      { name: 'On-camera presence and storytelling', importance: 'essential', category: 'soft' },
+      { name: 'Social media strategy', importance: 'essential', category: 'technical' },
+      { name: 'Makeup and beauty knowledge', importance: 'important', category: 'technical' },
+      { name: 'Personal branding and consistency', importance: 'essential', category: 'soft' },
+    ],
+    education_pathways: [
+      { level: 'bachelor', field: 'Media Studies, Communications, Marketing', duration: '4 years', universities: ['Beaconhouse National University', 'Iqra University', 'University of the Punjab (MCM)'] },
+      { level: 'certificate', field: 'Self-taught / online content creation courses', duration: 'varies' },
+    ],
+    riasec_profile: { realistic: 20, investigative: 25, artistic: 90, social: 75, enterprising: 70, conventional: 25 },
+    salary_range: { entry: 20000, median: 100000, experienced: 500000 },
+    outlook: { growth: 'rapidly_growing', demand: 'high' }
+  },
+  {
+    id: 'salon-owner',
+    name: 'Salon Owner',
+    category: 'Beauty & Wellness',
+    description: 'Owns and manages a beauty salon offering hair, skin, nail, and wellness services. Combines hands-on beauty skills with the business of running a team, managing costs, and growing a loyal clientele.',
+    typical_tasks: [
+      'Oversee daily salon operations and service quality',
+      'Hire, train, and manage a team of beauty professionals',
+      'Manage pricing, inventory, and supplier relationships',
+      'Market the salon through social media and referrals',
+      'Handle bookings, cash flow, and profitability',
+    ],
+    required_skills: [
+      { name: 'Beauty services knowledge', importance: 'essential', category: 'technical' },
+      { name: 'Business and financial management', importance: 'essential', category: 'technical' },
+      { name: 'Leadership and people management', importance: 'essential', category: 'soft' },
+      { name: 'Customer relationship management', importance: 'essential', category: 'soft' },
+      { name: 'Marketing and local networking', importance: 'important', category: 'soft' },
+    ],
+    education_pathways: [
+      { level: 'certificate', field: 'Cosmetology / Beauty Management', duration: '6-18 months', universities: ['Depilex Beauty College', 'Nabila\'s Academy', 'PIFD'] },
+      { level: 'bachelor', field: 'Business Administration (optional)', duration: '4 years', universities: ['IBA Karachi', 'LUMS', 'IoBM Karachi'] },
+    ],
+    riasec_profile: { realistic: 45, investigative: 30, artistic: 70, social: 70, enterprising: 85, conventional: 55 },
+    salary_range: { entry: 50000, median: 150000, experienced: 500000 },
     outlook: { growth: 'growing', demand: 'high' }
   },
 ]

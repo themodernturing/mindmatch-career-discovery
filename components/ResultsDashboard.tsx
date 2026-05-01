@@ -19,6 +19,7 @@ import { CareerCoachInline } from '@/components/CareerCoachInline'
 import { CareerRadarChart } from '@/components/CareerRadarChart'
 import { getQuestionById } from '@/lib/questions'
 import { getRecommendedSubjects } from '@/lib/subjects_recommendation'
+import { APP_CONFIG } from '@/lib/config'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -32,7 +33,7 @@ interface ResultsDashboardProps {
   topRIASEC: string[]
   archetype: string
   userName: string
-  userStage: 'school' | 'university'
+  userStage: 'school' | 'college' | 'university' | ''
   adaptiveState: AdaptiveAssessmentState
   authUser: { id: string; name: string; email?: string; avatar?: string | null } | null
   isReturningUser: boolean
@@ -228,12 +229,6 @@ function getGrowthRecs(topRIASEC: string[], topCareerName: string): { icon: stri
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 
-function matchBarColor(match: number) {
-  if (match >= 85) return 'bg-blue-500'
-  if (match >= 70) return 'bg-indigo-400'
-  return 'bg-slate-300'
-}
-
 function getRiasecBars(scores: ScoreProfile) {
   const fields = [
     { key: 'riasec_realistic', code: 'R' },
@@ -275,7 +270,7 @@ function OverviewTab({
   onetScores: Record<string, number> | null
   onStartOnet: () => void
   setActiveTab: (t: DashTab) => void
-  userStage: 'school' | 'university'
+  userStage: 'school' | 'college' | 'university' | ''
 }) {
   const subjectRecs = getRecommendedSubjects(topRIASEC)
   const oneLiner = getPersonalityOneLiner(topRIASEC)
@@ -748,54 +743,381 @@ function OnetLockedTeaser({ onStartOnet, matchedCareers }: { onStartOnet: () => 
 
 // ─── Careers Tab ──────────────────────────────────────────────────────────────
 
-function CareersTab({ matchedCareers }: { matchedCareers: (Career & { match: number; rank: number })[]; onetScores?: Record<string, number> }) {
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-8 space-y-4">
-      <h2 className="text-2xl font-black text-slate-900">Your Career Matches</h2>
-      <p className="text-slate-500 text-sm mb-6">Based on your RIASEC profile and O*NET Interest Profiler results.</p>
-      {matchedCareers.slice(0, 10).map((career) => (
-        <div key={career.id} className="bg-white border border-slate-200 rounded-2xl p-5 space-y-3">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex items-start gap-3">
-              <span className="w-8 h-8 rounded-full bg-slate-100 text-slate-600 text-xs font-black flex items-center justify-center shrink-0 mt-0.5">#{career.rank}</span>
-              <div>
-                <p className="font-bold text-lg text-slate-900 leading-tight">{career.name}</p>
-                <p className="text-sm text-slate-500">{career.category}</p>
+function getUserProfileParagraph(scores: ScoreProfile) {
+  const userTraits = [
+    { key: 'realistic', score: (scores as unknown as Record<string, number>).riasec_realistic || 0 },
+    { key: 'investigative', score: (scores as unknown as Record<string, number>).riasec_investigative || 0 },
+    { key: 'artistic', score: (scores as unknown as Record<string, number>).riasec_artistic || 0 },
+    { key: 'social', score: (scores as unknown as Record<string, number>).riasec_social || 0 },
+    { key: 'enterprising', score: (scores as unknown as Record<string, number>).riasec_enterprising || 0 },
+    { key: 'conventional', score: (scores as unknown as Record<string, number>).riasec_conventional || 0 },
+  ].sort((a, b) => b.score - a.score);
+
+  const highest = userTraits[0].key;
+  const second = userTraits[1].key;
+  const lowest = userTraits[5].key;
+
+  const thinkingMap: Record<string, string> = {
+    investigative: 'thinks deeply and analytically about problems',
+    artistic: 'looks for original and creative solutions',
+    realistic: 'focuses on practical, tangible results',
+    social: 'leads with empathy and focuses on human needs',
+    enterprising: 'thinks strategically toward big-picture goals',
+    conventional: 'thinks systematically and values clear structure'
+  };
+
+  const workPrefMap: Record<string, string> = {
+    social: 'prefers independent, focused work',
+    enterprising: 'prefers executing well over managing others',
+    conventional: 'thrives in dynamic, unstructured environments',
+    realistic: 'prefers conceptual or office-based environments',
+    artistic: 'enjoys clear-cut, predictable workflows',
+    investigative: 'prefers taking action over prolonged analysis'
+  };
+
+  const enjoyMap: Record<string, string> = {
+    investigative: 'solving complex puzzles',
+    artistic: 'expressing ideas creatively',
+    realistic: 'building systems and solving practical problems',
+    social: 'helping and supporting others',
+    enterprising: 'driving projects and leading outcomes',
+    conventional: 'organizing information and creating order'
+  };
+
+  const adjMap: Record<string, string> = {
+    investigative: 'highly analytical',
+    artistic: 'highly creative',
+    realistic: 'highly practical',
+    social: 'highly collaborative',
+    enterprising: 'highly ambitious',
+    conventional: 'highly structured'
+  };
+
+  return `From your answers, you come across as someone who ${thinkingMap[highest]}, who ${workPrefMap[lowest]}, and who truly enjoys ${enjoyMap[second]}. You tend to combine a ${adjMap[highest]} approach with a ${adjMap[second]} focus. Because of this, the careers below are strong matches for you.`;
+}
+
+function getCareerFitExplanation(career: Career, scores: ScoreProfile) {
+  const userTraits = [
+    { key: 'realistic', label: 'hands-on' },
+    { key: 'investigative', label: 'analytical' },
+    { key: 'artistic', label: 'creative' },
+    { key: 'social', label: 'people-oriented' },
+    { key: 'enterprising', label: 'leadership-focused' },
+    { key: 'conventional', label: 'detail-oriented' },
+  ].map(t => ({ ...t, score: (scores as unknown as Record<string, number>)[`riasec_${t.key}`] || 0 }))
+   .sort((a, b) => b.score - a.score);
+
+  const topUserTraits = userTraits.slice(0, 3);
+  
+  const careerTraits = Object.entries(career.riasec_profile)
+    .sort(([, a], [, b]) => (b as number) - (a as number));
+    
+  const topCareerTraitKeys = careerTraits.slice(0, 3).map(([k]) => k);
+  const lowestCareerTraitKey = careerTraits[careerTraits.length - 1][0];
+
+  const overlaps = topUserTraits.filter(t => topCareerTraitKeys.includes(t.key));
+  const matchTraits = overlaps.length >= 2 ? overlaps : topUserTraits.slice(0, 2);
+  
+  const identityMatch = `You naturally lean towards ${matchTraits[0].label} and ${matchTraits[1]?.label || 'practical'} work, which aligns strongly with this career.`;
+
+  let workStyle = "This career provides a balanced, engaging environment.";
+  if (lowestCareerTraitKey === 'social') workStyle = "This suits people who prefer focused, independent work.";
+  else if (lowestCareerTraitKey === 'enterprising') workStyle = "This fits people who prefer executing well rather than managing others.";
+  else if (lowestCareerTraitKey === 'conventional') workStyle = "This suits people who thrive in dynamic, unstructured environments.";
+  else if (lowestCareerTraitKey === 'realistic') workStyle = "This works well for people who prefer conceptual or office-based work over physical tasks.";
+  else if (lowestCareerTraitKey === 'artistic') workStyle = "This fits people who enjoy structured, predictable, and clear-cut environments.";
+  else if (lowestCareerTraitKey === 'investigative') workStyle = "This is great for people who prefer action and practical results over deep analysis.";
+
+  const skill1 = career.required_skills[0]?.name?.toLowerCase() || 'problem solving';
+  const skill2 = career.required_skills[1]?.name?.toLowerCase() || 'critical thinking';
+  const realWorldFit = `You are likely to enjoy tasks involving ${skill1} and ${skill2}.`;
+
+  const task = career.typical_tasks[0]?.toLowerCase().replace(/\.$/, '') || 'the day-to-day routine';
+  const caution = `You should explore whether you enjoy ${task} before committing.`;
+
+  return { identityMatch, workStyle, realWorldFit, caution };
+}
+
+function getStageDirection(scores: ScoreProfile) {
+  const userTraits = [
+    { key: 'realistic', score: (scores as unknown as Record<string, number>).riasec_realistic || 0 },
+    { key: 'investigative', score: (scores as unknown as Record<string, number>).riasec_investigative || 0 },
+    { key: 'artistic', score: (scores as unknown as Record<string, number>).riasec_artistic || 0 },
+    { key: 'social', score: (scores as unknown as Record<string, number>).riasec_social || 0 },
+    { key: 'enterprising', score: (scores as unknown as Record<string, number>).riasec_enterprising || 0 },
+    { key: 'conventional', score: (scores as unknown as Record<string, number>).riasec_conventional || 0 },
+  ].sort((a, b) => b.score - a.score);
+
+  const t1 = userTraits[0].key;
+  const t2 = userTraits[1].key;
+  const pair = [t1, t2].sort().join('_');
+
+  const mappings: Record<string, { direction: string, schoolSubjects: string[], collegeSubjects: string[], broadPaths: string[] }> = {
+    'artistic_conventional': { direction: 'Creative + Commerce', schoolSubjects: ['Business / Commerce', 'Computer or IT', 'Art / Design'], collegeSubjects: ['Accounting', 'Business Studies', 'Media / Design'], broadPaths: ['Design-related work', 'Business-related roles', 'Creative management'] },
+    'artistic_investigative': { direction: 'Creative + Technology / Design', schoolSubjects: ['Science', 'Computer or IT', 'Art / Design'], collegeSubjects: ['Computer Science', 'Physics', 'Media / Design'], broadPaths: ['Technology-based paths', 'Design-related work', 'Research and innovation'] },
+    'investigative_realistic': { direction: 'Science + Technical', schoolSubjects: ['Science', 'Computer or IT'], collegeSubjects: ['Physics', 'Mathematics', 'Computer Science'], broadPaths: ['Engineering or Technical roles', 'Science and Research', 'Technology-based paths'] },
+    'conventional_investigative': { direction: 'Analytical + Business / Data', schoolSubjects: ['Science', 'Commerce', 'Computer or IT'], collegeSubjects: ['Mathematics', 'Economics', 'Accounting'], broadPaths: ['Data and Analytics roles', 'Business-related roles', 'Finance and Operations'] },
+    'conventional_enterprising': { direction: 'Commerce + Business', schoolSubjects: ['Commerce', 'Humanities'], collegeSubjects: ['Accounting', 'Business Studies', 'Economics'], broadPaths: ['Business-related roles', 'Management and Leadership', 'Finance and Operations'] },
+    'investigative_social': { direction: 'Health / Psychology / Helping Professions', schoolSubjects: ['Science', 'Humanities'], collegeSubjects: ['Psychology', 'Sociology', 'Physics'], broadPaths: ['Healthcare and Medical roles', 'Psychology and Counseling', 'Research and Education'] },
+    'enterprising_social': { direction: 'Communication + Leadership', schoolSubjects: ['Commerce', 'Humanities', 'Arts / Design'], collegeSubjects: ['Business Studies', 'Sociology', 'Media / Design'], broadPaths: ['Business-related roles', 'Communication and Media', 'Public Relations or HR'] },
+    'conventional_realistic': { direction: 'Technical / Practical Skills', schoolSubjects: ['Computer or IT', 'Science'], collegeSubjects: ['Computer Science', 'Mathematics'], broadPaths: ['Technology-based paths', 'Engineering or Technical roles', 'Operations and Logistics'] },
+    'artistic_social': { direction: 'Media / Communication / Design', schoolSubjects: ['Arts / Design', 'Humanities'], collegeSubjects: ['Media / Design', 'Sociology', 'Psychology'], broadPaths: ['Design-related work', 'Communication and Media', 'Education and Counseling'] },
+  };
+
+  return mappings[pair] || { direction: 'Balanced Exploration Path', schoolSubjects: ['Science', 'Commerce', 'Arts / Design'], collegeSubjects: ['Business Studies', 'Computer Science', 'Psychology'], broadPaths: ['Technology-based paths', 'Business-related roles', 'Design-related work'] };
+}
+
+function CareersTab({ matchedCareers, scores, userStage }: { matchedCareers: (Career & { match: number; rank: number })[]; scores: ScoreProfile; onetScores?: Record<string, number>; userStage?: 'school' | 'college' | 'university' | '' }) {
+  const profileParagraph = getUserProfileParagraph(scores);
+  
+  const isSchool = userStage === "school";
+  const isCollege = userStage === "college";
+  const isUniversity = userStage === "university" || (!isSchool && !isCollege);
+  
+  const topCareer = matchedCareers[0];
+  const { direction, schoolSubjects, collegeSubjects, broadPaths } = getStageDirection(scores);
+  const { identityMatch: topIdentity } = topCareer ? getCareerFitExplanation(topCareer, scores) : { identityMatch: '' };
+
+  const rankLabels = [
+    { title: 'Gold Match', subtitle: 'Best Fit', color: 'text-amber-600', barBg: 'bg-amber-500', bg: 'bg-amber-50', border: 'border-amber-200', icon: '🥇' },
+    { title: 'Silver Match', subtitle: 'Strong Alternative', color: 'text-slate-500', barBg: 'bg-slate-400', bg: 'bg-slate-50', border: 'border-slate-200', icon: '🥈' },
+    { title: 'Bronze Match', subtitle: 'Alternative Direction', color: 'text-orange-700', barBg: 'bg-orange-500', bg: 'bg-orange-50', border: 'border-orange-200', icon: '🥉' }
+  ];
+
+  // University specific rendering (the original one)
+  if (isUniversity) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+        {/* 1. Your Profile */}
+        <section className="space-y-3">
+          <h2 className="text-2xl font-black text-slate-900">Your Profile</h2>
+          <p className="text-slate-700 text-lg leading-relaxed">{profileParagraph}</p>
+        </section>
+
+        {/* 2. Where you should start */}
+        {topCareer && (
+          <section className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 md:p-8 space-y-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-blue-600 mb-2">Where you should start</h2>
+            <p className="text-slate-700 text-base mb-4">If you had to pick one path to explore first, this would be it:</p>
+            
+            <div className="bg-white border border-blue-100 rounded-xl p-5 shadow-sm">
+              <h3 className="text-xl font-black text-slate-900 flex flex-wrap items-center gap-x-2 gap-y-1">
+                🥇 {topCareer.name} <span className="text-blue-600 text-sm font-semibold md:ml-2">— Best Starting Point</span>
+              </h3>
+              <div className="mt-3 space-y-2">
+                <p className="text-slate-700 text-sm font-medium">{topIdentity}</p>
+                <p className="text-emerald-700 text-sm font-semibold">Given your profile, this path offers the highest likelihood of long-term success and daily satisfaction.</p>
               </div>
             </div>
-            <div className="shrink-0 text-right">
-              <p className="text-2xl font-black text-blue-600">{career.match}%</p>
-              <p className="text-xs text-slate-400">match</p>
-            </div>
-          </div>
-          <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
-            <div className={`h-full rounded-full ${matchBarColor(career.match)}`} style={{ width: `${career.match}%` }} />
-          </div>
-          <p className="text-sm text-slate-600 line-clamp-2">{career.description}</p>
-          <div className="flex flex-wrap items-center gap-2 pt-1">
-            {career.required_skills.slice(0, 4).map((skill) => (
-              <span key={skill.name} className="px-2.5 py-0.5 bg-slate-100 text-slate-600 text-xs rounded-full font-medium">{skill.name}</span>
-            ))}
-          </div>
-          {career.education_pathways.length > 0 && (
-            <div className="pt-2 border-t border-slate-100 mt-1">
-              <div className="flex items-center gap-1.5 text-xs text-indigo-700 font-semibold mb-1.5">
-                <GraduationCap className="w-3.5 h-3.5" />
-                {career.education_pathways[0].level.charAt(0).toUpperCase() + career.education_pathways[0].level.slice(1)} · {career.education_pathways[0].field}
-              </div>
-              {career.education_pathways[0].universities && career.education_pathways[0].universities.length > 0 && (
-                <div className="flex flex-wrap gap-1.5">
-                  {career.education_pathways[0].universities.map((uni) => (
-                    <span key={uni} className="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs rounded-full border border-indigo-100">{uni}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
+          </section>
+        )}
+
+        {/* 5. Transition Line */}
+        <div className="pt-4 pb-2 border-t border-slate-200">
+          <p className="text-slate-800 text-lg font-semibold">Based on this, here are the career paths where people like you tend to do well:</p>
         </div>
-      ))}
+
+        {/* 3 & 4. Career Cards */}
+        <section className="space-y-6">
+          {matchedCareers.slice(0, 3).map((career, idx) => {
+            const label = rankLabels[idx] || rankLabels[2];
+            const { identityMatch, workStyle, realWorldFit, caution } = getCareerFitExplanation(career, scores);
+              
+            return (
+              <div key={career.id} className={`bg-white border-2 ${label.border} rounded-2xl p-6 space-y-4`}>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className={`text-xs font-black uppercase tracking-widest ${label.color} mb-1 flex items-center gap-1.5`}>
+                      {label.icon} {label.title} — {label.subtitle}
+                    </div>
+                    <h3 className="font-bold text-xl text-slate-900 leading-tight">{career.name}</h3>
+                  </div>
+                  <div className="shrink-0 text-right">
+                    <p className={`text-3xl font-black ${label.color}`}>{career.match}%</p>
+                  </div>
+                </div>
+                
+                <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                  <div className={`h-full rounded-full ${label.barBg}`} style={{ width: `${career.match}%` }} />
+                </div>
+
+                <div className="mt-4 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <span className="text-slate-400 mt-0.5 font-bold">→</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">Why this fits you</p>
+                      <p className="text-sm text-slate-800">{identityMatch}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <span className="text-slate-400 mt-0.5 font-bold">→</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">What your work will feel like</p>
+                      <p className="text-sm text-slate-800">{workStyle}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <span className="text-slate-400 mt-0.5 font-bold">→</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">What you&apos;ll actually do</p>
+                      <p className="text-sm text-slate-800">{realWorldFit}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <span className="text-slate-400 mt-0.5 font-bold">→</span>
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-0.5">Before you commit</p>
+                      <p className="text-sm text-slate-800">{caution}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {career.education_pathways.length > 0 && (
+                  <div className="pt-4 mt-2 border-t border-slate-100">
+                    <div className="inline-flex items-center gap-1.5 text-xs text-slate-600 font-semibold bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+                      <GraduationCap className="w-4 h-4" />
+                      {career.education_pathways[0].level.charAt(0).toUpperCase() + career.education_pathways[0].level.slice(1)}: {career.education_pathways[0].field}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </section>
+      </div>
+    )
+  }
+
+  // School or College Rendering
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      {/* 1. Your Profile */}
+      <section className="space-y-3">
+        <h2 className="text-2xl font-black text-slate-900">Your Profile</h2>
+        <p className="text-slate-700 text-lg leading-relaxed">{profileParagraph}</p>
+      </section>
+
+      {/* 2. Where you should start */}
+      <section className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 md:p-8 space-y-4">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-blue-600 mb-2">Where you should start</h2>
+        <p className="text-slate-700 text-base mb-4">
+          {isSchool ? "Right now, you don’t need to decide your career. What matters is choosing the right direction." : "At this stage, your subject choices matter."}
+        </p>
+        
+        <div className="bg-white border border-blue-100 rounded-xl p-5 shadow-sm">
+          <h3 className="text-lg font-black text-slate-900 mb-2">
+            A good fit for you could be:
+          </h3>
+          <p className="text-xl font-black text-blue-600">{direction}</p>
+        </div>
+      </section>
+
+      {isSchool ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Subjects Section */}
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+            <h3 className="font-bold text-slate-900 text-lg">Subjects to explore</h3>
+            <ul className="space-y-3">
+              {schoolSubjects.map((subject, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                  <span className="text-blue-500 font-bold mt-0.5">→</span>
+                  <span className="text-slate-700 font-medium">{subject}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Future Directions Section */}
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+            <h3 className="font-bold text-slate-900 text-lg">This direction can open paths like:</h3>
+            <ul className="space-y-3">
+              {broadPaths.map((path, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                  <span className="text-blue-500 font-bold mt-0.5">→</span>
+                  <span className="text-slate-700 font-medium">{path}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      ) : (
+        <div className="space-y-6">
+          {/* Subjects Section */}
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+            <h3 className="font-bold text-slate-900 text-lg">Subjects that fit you</h3>
+            <p className="text-sm text-slate-600 mb-2">These subjects will give you the most flexibility for your future options:</p>
+            <ul className="space-y-3">
+              {collegeSubjects.map((subject, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                  <span className="text-blue-500 font-bold mt-0.5">→</span>
+                  <span className="text-slate-700 font-medium">{subject}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* College specific: Degree paths */}
+            {matchedCareers[0]?.education_pathways && (
+              <section className="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 space-y-4">
+                <h3 className="font-bold text-indigo-900 text-lg">What this can lead to</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <span className="text-indigo-500 font-bold mt-0.5">→</span>
+                    <span className="text-slate-700 font-medium">{matchedCareers[0].education_pathways[0]?.field || "Related Bachelor's degrees"}</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-indigo-500 font-bold mt-0.5">→</span>
+                    <span className="text-slate-700 font-medium">{matchedCareers[1]?.education_pathways?.[0]?.field || "Specialized tech or business fields"}</span>
+                  </li>
+                </ul>
+              </section>
+            )}
+
+            {/* Future Directions Section */}
+            <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
+              <h3 className="font-bold text-slate-900 text-lg">Career directions this can lead to</h3>
+              <ul className="space-y-3">
+                {matchedCareers.slice(0, 3).map((career, idx) => (
+                  <li key={idx} className="flex items-start gap-3">
+                    <span className="text-blue-500 font-bold mt-0.5">→</span>
+                    <span className="text-slate-700 font-medium">{career.category || career.name} — {career.name}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          </div>
+        </div>
+      )}
+
+      {/* Before you decide */}
+      <section className="bg-amber-50 border border-amber-100 rounded-2xl p-6 space-y-4">
+        <h3 className="font-bold text-amber-900 text-lg">Before you decide</h3>
+        <ul className="space-y-3">
+          {isSchool ? (
+            <li className="flex items-start gap-3">
+              <span className="text-amber-500 font-bold mt-0.5">→</span>
+              <span className="text-slate-700 font-medium">Try small things first, like making a poster, using Canva, or exploring basic computer tools.</span>
+            </li>
+          ) : (
+            <>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-500 font-bold mt-0.5">→</span>
+                <span className="text-slate-700 font-medium">Check what subjects are required for the degrees you’re interested in.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-500 font-bold mt-0.5">→</span>
+                <span className="text-slate-700 font-medium">Pick subjects you can stay consistent with, not just what sounds good.</span>
+              </li>
+            </>
+          )}
+        </ul>
+      </section>
     </div>
-  )
+  );
 }
 
 // ─── Insights Tab ─────────────────────────────────────────────────────────────
@@ -873,7 +1195,7 @@ function InsightsTab({ topRIASEC, scores, matchedCareers }: { topRIASEC: string[
 
 interface Phase { label: string; timeframe: string; bullets: string[] }
 
-function buildGrowthPhases(userStage: 'school' | 'university', topCareerName: string): Phase[] {
+function buildGrowthPhases(userStage: 'school' | 'college' | 'university' | '', topCareerName: string): Phase[] {
   if (userStage === 'school') {
     return [
       { label: 'Phase 1', timeframe: 'This Month', bullets: [`Explore ${topCareerName} online — find 3 YouTube channels run by professionals in the field.`, 'Read about what people in this career actually do day-to-day (not just the title).', 'Write down 3 things that excite you and 3 questions you want answered.'] },
@@ -890,7 +1212,7 @@ function buildGrowthPhases(userStage: 'school' | 'university', topCareerName: st
 
 const PHASE_COLORS = ['bg-blue-600', 'bg-indigo-600', 'bg-violet-600']
 
-function GrowthPlanTab({ userStage, matchedCareers }: { userStage: 'school' | 'university'; matchedCareers: (Career & { match: number; rank: number })[] }) {
+function GrowthPlanTab({ userStage, matchedCareers }: { userStage: 'school' | 'college' | 'university' | ''; matchedCareers: (Career & { match: number; rank: number })[] }) {
   const topCareerName = matchedCareers[0]?.name ?? 'your top career'
   const phases = buildGrowthPhases(userStage, topCareerName)
   return (
@@ -925,7 +1247,7 @@ function GrowthPlanTab({ userStage, matchedCareers }: { userStage: 'school' | 'u
 // ─── Coach Tab ────────────────────────────────────────────────────────────────
 
 function CoachTab({ userName, matchedCareers, topStrengths, isReturningUser, scores, archetype, userAge, userGender, userSchool, userGoals, userStage }: {
-  userName: string; matchedCareers: (Career & { match: number; rank: number })[]; topStrengths: { name: string; score: number }[]; isReturningUser: boolean; scores: ScoreProfile; archetype: string; userAge: string; userGender: string; userSchool: string; userGoals: string; userStage: 'school' | 'university'
+  userName: string; matchedCareers: (Career & { match: number; rank: number })[]; topStrengths: { name: string; score: number }[]; isReturningUser: boolean; scores: ScoreProfile; archetype: string; userAge: string; userGender: string; userSchool: string; userGoals: string; userStage: 'school' | 'college' | 'university' | ''
 }) {
   return (
     <div className="px-4 py-8 max-w-5xl mx-auto">
@@ -950,7 +1272,7 @@ export function ResultsDashboard({
 }: ResultsDashboardProps) {
   const [activeTab, setActiveTab] = useState<DashTab>('overview')
 
-  const stageBadge = userStage === 'school' ? 'School' : 'University'
+  const stageBadge = userStage === 'school' ? 'School' : userStage === 'college' ? 'College' : 'University'
   const initials = (authUser?.name ?? userName).charAt(0).toUpperCase()
 
   return (
@@ -962,7 +1284,7 @@ export function ResultsDashboard({
             <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="font-black text-slate-900 text-lg tracking-tight">CareerLens</span>
+            <span className="font-black text-slate-900 text-lg tracking-tight">{APP_CONFIG.appName}</span>
           </div>
           <div className="flex items-center gap-3">
             <button
@@ -1059,7 +1381,7 @@ export function ResultsDashboard({
           )}
           {activeTab === 'careers' && (
             onetScores
-              ? <CareersTab matchedCareers={matchedCareers} onetScores={onetScores} />
+              ? <CareersTab matchedCareers={matchedCareers} scores={scores} onetScores={onetScores} userStage={userStage} />
               : <OnetLockedTeaser onStartOnet={onStartOnet} matchedCareers={matchedCareers} />
           )}
           {activeTab === 'insights' && (

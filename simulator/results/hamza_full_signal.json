@@ -1,0 +1,181 @@
+{
+  "persona": "Hamza",
+  "mode": "full_signal",
+  "timestamp": "2026-05-01T17:12:13.686337",
+  "answers_count": {
+    "adaptive": 96,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 100,
+    "riasec_investigative": 0,
+    "riasec_artistic": 40.0,
+    "riasec_social": 16.7,
+    "riasec_enterprising": 36.9,
+    "riasec_conventional": 73.3
+  },
+  "onet_scores": {
+    "riasec_realistic": 88,
+    "riasec_investigative": 88,
+    "riasec_artistic": 25,
+    "riasec_social": 15,
+    "riasec_enterprising": 25,
+    "riasec_conventional": 62
+  },
+  "blended_scores": {
+    "riasec_realistic": 95.2,
+    "riasec_investigative": 35.2,
+    "riasec_artistic": 34.0,
+    "riasec_social": 16.0,
+    "riasec_enterprising": 32.2,
+    "riasec_conventional": 68.8
+  },
+  "top_careers": [
+    {
+      "career": "Electrician",
+      "score": 91.1,
+      "penalties": []
+    },
+    {
+      "career": "Civil Engineer",
+      "score": 52.4,
+      "penalties": [
+        "investigative deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Mechanical Engineer",
+      "score": 40.4,
+      "penalties": [
+        "investigative deficit (-30%)"
+      ]
+    },
+    {
+      "career": "Network Engineer",
+      "score": 34.5,
+      "penalties": [
+        "investigative deficit (-36%)"
+      ]
+    },
+    {
+      "career": "Electrical Engineer",
+      "score": 34.4,
+      "penalties": [
+        "investigative deficit (-42%)"
+      ]
+    },
+    {
+      "career": "Telecommunications Engineer",
+      "score": 29.9,
+      "penalties": [
+        "investigative deficit (-42%)"
+      ]
+    },
+    {
+      "career": "Aerospace Engineer",
+      "score": 28.6,
+      "penalties": [
+        "investigative deficit (-48%)"
+      ]
+    },
+    {
+      "career": "DevOps / Cloud Engineer",
+      "score": 28.4,
+      "penalties": [
+        "investigative deficit (-42%)"
+      ]
+    },
+    {
+      "career": "Software Engineer",
+      "score": 26.4,
+      "penalties": [
+        "investigative deficit (-42%)"
+      ]
+    },
+    {
+      "career": "Petroleum Engineer",
+      "score": 26.4,
+      "penalties": [
+        "investigative deficit (-42%)",
+        "enterprising deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Chemical Engineer",
+      "score": 25.5,
+      "penalties": [
+        "investigative deficit (-45%)"
+      ]
+    },
+    {
+      "career": "Data Scientist",
+      "score": 24.6,
+      "penalties": [
+        "investigative deficit (-48%)"
+      ]
+    },
+    {
+      "career": "Commercial Airline Pilot",
+      "score": 24.5,
+      "penalties": [
+        "investigative deficit (-30%)",
+        "social deficit (-13%)",
+        "enterprising deficit (-17%)"
+      ]
+    },
+    {
+      "career": "Cybersecurity Analyst",
+      "score": 23.9,
+      "penalties": [
+        "investigative deficit (-45%)"
+      ]
+    },
+    {
+      "career": "Research Scientist",
+      "score": 23.3,
+      "penalties": [
+        "investigative deficit (-48%)"
+      ]
+    },
+    {
+      "career": "Financial Analyst",
+      "score": 22.7,
+      "penalties": [
+        "investigative deficit (-30%)",
+        "enterprising deficit (-17%)"
+      ]
+    },
+    {
+      "career": "Biochemist / Microbiologist",
+      "score": 22.7,
+      "penalties": [
+        "investigative deficit (-48%)"
+      ]
+    },
+    {
+      "career": "AI / ML Engineer",
+      "score": 22.2,
+      "penalties": [
+        "investigative deficit (-48%)"
+      ]
+    },
+    {
+      "career": "Diagnostic Medicine (Radiology / Pathology / Lab)",
+      "score": 21.4,
+      "penalties": [
+        "investigative deficit (-48%)"
+      ]
+    },
+    {
+      "career": "Surgeon (MBBS + Surgical Specialisation)",
+      "score": 20.6,
+      "penalties": [
+        "investigative deficit (-42%)",
+        "social deficit (-26%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

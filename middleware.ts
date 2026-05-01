@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+const APP_ID = process.env.NEXT_PUBLIC_APP_ID ?? 'careerlens'
 const REQUIRE_PAYMENT = process.env.NEXT_PUBLIC_REQUIRE_PAYMENT !== 'false'
 
 export async function middleware(request: NextRequest) {
@@ -42,12 +43,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/auth', request.url))
   }
 
-  // Logged in — get role and payment status in one query
+  // Logged in — get role, payment status, and app_id in one query
   const { data: profile } = await supabase
     .from('profiles')
-    .select('role, payment_status')
+    .select('role, payment_status, app_id')
     .eq('id', user.id)
     .single()
+
+  // Cross-app session guard — sign out users who belong to a different app
+  if (profile?.app_id && profile.app_id !== APP_ID) {
+    await supabase.auth.signOut()
+    const res = NextResponse.redirect(new URL('/auth', request.url))
+    supabaseResponse.cookies.getAll().forEach(c => res.cookies.set(c.name, c.value))
+    return res
+  }
 
   // Institution routes — require institution role
   if (path.startsWith('/institution')) {

@@ -3,14 +3,15 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { Brain, GraduationCap, Briefcase, Building2 } from 'lucide-react'
+import { APP_CONFIG } from '@/lib/config'
+import { Brain, Building2 } from 'lucide-react'
 
 export default function OnboardingPage() {
   const router = useRouter()
   const supabase = createClient()
 
   const [age, setAge] = useState('')
-  const [educationLevel, setEducationLevel] = useState<'school' | 'university'>('school')
+  const [educationLevel, setEducationLevel] = useState<'school' | 'college' | 'university'>('school')
   const [schoolCode, setSchoolCode] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -100,7 +101,7 @@ export default function OnboardingPage() {
             <Brain className="w-6 h-6 text-white" />
           </div>
           <div>
-            <h1 className="text-sm font-black tracking-tighter uppercase leading-none">CareerLens</h1>
+            <h1 className="text-sm font-black tracking-tighter uppercase leading-none">{APP_CONFIG.appName}</h1>
             <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Career Discovery</p>
           </div>
         </div>
@@ -122,45 +123,52 @@ export default function OnboardingPage() {
           />
         </div>
 
-        {/* Education Level */}
-        <div className="mb-8">
-          <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">Where are you right now?</label>
-          <div className="grid grid-cols-2 gap-3">
-            <button
-              onClick={() => setEducationLevel('school')}
-              className={`p-5 rounded-xl border-2 text-left transition-all ${educationLevel === 'school' ? 'border-blue-600 bg-blue-600/10' : 'border-white/10 hover:border-white/20'}`}
-            >
-              <GraduationCap className={`w-6 h-6 mb-3 ${educationLevel === 'school' ? 'text-blue-400' : 'text-slate-500'}`} />
-              <div className="font-black text-sm uppercase tracking-wide">In School</div>
-              <div className="text-xs text-slate-500 mt-1">O/A Levels or equivalent</div>
-            </button>
-            <button
-              onClick={() => setEducationLevel('university')}
-              className={`p-5 rounded-xl border-2 text-left transition-all ${educationLevel === 'university' ? 'border-blue-600 bg-blue-600/10' : 'border-white/10 hover:border-white/20'}`}
-            >
-              <Briefcase className={`w-6 h-6 mb-3 ${educationLevel === 'university' ? 'text-blue-400' : 'text-slate-500'}`} />
-              <div className="font-black text-sm uppercase tracking-wide">University</div>
-              <div className="text-xs text-slate-500 mt-1">Undergraduate or postgrad</div>
-            </button>
+          <div className="mb-8">
+            <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">Where are you right now?</label>
+            <div className="grid grid-cols-1 gap-3">
+              <button
+                onClick={() => setEducationLevel('school')}
+                className={`p-5 rounded-xl border-2 text-left transition-all ${educationLevel === 'school' ? 'border-blue-600 bg-blue-600/10' : 'border-white/10 hover:border-white/20'}`}
+              >
+                <div className="font-black text-sm uppercase tracking-wide">School</div>
+                <div className="text-xs text-slate-500 mt-1">Grade 8–10 — Matric / O-Level stage</div>
+              </button>
+              <button
+                onClick={() => setEducationLevel('college')}
+                className={`p-5 rounded-xl border-2 text-left transition-all ${educationLevel === 'college' ? 'border-blue-600 bg-blue-600/10' : 'border-white/10 hover:border-white/20'}`}
+              >
+                <div className="font-black text-sm uppercase tracking-wide">College</div>
+                <div className="text-xs text-slate-500 mt-1">Grade 11–12 — Intermediate / A-Levels</div>
+              </button>
+              <button
+                onClick={() => setEducationLevel('university')}
+                className={`p-5 rounded-xl border-2 text-left transition-all ${educationLevel === 'university' ? 'border-blue-600 bg-blue-600/10' : 'border-white/10 hover:border-white/20'}`}
+              >
+                <div className="font-black text-sm uppercase tracking-wide">University</div>
+                <div className="text-xs text-slate-500 mt-1">Undergraduate or postgrad</div>
+              </button>
+            </div>
           </div>
-        </div>
 
-        {/* School Code */}
-        <div className="mb-10">
-          <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">
-            <Building2 className="w-3 h-3 inline mr-1" />
-            School / Institution Code
-            <span className="text-slate-600 ml-2 normal-case font-normal">(optional)</span>
-          </label>
-          <input
-            type="text"
-            value={schoolCode}
-            onChange={e => setSchoolCode(e.target.value)}
-            placeholder="e.g. CITYSCHOOL2026"
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-base font-medium placeholder:text-slate-600 focus:outline-none focus:border-blue-600/60 transition-all uppercase tracking-widest"
-          />
-          <p className="text-xs text-slate-600 mt-2">Enter the code given by your school. Leave blank if you don&apos;t have one.</p>
-        </div>
+          <div className="mb-10">
+            <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">
+              <Building2 className="w-3 h-3 inline mr-1" />
+              {educationLevel === 'school' ? 'School' : educationLevel === 'college' ? 'College' : 'University'} Name
+              <span className="text-slate-600 ml-2 normal-case font-normal">(optional)</span>
+            </label>
+            <input
+              type="text"
+              value={schoolCode}
+              onChange={e => setSchoolCode(e.target.value)}
+              placeholder={
+                educationLevel === 'school' ? 'Enter your school name' : 
+                educationLevel === 'college' ? 'Enter your college name' : 
+                'Enter your university name'
+              }
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-base font-medium placeholder:text-slate-600 focus:outline-none focus:border-blue-600/60 transition-all uppercase tracking-widest"
+            />
+            <p className="text-xs text-slate-600 mt-2">Enter your institution name. Leave blank if you don&apos;t want to specify.</p>
+          </div>
 
         {error && (
           <div className="mb-6 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">

@@ -1,0 +1,162 @@
+{
+  "persona": "Ahmed",
+  "mode": "full_signal",
+  "timestamp": "2026-05-01T17:12:13.672891",
+  "answers_count": {
+    "adaptive": 96,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 60.0,
+    "riasec_investigative": 63.3,
+    "riasec_artistic": 40.0,
+    "riasec_social": 46.7,
+    "riasec_enterprising": 97.4,
+    "riasec_conventional": 60.0
+  },
+  "onet_scores": {
+    "riasec_realistic": 50,
+    "riasec_investigative": 50,
+    "riasec_artistic": 25,
+    "riasec_social": 65,
+    "riasec_enterprising": 85,
+    "riasec_conventional": 50
+  },
+  "blended_scores": {
+    "riasec_realistic": 56.0,
+    "riasec_investigative": 58.0,
+    "riasec_artistic": 34.0,
+    "riasec_social": 54.0,
+    "riasec_enterprising": 92.5,
+    "riasec_conventional": 56.0
+  },
+  "top_careers": [
+    {
+      "career": "Real Estate Developer",
+      "score": 98.4,
+      "penalties": []
+    },
+    {
+      "career": "Operations Manager",
+      "score": 89.8,
+      "penalties": []
+    },
+    {
+      "career": "Supply Chain Manager",
+      "score": 87.1,
+      "penalties": []
+    },
+    {
+      "career": "Military Officer",
+      "score": 86.0,
+      "penalties": []
+    },
+    {
+      "career": "Management Consultant",
+      "score": 85.5,
+      "penalties": []
+    },
+    {
+      "career": "Investment Banker",
+      "score": 84.9,
+      "penalties": []
+    },
+    {
+      "career": "Lawyer / Advocate",
+      "score": 82.0,
+      "penalties": []
+    },
+    {
+      "career": "Civil Engineer",
+      "score": 70.8,
+      "penalties": []
+    },
+    {
+      "career": "Marketing Manager",
+      "score": 66.9,
+      "penalties": [
+        "artistic deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Civil Service Officer (CSS)",
+      "score": 65.6,
+      "penalties": [
+        "social deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Entrepreneur",
+      "score": 65.5,
+      "penalties": [
+        "artistic deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Product Manager",
+      "score": 64.1,
+      "penalties": [
+        "artistic deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Agricultural Scientist",
+      "score": 58.5,
+      "penalties": [
+        "investigative deficit (-18%)"
+      ]
+    },
+    {
+      "career": "Veterinarian (DVM)",
+      "score": 57.5,
+      "penalties": [
+        "investigative deficit (-18%)"
+      ]
+    },
+    {
+      "career": "Cosmetics Brand Manager",
+      "score": 57.0,
+      "penalties": [
+        "artistic deficit (-20%)"
+      ]
+    },
+    {
+      "career": "Diplomat / Foreign Service Officer",
+      "score": 53.3,
+      "penalties": [
+        "social deficit (-21%)"
+      ]
+    },
+    {
+      "career": "Pharmacist",
+      "score": 52.8,
+      "penalties": [
+        "investigative deficit (-18%)"
+      ]
+    },
+    {
+      "career": "Dentist (BDS)",
+      "score": 52.7,
+      "penalties": [
+        "realistic deficit (-17%)"
+      ]
+    },
+    {
+      "career": "Environmental Scientist",
+      "score": 51.2,
+      "penalties": [
+        "investigative deficit (-23%)"
+      ]
+    },
+    {
+      "career": "Beauty Entrepreneur",
+      "score": 50.0,
+      "penalties": [
+        "artistic deficit (-25%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

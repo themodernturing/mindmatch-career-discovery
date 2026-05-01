@@ -1,0 +1,158 @@
+{
+  "persona": "Ali",
+  "mode": "production",
+  "timestamp": "2026-05-01T17:12:13.666881",
+  "answers_count": {
+    "adaptive": 22,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 60.0,
+    "riasec_investigative": 100,
+    "riasec_artistic": 55.0,
+    "riasec_social": 35.0,
+    "riasec_enterprising": 33.3,
+    "riasec_conventional": 60.0
+  },
+  "onet_scores": {
+    "riasec_realistic": 50,
+    "riasec_investigative": 82,
+    "riasec_artistic": 42,
+    "riasec_social": 12,
+    "riasec_enterprising": 12,
+    "riasec_conventional": 50
+  },
+  "blended_scores": {
+    "riasec_realistic": 56.0,
+    "riasec_investigative": 92.8,
+    "riasec_artistic": 49.8,
+    "riasec_social": 25.8,
+    "riasec_enterprising": 24.8,
+    "riasec_conventional": 56.0
+  },
+  "top_careers": [
+    {
+      "career": "Research Scientist",
+      "score": 92.4,
+      "penalties": []
+    },
+    {
+      "career": "Biochemist / Microbiologist",
+      "score": 91.9,
+      "penalties": []
+    },
+    {
+      "career": "Software Engineer",
+      "score": 90.1,
+      "penalties": []
+    },
+    {
+      "career": "Environmental Scientist",
+      "score": 89.1,
+      "penalties": []
+    },
+    {
+      "career": "Chemical Engineer",
+      "score": 86.4,
+      "penalties": []
+    },
+    {
+      "career": "Aerospace Engineer",
+      "score": 86.3,
+      "penalties": []
+    },
+    {
+      "career": "Data Scientist",
+      "score": 85.0,
+      "penalties": []
+    },
+    {
+      "career": "DevOps / Cloud Engineer",
+      "score": 82.9,
+      "penalties": []
+    },
+    {
+      "career": "Telecommunications Engineer",
+      "score": 82.8,
+      "penalties": []
+    },
+    {
+      "career": "AI / ML Engineer",
+      "score": 77.4,
+      "penalties": [
+        "enterprising deficit (-9%)"
+      ]
+    },
+    {
+      "career": "Network Engineer",
+      "score": 76.9,
+      "penalties": []
+    },
+    {
+      "career": "Cybersecurity Analyst",
+      "score": 76.8,
+      "penalties": [
+        "enterprising deficit (-9%)"
+      ]
+    },
+    {
+      "career": "Biomedical Engineer",
+      "score": 67.0,
+      "penalties": [
+        "social deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Diagnostic Medicine (Radiology / Pathology / Lab)",
+      "score": 65.5,
+      "penalties": [
+        "conventional deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Agricultural Scientist",
+      "score": 61.0,
+      "penalties": [
+        "social deficit (-16%)"
+      ]
+    },
+    {
+      "career": "Civil Engineer",
+      "score": 59.2,
+      "penalties": [
+        "enterprising deficit (-9%)"
+      ]
+    },
+    {
+      "career": "Electrical Engineer",
+      "score": 58.9,
+      "penalties": [
+        "realistic deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Mechanical Engineer",
+      "score": 56.6,
+      "penalties": [
+        "realistic deficit (-19%)"
+      ]
+    },
+    {
+      "career": "Veterinarian (DVM)",
+      "score": 48.2,
+      "penalties": [
+        "social deficit (-25%)"
+      ]
+    },
+    {
+      "career": "Pharmacist",
+      "score": 42.1,
+      "penalties": [
+        "social deficit (-25%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "persona": "Hiba",
+  "mode": "production",
+  "timestamp": "2026-05-01T17:12:13.670634",
+  "answers_count": {
+    "adaptive": 22,
+    "onet": 60
+  },
+  "adaptive_scores": {
+    "riasec_realistic": 40.0,
+    "riasec_investigative": 60.0,
+    "riasec_artistic": 93.3,
+    "riasec_social": 80.0,
+    "riasec_enterprising": 49.3,
+    "riasec_conventional": 60.0
+  },
+  "onet_scores": {
+    "riasec_realistic": 25,
+    "riasec_investigative": 50,
+    "riasec_artistic": 98,
+    "riasec_social": 60,
+    "riasec_enterprising": 38,
+    "riasec_conventional": 50
+  },
+  "blended_scores": {
+    "riasec_realistic": 34.0,
+    "riasec_investigative": 56.0,
+    "riasec_artistic": 95.2,
+    "riasec_social": 72.0,
+    "riasec_enterprising": 44.8,
+    "riasec_conventional": 56.0
+  },
+  "top_careers": [
+    {
+      "career": "UX/UI Designer",
+      "score": 89.1,
+      "penalties": []
+    },
+    {
+      "career": "Architect",
+      "score": 85.1,
+      "penalties": []
+    },
+    {
+      "career": "Interior Designer",
+      "score": 83.8,
+      "penalties": []
+    },
+    {
+      "career": "Writer / Author",
+      "score": 83.7,
+      "penalties": []
+    },
+    {
+      "career": "Animator / Motion Graphics Designer",
+      "score": 82.6,
+      "penalties": []
+    },
+    {
+      "career": "Fashion / Textile Designer",
+      "score": 79.2,
+      "penalties": []
+    },
+    {
+      "career": "Video Game Designer",
+      "score": 78.0,
+      "penalties": []
+    },
+    {
+      "career": "Cosmetologist",
+      "score": 75.2,
+      "penalties": []
+    },
+    {
+      "career": "Graphic Designer",
+      "score": 74.0,
+      "penalties": []
+    },
+    {
+      "career": "Journalist / Reporter",
+      "score": 68.1,
+      "penalties": [
+        "enterprising deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Nail Technician",
+      "score": 65.1,
+      "penalties": [
+        "realistic deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Allied Health Professional",
+      "score": 64.3,
+      "penalties": [
+        "realistic deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Makeup Artist",
+      "score": 63.4,
+      "penalties": [
+        "realistic deficit (-12%)"
+      ]
+    },
+    {
+      "career": "Content Creator / YouTuber",
+      "score": 59.1,
+      "penalties": [
+        "enterprising deficit (-18%)"
+      ]
+    },
+    {
+      "career": "HR Manager",
+      "score": 58.6,
+      "penalties": [
+        "enterprising deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Beauty Content Creator",
+      "score": 55.9,
+      "penalties": [
+        "enterprising deficit (-18%)"
+      ]
+    },
+    {
+      "career": "Corporate Trainer / L&D Specialist",
+      "score": 55.8,
+      "penalties": [
+        "enterprising deficit (-13%)"
+      ]
+    },
+    {
+      "career": "Filmmaker / Director",
+      "score": 54.1,
+      "penalties": [
+        "enterprising deficit (-23%)"
+      ]
+    },
+    {
+      "career": "Registered Nurse",
+      "score": 53.8,
+      "penalties": [
+        "social deficit (-22%)"
+      ]
+    },
+    {
+      "career": "School Counselor",
+      "score": 52.9,
+      "penalties": [
+        "social deficit (-22%)"
+      ]
+    }
+  ],
+  "diagnostics": {
+    "note": "AI clarifiers skipped. Consistency=1.0, Stability=0.5 assumed."
+  }
+}
