@@ -905,10 +905,14 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubje
     R: 'Explore a basic coding or practical tool tutorial',
     I: 'Try a logic puzzle or research a new topic',
     A: 'Design something simple using Canva',
-    S: 'Help someone with a problem or lead a group activity',
+    S: 'Help a friend understand something or join a group activity',
     E: 'Manage a small budget or plan a small event',
     C: 'Organize your digital workspace or create a clear schedule'
   };
+
+  const ctaTitle = isSchool ? "Want to explore this further?" : isCollege ? "Need help choosing the right direction?" : "Want clarity on your next step?";
+  const ctaText = isSchool ? "Talk to a career advisor to better understand your strengths and what subjects might suit you." : isCollege ? "Get one-to-one guidance on your subjects, degree options, and career path." : "Get guidance on specialization, skills, internships, and career direction.";
+  const ctaButton = isSchool ? "Talk to an Advisor" : "Book Your Session";
 
   const rankLabels = [
     { title: 'Gold Match', subtitle: 'Best Fit', color: 'text-amber-600', barBg: 'bg-amber-500', bg: 'bg-amber-50', border: 'border-amber-200', icon: '🥇' },
@@ -1041,14 +1045,13 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubje
             <MessageCircle className="w-32 h-32" />
           </div>
           <div className="relative z-10 max-w-2xl space-y-4">
-            <h2 className="text-2xl md:text-3xl font-black text-white">Need more detailed help?</h2>
-            <p className="text-blue-200 text-xl font-semibold">Book a one-to-one session with our career advisor.</p>
-            <p className="text-slate-300 text-base leading-relaxed">
-              Your results are a strong starting point. If you want deeper guidance on subjects, degrees, or career direction, our advisor can help you understand your options clearly.
+            <h2 className="text-2xl md:text-3xl font-black text-white">{ctaTitle}</h2>
+            <p className="text-slate-300 text-lg leading-relaxed">
+              {ctaText}
             </p>
             <div className="pt-4">
               <a href="#" onClick={(e) => { e.preventDefault(); alert("Booking system coming soon!"); }} className="inline-block bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-0.5">
-                Book Your Session
+                {ctaButton}
               </a>
             </div>
           </div>
@@ -1200,7 +1203,7 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubje
           {/* 3. Reflection + dual-purpose line */}
           <section className="bg-blue-50 border-2 border-blue-100 rounded-3xl p-6 md:p-8 space-y-4 shadow-sm">
             <h3 className="font-bold text-blue-900 text-lg flex items-center gap-2">
-              <Compass className="w-5 h-5 text-blue-500" /> Direction Check
+              <Compass className="w-5 h-5 text-blue-500" /> A Quick Check On Your Direction
             </h3>
             <div className="space-y-4 text-slate-700 font-medium leading-relaxed">
               <p>
@@ -1283,14 +1286,13 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubje
           <MessageCircle className="w-32 h-32" />
         </div>
         <div className="relative z-10 max-w-2xl space-y-4">
-          <h2 className="text-2xl md:text-3xl font-black text-white">Need more detailed help?</h2>
-          <p className="text-blue-200 text-xl font-semibold">Book a one-to-one session with our career advisor.</p>
-          <p className="text-slate-300 text-base leading-relaxed">
-            Your results are a strong starting point. If you want deeper guidance on subjects, degrees, or career direction, our advisor can help you understand your options clearly.
+          <h2 className="text-2xl md:text-3xl font-black text-white">{ctaTitle}</h2>
+          <p className="text-slate-300 text-lg leading-relaxed">
+            {ctaText}
           </p>
           <div className="pt-4">
             <a href="#" onClick={(e) => { e.preventDefault(); alert("Booking system coming soon!"); }} className="inline-block bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-0.5">
-              Book Your Session
+              {ctaButton}
             </a>
           </div>
         </div>
