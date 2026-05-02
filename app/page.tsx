@@ -91,6 +91,7 @@ export default function Home() {
   const [userSchool, setUserSchool] = useState('')
   const [userGoals, setUserGoals] = useState('')
   const [currentSubjects, setCurrentSubjects] = useState<string[]>([])
+  const [currentDegree, setCurrentDegree] = useState('')
   const [userStage, setUserStage] = useState<UserStage | ''>('')
   const [authUser, setAuthUser] = useState<{ id: string; name: string; email?: string; avatar?: string | null } | null>(null)
 
@@ -276,6 +277,10 @@ export default function Home() {
     if (savedSubjects) {
       try { setCurrentSubjects(JSON.parse(savedSubjects)) } catch {}
     }
+    const savedDegree = localStorage.getItem('mind_match_current_degree')
+    if (savedDegree) {
+      setCurrentDegree(savedDegree)
+    }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 1. Check for saved session on mount
@@ -396,6 +401,9 @@ export default function Home() {
     }
     if ((userStage === 'school' || userStage === 'college') && currentSubjects.length > 0) {
       localStorage.setItem('mind_match_current_subjects', JSON.stringify(currentSubjects))
+    }
+    if (userStage === 'university' && currentDegree.trim()) {
+      localStorage.setItem('mind_match_current_degree', currentDegree.trim())
     }
     const initialState = { ...initializeAdaptiveState(), precision_mode: precisionMode }
     const firstQ = getNextQuestion(initialState)
@@ -692,6 +700,20 @@ export default function Home() {
                   </button>
                 ))}
               </div>
+            </div>
+          )}
+
+          {/* Degree (University only) */}
+          {userStage === 'university' && (
+            <div className="mb-6">
+              <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">What are you currently studying? <span className="text-slate-600 normal-case font-normal">(optional)</span></label>
+              <input
+                type="text"
+                value={currentDegree}
+                onChange={e => setCurrentDegree(e.target.value)}
+                placeholder="e.g. Computer Science, Accounting, Psychology"
+                className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-base font-medium placeholder:text-slate-600 focus:outline-none focus:border-blue-600/60 focus:bg-white/8 transition-all"
+              />
             </div>
           )}
 
@@ -1793,6 +1815,7 @@ export default function Home() {
         userSchool={userSchool}
         userGoals={userGoals}
         currentSubjects={currentSubjects}
+        currentDegree={currentDegree}
         isCoachOpen={isCoachOpen}
         setIsCoachOpen={setIsCoachOpen}
         showClinicalAudit={showClinicalAudit}

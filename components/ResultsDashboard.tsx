@@ -59,6 +59,7 @@ interface ResultsDashboardProps {
   onetScores: Record<string, number> | null
   onStartOnet: () => void
   currentSubjects?: string[]
+  currentDegree?: string
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -872,7 +873,7 @@ function getStageDirection(scores: ScoreProfile) {
   return mappings[pair] || { direction: 'Balanced Exploration Path', schoolSubjects: ['Science', 'Commerce', 'Arts / Design'], collegeSubjects: ['Business Studies', 'Computer Science', 'Psychology'], broadPaths: ['Technology-based paths', 'Business-related roles', 'Design-related work'] };
 }
 
-function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubjects }: { matchedCareers: (Career & { match: number; rank: number })[]; scores: ScoreProfile; onetScores?: Record<string, number>; userStage?: 'school' | 'college' | 'university' | ''; userGoals?: string; currentSubjects?: string[] }) {
+function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubjects, currentDegree }: { matchedCareers: (Career & { match: number; rank: number })[]; scores: ScoreProfile; onetScores?: Record<string, number>; userStage?: 'school' | 'college' | 'university' | ''; userGoals?: string; currentSubjects?: string[]; currentDegree?: string }) {
   const profileParagraph = getUserProfileParagraph(scores);
   
   const isSchool = userStage === "school";
@@ -933,12 +934,13 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubje
         </section>
 
         {/* 2. Your Current Path */}
-        {userGoals && (
+        {(currentDegree && currentDegree.trim().length > 0) && (
           <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 md:p-8 space-y-4">
             <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Your Current Path</h2>
             <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
-              <p className="text-lg font-bold text-slate-800">You are currently studying: <span className="text-blue-600">{userGoals}</span></p>
-              <p className="mt-2 text-slate-600">These results are here to help you think about direction, specialization, and adjacent paths — not to pressure you into restarting your degree. Use this as a guide for internships, projects, skills, and career focus.</p>
+              <p className="text-lg font-bold text-slate-800">You are currently studying: <span className="text-blue-600">{currentDegree}</span></p>
+              <p className="mt-2 text-slate-600">Use these results to think about how you want to shape your direction — through specialization, skills, internships, projects, or adjacent roles.</p>
+              <p className="mt-2 text-slate-600 font-medium">This is not about restarting your path; it is about choosing the direction that fits you best from here.</p>
             </div>
           </section>
         )}
@@ -1449,7 +1451,7 @@ export function ResultsDashboard({
   scores, matchedCareers, topStrengths, topMotivations, topRIASEC, archetype, userName, userStage,
   adaptiveState, authUser, isReturningUser, showUserMenu, setShowUserMenu, onLogout,
   userAge, userGender, userSchool, userGoals, setIsCoachOpen, showClinicalAudit, setShowClinicalAudit,
-  radarData, onetScores, onStartOnet, currentSubjects
+  radarData, onetScores, onStartOnet, currentSubjects, currentDegree
 }: ResultsDashboardProps) {
   const [activeTab, setActiveTab] = useState<DashTab>('overview')
 
@@ -1562,7 +1564,7 @@ export function ResultsDashboard({
           )}
           {activeTab === 'careers' && (
             onetScores
-              ? <CareersTab matchedCareers={matchedCareers} scores={scores} onetScores={onetScores} userStage={userStage} userGoals={userGoals} currentSubjects={currentSubjects} />
+              ? <CareersTab matchedCareers={matchedCareers} scores={scores} onetScores={onetScores} userStage={userStage} userGoals={userGoals} currentSubjects={currentSubjects} currentDegree={currentDegree} />
               : <OnetLockedTeaser onStartOnet={onStartOnet} matchedCareers={matchedCareers} />
           )}
           {activeTab === 'insights' && (
