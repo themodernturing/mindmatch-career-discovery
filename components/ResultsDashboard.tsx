@@ -13,6 +13,10 @@ import {
   Lightbulb,
   AlertTriangle,
   LayoutDashboard,
+  Target,
+  BookOpen,
+  Compass,
+  Sparkles,
 } from 'lucide-react'
 import { ScoreProfile, AdaptiveAssessmentState, Career } from '@/lib/types'
 import { CareerCoachInline } from '@/components/CareerCoachInline'
@@ -867,7 +871,7 @@ function getStageDirection(scores: ScoreProfile) {
   return mappings[pair] || { direction: 'Balanced Exploration Path', schoolSubjects: ['Science', 'Commerce', 'Arts / Design'], collegeSubjects: ['Business Studies', 'Computer Science', 'Psychology'], broadPaths: ['Technology-based paths', 'Business-related roles', 'Design-related work'] };
 }
 
-function CareersTab({ matchedCareers, scores, userStage }: { matchedCareers: (Career & { match: number; rank: number })[]; scores: ScoreProfile; onetScores?: Record<string, number>; userStage?: 'school' | 'college' | 'university' | '' }) {
+function CareersTab({ matchedCareers, scores, userStage, userGoals }: { matchedCareers: (Career & { match: number; rank: number })[]; scores: ScoreProfile; onetScores?: Record<string, number>; userStage?: 'school' | 'college' | 'university' | ''; userGoals?: string }) {
   const profileParagraph = getUserProfileParagraph(scores);
   
   const isSchool = userStage === "school";
@@ -889,24 +893,39 @@ function CareersTab({ matchedCareers, scores, userStage }: { matchedCareers: (Ca
     return (
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
         {/* 1. Your Profile */}
-        <section className="space-y-3">
-          <h2 className="text-2xl font-black text-slate-900">Your Profile</h2>
-          <p className="text-slate-700 text-lg leading-relaxed">{profileParagraph}</p>
+        <section className="bg-gradient-to-br from-indigo-50 to-blue-50 border border-blue-100/50 rounded-3xl p-6 md:p-8 space-y-4">
+          <h2 className="text-xl md:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <span className="text-2xl">👋</span> Your Profile
+          </h2>
+          <p className="text-slate-700 text-lg leading-relaxed font-medium">{profileParagraph}</p>
         </section>
 
-        {/* 2. Where you should start */}
+        {/* 2. Your Current Path */}
+        {userGoals && (
+          <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 md:p-8 space-y-4">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Your Current Path</h2>
+            <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+              <p className="text-lg font-bold text-slate-800">You are currently studying: <span className="text-blue-600">{userGoals}</span></p>
+              <p className="mt-2 text-slate-600">These results are here to help you think about direction, specialization, and adjacent paths — not to pressure you into restarting your degree. Use this as a guide for internships, projects, skills, and career focus.</p>
+            </div>
+          </section>
+        )}
+
+        {/* 3. Where you should start */}
         {topCareer && (
-          <section className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 md:p-8 space-y-4">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-blue-600 mb-2">Where you should start</h2>
-            <p className="text-slate-700 text-base mb-4">If you had to pick one path to explore first, this would be it:</p>
+          <section className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-8 space-y-5 text-white shadow-lg shadow-blue-600/20">
+            <h2 className="text-sm font-bold uppercase tracking-widest text-blue-200 mb-2 flex items-center gap-2">
+              <Target className="w-4 h-4" /> Where you should start
+            </h2>
+            <p className="text-white/90 text-lg">If you had to pick one path to explore first, this would be it:</p>
             
-            <div className="bg-white border border-blue-100 rounded-xl p-5 shadow-sm">
-              <h3 className="text-xl font-black text-slate-900 flex flex-wrap items-center gap-x-2 gap-y-1">
-                🥇 {topCareer.name} <span className="text-blue-600 text-sm font-semibold md:ml-2">— Best Starting Point</span>
+            <div className="bg-white/10 border border-white/20 rounded-2xl p-6 backdrop-blur-sm">
+              <h3 className="text-xl md:text-2xl font-black text-white flex flex-wrap items-center gap-x-2 gap-y-1">
+                🥇 {topCareer.name} <span className="text-blue-200 text-sm font-semibold md:ml-2">— Best Starting Point</span>
               </h3>
               <div className="mt-3 space-y-2">
-                <p className="text-slate-700 text-sm font-medium">{topIdentity}</p>
-                <p className="text-emerald-700 text-sm font-semibold">Given your profile, this path offers the highest likelihood of long-term success and daily satisfaction.</p>
+                <p className="text-blue-50 text-sm font-medium">{topIdentity}</p>
+                <p className="text-emerald-300 text-sm font-semibold">Given your profile, this path offers the highest likelihood of long-term success and daily satisfaction.</p>
               </div>
             </div>
           </section>
@@ -987,6 +1006,25 @@ function CareersTab({ matchedCareers, scores, userStage }: { matchedCareers: (Ca
             )
           })}
         </section>
+
+        {/* Advisor CTA */}
+        <section className="bg-gradient-to-br from-slate-900 to-slate-800 border-none rounded-3xl p-8 md:p-10 space-y-6 text-white shadow-2xl mt-12 relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-8 opacity-10">
+            <MessageCircle className="w-32 h-32" />
+          </div>
+          <div className="relative z-10 max-w-2xl space-y-4">
+            <h2 className="text-2xl md:text-3xl font-black text-white">Need more detailed help?</h2>
+            <p className="text-blue-200 text-xl font-semibold">Book a one-to-one session with our career advisor.</p>
+            <p className="text-slate-300 text-base leading-relaxed">
+              Your results are a strong starting point. If you want deeper guidance on subjects, degrees, or career direction, our advisor can help you understand your options clearly.
+            </p>
+            <div className="pt-4">
+              <a href="#" onClick={(e) => { e.preventDefault(); alert("Booking system coming soon!"); }} className="inline-block bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-0.5">
+                Book Your Session
+              </a>
+            </div>
+          </div>
+        </section>
       </div>
     )
   }
@@ -995,82 +1033,120 @@ function CareersTab({ matchedCareers, scores, userStage }: { matchedCareers: (Ca
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
       {/* 1. Your Profile */}
-      <section className="space-y-3">
-        <h2 className="text-2xl font-black text-slate-900">Your Profile</h2>
-        <p className="text-slate-700 text-lg leading-relaxed">{profileParagraph}</p>
+      <section className="bg-gradient-to-br from-indigo-50 to-blue-50 border border-blue-100/50 rounded-3xl p-6 md:p-8 space-y-4">
+        <h2 className="text-xl md:text-2xl font-black text-slate-900 flex items-center gap-2">
+          <span className="text-2xl">👋</span> Your Profile
+        </h2>
+        <p className="text-slate-700 text-lg leading-relaxed font-medium">{profileParagraph}</p>
       </section>
 
-      {/* 2. Where you should start */}
-      <section className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 md:p-8 space-y-4">
-        <h2 className="text-sm font-bold uppercase tracking-widest text-blue-600 mb-2">Where you should start</h2>
-        <p className="text-slate-700 text-base mb-4">
-          {isSchool ? "Right now, you don’t need to decide your career. What matters is choosing the right direction." : "At this stage, your subject choices matter."}
+      {/* 2. Your Current Path */}
+      {userGoals && (
+        <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 md:p-8 space-y-4">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Your Current Path</h2>
+          <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+            <p className="text-lg font-bold text-slate-800">You are currently studying: <span className="text-blue-600">{userGoals}</span></p>
+            {isSchool && <p className="mt-2 text-slate-600">At this stage, your subjects are mainly a way to explore different areas. Some subjects may feel easier or more interesting than others — and that’s completely normal.</p>}
+          </div>
+        </section>
+      )}
+
+      {/* 3. Where you should start */}
+      <section className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-8 space-y-5 text-white shadow-lg shadow-blue-600/20">
+        <h2 className="text-sm font-bold uppercase tracking-widest text-blue-200 mb-2 flex items-center gap-2">
+          <Target className="w-4 h-4" /> Where you should start
+        </h2>
+        <p className="text-white/90 text-lg">
+          {isSchool ? "Right now, you don’t need to decide your career. What matters is noticing what feels natural and interesting to you." : "At this stage, your subject choices matter."}
         </p>
         
-        <div className="bg-white border border-blue-100 rounded-xl p-5 shadow-sm">
-          <h3 className="text-lg font-black text-slate-900 mb-2">
-            A good fit for you could be:
-          </h3>
-          <p className="text-xl font-black text-blue-600">{direction}</p>
+        <div className="bg-white/10 border border-white/20 rounded-2xl p-6 backdrop-blur-sm">
+          <h3 className="text-sm font-bold text-blue-100 mb-2">A good fit for you could be:</h3>
+          <p className="text-2xl md:text-3xl font-black text-white">{direction}</p>
         </div>
       </section>
 
       {isSchool ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Subjects Section */}
-          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-            <h3 className="font-bold text-slate-900 text-lg">Subjects to explore</h3>
-            <ul className="space-y-3">
+          <section className="bg-white border-2 border-emerald-100 rounded-3xl p-6 space-y-4 shadow-sm hover:border-emerald-200 transition-colors">
+            <h3 className="font-bold text-emerald-900 text-lg flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-emerald-500" /> What This Means For Your Studies
+            </h3>
+            <div className="flex flex-wrap gap-2">
               {schoolSubjects.map((subject, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="text-blue-500 font-bold mt-0.5">→</span>
-                  <span className="text-slate-700 font-medium">{subject}</span>
-                </li>
+                <span key={idx} className="bg-emerald-50 text-emerald-700 font-semibold px-3 py-1.5 rounded-full text-sm border border-emerald-100">
+                  {subject}
+                </span>
               ))}
-            </ul>
+            </div>
           </section>
 
           {/* Future Directions Section */}
-          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-            <h3 className="font-bold text-slate-900 text-lg">This direction can open paths like:</h3>
-            <ul className="space-y-3">
+          <section className="bg-white border-2 border-indigo-100 rounded-3xl p-6 space-y-4 shadow-sm hover:border-indigo-200 transition-colors">
+            <h3 className="font-bold text-indigo-900 text-lg flex items-center gap-2">
+              <Compass className="w-5 h-5 text-indigo-500" /> This Direction Can Open Paths Like
+            </h3>
+            <div className="flex flex-wrap gap-2">
               {broadPaths.map((path, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="text-blue-500 font-bold mt-0.5">→</span>
-                  <span className="text-slate-700 font-medium">{path}</span>
-                </li>
+                <span key={idx} className="bg-indigo-50 text-indigo-700 font-semibold px-3 py-1.5 rounded-full text-sm border border-indigo-100">
+                  {path}
+                </span>
               ))}
-            </ul>
+            </div>
+          </section>
+
+          {/* What to watch out for */}
+          <section className="bg-amber-50 border-2 border-amber-100 rounded-3xl p-6 space-y-4 shadow-sm">
+            <h3 className="font-bold text-amber-900 text-lg flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-amber-500" /> What To Watch Out For
+            </h3>
+            <p className="text-slate-700 text-sm leading-relaxed font-medium">
+              Some subjects may feel more tiring or less interesting — especially if they don’t match how you naturally like to think. That’s okay. This stage is about noticing what keeps your interest and what doesn’t.
+            </p>
+          </section>
+
+          {/* Try this this week */}
+          <section className="bg-purple-50 border-2 border-purple-100 rounded-3xl p-6 space-y-4 shadow-sm">
+            <h3 className="font-bold text-purple-900 text-lg flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-purple-500" /> Try This This Week
+            </h3>
+            <p className="text-slate-700 text-sm leading-relaxed font-medium">
+              Try small things first, like making a poster, using Canva, exploring basic computer tools, or taking a short free online course just for fun.
+            </p>
           </section>
         </div>
       ) : (
         <div className="space-y-6">
           {/* Subjects Section */}
-          <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-            <h3 className="font-bold text-slate-900 text-lg">Subjects that fit you</h3>
-            <p className="text-sm text-slate-600 mb-2">These subjects will give you the most flexibility for your future options:</p>
-            <ul className="space-y-3">
+          <section className="bg-white border-2 border-emerald-100 rounded-3xl p-6 md:p-8 space-y-4 shadow-sm">
+            <h3 className="font-black text-emerald-900 text-xl flex items-center gap-2">
+              <BookOpen className="w-6 h-6 text-emerald-500" /> Subjects That Fit You
+            </h3>
+            <p className="text-base text-slate-600 font-medium">These subjects will give you the most flexibility for your future options.</p>
+            <div className="flex flex-wrap gap-3 mt-4">
               {collegeSubjects.map((subject, idx) => (
-                <li key={idx} className="flex items-start gap-3">
-                  <span className="text-blue-500 font-bold mt-0.5">→</span>
-                  <span className="text-slate-700 font-medium">{subject}</span>
-                </li>
+                <span key={idx} className="bg-emerald-50 text-emerald-800 font-bold px-4 py-2 rounded-xl text-base border border-emerald-200">
+                  {subject}
+                </span>
               ))}
-            </ul>
+            </div>
           </section>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* College specific: Degree paths */}
             {matchedCareers[0]?.education_pathways && (
-              <section className="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 space-y-4">
-                <h3 className="font-bold text-indigo-900 text-lg">What this can lead to</h3>
+              <section className="bg-white border-2 border-indigo-100 rounded-3xl p-6 space-y-4 shadow-sm hover:border-indigo-200 transition-colors">
+                <h3 className="font-bold text-indigo-900 text-lg flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-indigo-500" /> What This Can Lead To
+                </h3>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
-                    <span className="text-indigo-500 font-bold mt-0.5">→</span>
+                    <span className="text-indigo-400 font-bold mt-0.5">→</span>
                     <span className="text-slate-700 font-medium">{matchedCareers[0].education_pathways[0]?.field || "Related Bachelor's degrees"}</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-indigo-500 font-bold mt-0.5">→</span>
+                    <span className="text-indigo-400 font-bold mt-0.5">→</span>
                     <span className="text-slate-700 font-medium">{matchedCareers[1]?.education_pathways?.[0]?.field || "Specialized tech or business fields"}</span>
                   </li>
                 </ul>
@@ -1078,32 +1154,27 @@ function CareersTab({ matchedCareers, scores, userStage }: { matchedCareers: (Ca
             )}
 
             {/* Future Directions Section */}
-            <section className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4">
-              <h3 className="font-bold text-slate-900 text-lg">Career directions this can lead to</h3>
+            <section className="bg-white border-2 border-blue-100 rounded-3xl p-6 space-y-4 shadow-sm hover:border-blue-200 transition-colors">
+              <h3 className="font-bold text-blue-900 text-lg flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-blue-500" /> Career Directions This Can Lead To
+              </h3>
               <ul className="space-y-3">
                 {matchedCareers.slice(0, 3).map((career, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <span className="text-blue-500 font-bold mt-0.5">→</span>
+                    <span className="text-blue-400 font-bold mt-0.5">→</span>
                     <span className="text-slate-700 font-medium">{career.category || career.name} — {career.name}</span>
                   </li>
                 ))}
               </ul>
             </section>
           </div>
-        </div>
-      )}
 
-      {/* Before you decide */}
-      <section className="bg-amber-50 border border-amber-100 rounded-2xl p-6 space-y-4">
-        <h3 className="font-bold text-amber-900 text-lg">Before you decide</h3>
-        <ul className="space-y-3">
-          {isSchool ? (
-            <li className="flex items-start gap-3">
-              <span className="text-amber-500 font-bold mt-0.5">→</span>
-              <span className="text-slate-700 font-medium">Try small things first, like making a poster, using Canva, or exploring basic computer tools.</span>
-            </li>
-          ) : (
-            <>
+          {/* Before you decide */}
+          <section className="bg-amber-50 border-2 border-amber-100 rounded-3xl p-6 space-y-4 shadow-sm">
+            <h3 className="font-bold text-amber-900 text-lg flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-amber-500" /> Before You Decide
+            </h3>
+            <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <span className="text-amber-500 font-bold mt-0.5">→</span>
                 <span className="text-slate-700 font-medium">Check what subjects are required for the degrees you’re interested in.</span>
@@ -1112,9 +1183,32 @@ function CareersTab({ matchedCareers, scores, userStage }: { matchedCareers: (Ca
                 <span className="text-amber-500 font-bold mt-0.5">→</span>
                 <span className="text-slate-700 font-medium">Pick subjects you can stay consistent with, not just what sounds good.</span>
               </li>
-            </>
-          )}
-        </ul>
+              <li className="flex items-start gap-3">
+                <span className="text-amber-500 font-bold mt-0.5">→</span>
+                <span className="text-slate-700 font-medium">If your current subjects are very different from these, it may be worth reviewing your direction. This does not mean you made a bad choice, but it may explain why some subjects feel difficult, boring, or disconnected from your strengths.</span>
+              </li>
+            </ul>
+          </section>
+        </div>
+      )}
+
+      {/* Advisor CTA */}
+      <section className="bg-gradient-to-br from-slate-900 to-slate-800 border-none rounded-3xl p-8 md:p-10 space-y-6 text-white shadow-2xl mt-12 relative overflow-hidden">
+        <div className="absolute top-0 right-0 p-8 opacity-10">
+          <MessageCircle className="w-32 h-32" />
+        </div>
+        <div className="relative z-10 max-w-2xl space-y-4">
+          <h2 className="text-2xl md:text-3xl font-black text-white">Need more detailed help?</h2>
+          <p className="text-blue-200 text-xl font-semibold">Book a one-to-one session with our career advisor.</p>
+          <p className="text-slate-300 text-base leading-relaxed">
+            Your results are a strong starting point. If you want deeper guidance on subjects, degrees, or career direction, our advisor can help you understand your options clearly.
+          </p>
+          <div className="pt-4">
+            <a href="#" onClick={(e) => { e.preventDefault(); alert("Booking system coming soon!"); }} className="inline-block bg-blue-500 hover:bg-blue-400 text-white font-bold text-lg px-8 py-4 rounded-xl shadow-lg shadow-blue-500/30 transition-all transform hover:-translate-y-0.5">
+              Book Your Session
+            </a>
+          </div>
+        </div>
       </section>
     </div>
   );
@@ -1381,7 +1475,7 @@ export function ResultsDashboard({
           )}
           {activeTab === 'careers' && (
             onetScores
-              ? <CareersTab matchedCareers={matchedCareers} scores={scores} onetScores={onetScores} userStage={userStage} />
+              ? <CareersTab matchedCareers={matchedCareers} scores={scores} onetScores={onetScores} userStage={userStage} userGoals={userGoals} />
               : <OnetLockedTeaser onStartOnet={onStartOnet} matchedCareers={matchedCareers} />
           )}
           {activeTab === 'insights' && (
