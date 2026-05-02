@@ -90,6 +90,7 @@ export default function Home() {
   const [userGender, setUserGender] = useState('')
   const [userSchool, setUserSchool] = useState('')
   const [userGoals, setUserGoals] = useState('')
+  const [currentSubjects, setCurrentSubjects] = useState<string[]>([])
   const [userStage, setUserStage] = useState<UserStage | ''>('')
   const [authUser, setAuthUser] = useState<{ id: string; name: string; email?: string; avatar?: string | null } | null>(null)
 
@@ -269,6 +270,12 @@ export default function Home() {
       }
     }
     checkAuth()
+    
+    // Load current subjects from localStorage for School users
+    const savedSubjects = localStorage.getItem('mind_match_current_subjects')
+    if (savedSubjects) {
+      try { setCurrentSubjects(JSON.parse(savedSubjects)) } catch {}
+    }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // 1. Check for saved session on mount
@@ -386,6 +393,9 @@ export default function Home() {
         school_name: userSchool.trim() || undefined,
         goals: userGoals.trim() || undefined,
       }).eq('id', authUser.id).then(() => {/* silent */})
+    }
+    if (userStage === 'school' && currentSubjects.length > 0) {
+      localStorage.setItem('mind_match_current_subjects', JSON.stringify(currentSubjects))
     }
     const initialState = { ...initializeAdaptiveState(), precision_mode: precisionMode }
     const firstQ = getNextQuestion(initialState)
@@ -659,6 +669,28 @@ export default function Home() {
               className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white text-base font-medium placeholder:text-slate-600 focus:outline-none focus:border-blue-600/60 focus:bg-white/8 transition-all"
             />
           </div>
+
+          {/* Subjects (School only) */}
+          {userStage === 'school' && (
+            <div className="mb-8">
+              <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">What subjects are you currently studying? <span className="text-slate-600 normal-case font-normal">(optional)</span></label>
+              <div className="flex flex-wrap gap-2">
+                {['Physics', 'Chemistry', 'Biology', 'Mathematics', 'Computer Science / IT', 'Business / Commerce', 'Accounting', 'Economics', 'Art / Design', 'Media / Design', 'English / Literature', 'Other'].map(sub => (
+                  <button
+                    key={sub}
+                    onClick={() => {
+                      setCurrentSubjects(prev => 
+                        prev.includes(sub) ? prev.filter(s => s !== sub) : [...prev, sub]
+                      )
+                    }}
+                    className={`px-3 py-2 rounded-xl border text-sm font-semibold transition-all ${currentSubjects.includes(sub) ? 'bg-blue-600 border-blue-600 text-white' : 'bg-white/5 border-white/10 text-slate-300 hover:border-white/20'}`}
+                  >
+                    {sub}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Goals */}
           <div className="mb-8">
@@ -1757,6 +1789,7 @@ export default function Home() {
         userGender={userGender}
         userSchool={userSchool}
         userGoals={userGoals}
+        currentSubjects={currentSubjects}
         isCoachOpen={isCoachOpen}
         setIsCoachOpen={setIsCoachOpen}
         showClinicalAudit={showClinicalAudit}

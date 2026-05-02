@@ -58,6 +58,7 @@ interface ResultsDashboardProps {
   setShowDebug: (v: boolean) => void
   onetScores: Record<string, number> | null
   onStartOnet: () => void
+  currentSubjects?: string[]
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -871,7 +872,7 @@ function getStageDirection(scores: ScoreProfile) {
   return mappings[pair] || { direction: 'Balanced Exploration Path', schoolSubjects: ['Science', 'Commerce', 'Arts / Design'], collegeSubjects: ['Business Studies', 'Computer Science', 'Psychology'], broadPaths: ['Technology-based paths', 'Business-related roles', 'Design-related work'] };
 }
 
-function CareersTab({ matchedCareers, scores, userStage, userGoals }: { matchedCareers: (Career & { match: number; rank: number })[]; scores: ScoreProfile; onetScores?: Record<string, number>; userStage?: 'school' | 'college' | 'university' | ''; userGoals?: string }) {
+function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubjects }: { matchedCareers: (Career & { match: number; rank: number })[]; scores: ScoreProfile; onetScores?: Record<string, number>; userStage?: 'school' | 'college' | 'university' | ''; userGoals?: string; currentSubjects?: string[] }) {
   const profileParagraph = getUserProfileParagraph(scores);
   
   const isSchool = userStage === "school";
@@ -879,8 +880,35 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals }: { matchedC
   const isUniversity = userStage === "university" || (!isSchool && !isCollege);
   
   const topCareer = matchedCareers[0];
-  const { direction, schoolSubjects, collegeSubjects, broadPaths } = getStageDirection(scores);
+  const { direction, collegeSubjects, broadPaths } = getStageDirection(scores);
   const { identityMatch: topIdentity } = topCareer ? getCareerFitExplanation(topCareer, scores) : { identityMatch: '' };
+
+  const top3Traits = [
+    { code: 'R', score: scores.riasec_realistic },
+    { code: 'I', score: scores.riasec_investigative },
+    { code: 'A', score: scores.riasec_artistic },
+    { code: 'S', score: scores.riasec_social },
+    { code: 'E', score: scores.riasec_enterprising },
+    { code: 'C', score: scores.riasec_conventional },
+  ].sort((a, b) => b.score - a.score).slice(0, 3).map(t => t.code);
+
+  const riasecSubjectMeaning: Record<string, string> = {
+    R: 'using tools like computers or practical tasks',
+    I: 'analytical thinking, research, and problem solving',
+    A: 'creative thinking and design',
+    S: 'understanding people, communication, or societal topics',
+    E: 'leadership, business concepts, and public speaking',
+    C: 'structured and organized work'
+  };
+
+  const riasecTryThis: Record<string, string> = {
+    R: 'Explore a basic coding or practical tool tutorial',
+    I: 'Try a logic puzzle or research a new topic',
+    A: 'Design something simple using Canva',
+    S: 'Help someone with a problem or lead a group activity',
+    E: 'Manage a small budget or plan a small event',
+    C: 'Organize your digital workspace or create a clear schedule'
+  };
 
   const rankLabels = [
     { title: 'Gold Match', subtitle: 'Best Fit', color: 'text-amber-600', barBg: 'bg-amber-500', bg: 'bg-amber-50', border: 'border-amber-200', icon: '🥇' },
@@ -1041,15 +1069,22 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals }: { matchedC
       </section>
 
       {/* 2. Your Current Path */}
-      {userGoals && (
+      {(isSchool && currentSubjects && currentSubjects.length > 0) ? (
+        <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 md:p-8 space-y-4">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Your Current Subjects</h2>
+          <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+            <p className="text-lg font-bold text-slate-800">You are currently studying: <span className="text-blue-600">{currentSubjects.join(', ')}</span></p>
+            <p className="mt-2 text-slate-600">At this stage, your subjects are mainly a way to explore different areas. Some subjects may feel easier or more interesting than others — and that’s completely normal.</p>
+          </div>
+        </section>
+      ) : (!isSchool && userGoals) ? (
         <section className="bg-slate-50 border border-slate-200 rounded-3xl p-6 md:p-8 space-y-4">
           <h2 className="text-sm font-bold uppercase tracking-widest text-slate-500 mb-2">Your Current Path</h2>
           <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
             <p className="text-lg font-bold text-slate-800">You are currently studying: <span className="text-blue-600">{userGoals}</span></p>
-            {isSchool && <p className="mt-2 text-slate-600">At this stage, your subjects are mainly a way to explore different areas. Some subjects may feel easier or more interesting than others — and that’s completely normal.</p>}
           </div>
         </section>
-      )}
+      ) : null}
 
       {/* 3. Where you should start */}
       <section className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-3xl p-6 md:p-8 space-y-5 text-white shadow-lg shadow-blue-600/20">
@@ -1068,52 +1103,64 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals }: { matchedC
 
       {isSchool ? (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Subjects Section */}
+          {/* What This Means For Your Studies */}
           <section className="bg-white border-2 border-emerald-100 rounded-3xl p-6 space-y-4 shadow-sm hover:border-emerald-200 transition-colors">
             <h3 className="font-bold text-emerald-900 text-lg flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-emerald-500" /> What This Means For Your Studies
             </h3>
-            <div className="flex flex-wrap gap-2">
-              {schoolSubjects.map((subject, idx) => (
-                <span key={idx} className="bg-emerald-50 text-emerald-700 font-semibold px-3 py-1.5 rounded-full text-sm border border-emerald-100">
-                  {subject}
-                </span>
+            <p className="text-sm text-slate-700 font-medium">You may feel more comfortable in subjects that involve:</p>
+            <ul className="space-y-3 mt-3">
+              {top3Traits.map((t, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                  <span className="text-emerald-500 font-bold mt-0.5">→</span>
+                  <span className="text-slate-700 font-medium">{riasecSubjectMeaning[t]}</span>
+                </li>
               ))}
-            </div>
+            </ul>
+            <p className="text-sm text-slate-600 mt-4 pt-4 border-t border-slate-100">These are the areas where you may enjoy learning more over time.</p>
           </section>
 
-          {/* Future Directions Section */}
+          {/* This Direction Can Open Paths Like */}
           <section className="bg-white border-2 border-indigo-100 rounded-3xl p-6 space-y-4 shadow-sm hover:border-indigo-200 transition-colors">
             <h3 className="font-bold text-indigo-900 text-lg flex items-center gap-2">
               <Compass className="w-5 h-5 text-indigo-500" /> This Direction Can Open Paths Like
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col gap-3 mt-2">
               {broadPaths.map((path, idx) => (
-                <span key={idx} className="bg-indigo-50 text-indigo-700 font-semibold px-3 py-1.5 rounded-full text-sm border border-indigo-100">
-                  {path}
-                </span>
+                <div key={idx} className="flex items-start gap-3">
+                  <span className="text-indigo-400 font-bold mt-0.5">→</span>
+                  <span className="text-slate-700 font-medium">{path}</span>
+                </div>
               ))}
             </div>
           </section>
 
-          {/* What to watch out for */}
+          {/* What To Watch Out For */}
           <section className="bg-amber-50 border-2 border-amber-100 rounded-3xl p-6 space-y-4 shadow-sm">
             <h3 className="font-bold text-amber-900 text-lg flex items-center gap-2">
               <AlertTriangle className="w-5 h-5 text-amber-500" /> What To Watch Out For
             </h3>
             <p className="text-slate-700 text-sm leading-relaxed font-medium">
-              Some subjects may feel more tiring or less interesting — especially if they don’t match how you naturally like to think. That’s okay. This stage is about noticing what keeps your interest and what doesn’t.
+              Some subjects may feel more tiring or less interesting — especially if they don’t match how you naturally like to think.
+            </p>
+            <p className="text-slate-700 text-sm leading-relaxed font-medium mt-2">
+              That’s okay. This stage is about noticing what keeps your interest and what doesn’t.
             </p>
           </section>
 
-          {/* Try this this week */}
+          {/* Try This This Week */}
           <section className="bg-purple-50 border-2 border-purple-100 rounded-3xl p-6 space-y-4 shadow-sm">
             <h3 className="font-bold text-purple-900 text-lg flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-purple-500" /> Try This This Week
             </h3>
-            <p className="text-slate-700 text-sm leading-relaxed font-medium">
-              Try small things first, like making a poster, using Canva, exploring basic computer tools, or taking a short free online course just for fun.
-            </p>
+            <ul className="space-y-3">
+              {top3Traits.map((t, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                  <span className="text-purple-500 font-bold mt-0.5">→</span>
+                  <span className="text-slate-700 font-medium">{riasecTryThis[t]}</span>
+                </li>
+              ))}
+            </ul>
           </section>
         </div>
       ) : (
@@ -1362,7 +1409,7 @@ export function ResultsDashboard({
   scores, matchedCareers, topStrengths, topMotivations, topRIASEC, archetype, userName, userStage,
   adaptiveState, authUser, isReturningUser, showUserMenu, setShowUserMenu, onLogout,
   userAge, userGender, userSchool, userGoals, setIsCoachOpen, showClinicalAudit, setShowClinicalAudit,
-  radarData, onetScores, onStartOnet,
+  radarData, onetScores, onStartOnet, currentSubjects
 }: ResultsDashboardProps) {
   const [activeTab, setActiveTab] = useState<DashTab>('overview')
 
@@ -1475,7 +1522,7 @@ export function ResultsDashboard({
           )}
           {activeTab === 'careers' && (
             onetScores
-              ? <CareersTab matchedCareers={matchedCareers} scores={scores} onetScores={onetScores} userStage={userStage} userGoals={userGoals} />
+              ? <CareersTab matchedCareers={matchedCareers} scores={scores} onetScores={onetScores} userStage={userStage} userGoals={userGoals} currentSubjects={currentSubjects} />
               : <OnetLockedTeaser onStartOnet={onStartOnet} matchedCareers={matchedCareers} />
           )}
           {activeTab === 'insights' && (
