@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { APP_CONFIG } from '@/lib/config'
 import {
   Brain, Users, CheckCircle, LogOut,
   ShieldCheck, Tag, Plus, Trash2, ExternalLink, Loader2, RefreshCw, X
@@ -193,7 +194,7 @@ export default function InstitutionPage() {
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
-              <span className="font-extrabold tracking-tight">Career<span className="text-blue-500">Lens</span></span>
+              <span className="font-extrabold tracking-tight">{APP_CONFIG.appName}</span>
               <span className="text-slate-500 text-sm ml-3">Admin Dashboard</span>
             </div>
           </div>

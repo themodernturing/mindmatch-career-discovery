@@ -12,6 +12,7 @@ import { ResultsDashboard } from '@/components/ResultsDashboard'
 import { createClient } from '@/lib/supabase/client'
 import { saveAssessmentResults } from '@/lib/saveResults'
 import { onetQuestions, scoreOnetResponses } from '@/lib/onet_questions'
+import { APP_CONFIG } from '@/lib/config'
 
 import {
   Brain,
@@ -592,7 +593,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-black tracking-tight">CareerLens</span>
+            <span className="text-sm font-black tracking-tight">{APP_CONFIG.appName}</span>
           </div>
           {authUser && <UserAvatar authUser={authUser} showMenu={showUserMenu} setShowMenu={setShowUserMenu} onLogout={handleLogout} />}
         </header>
@@ -852,7 +853,7 @@ export default function Home() {
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mx-auto mb-5 animate-pulse">
               <Brain className="w-7 h-7 text-white" />
             </div>
-            <p className="text-white font-black text-lg">CareerLens</p>
+            <p className="text-white font-black text-lg">{APP_CONFIG.appName}</p>
             <p className="text-slate-400 text-sm mt-1">Setting up your assessment…</p>
           </div>
         </div>
@@ -967,7 +968,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Your result</p>
-                    <p className="text-sm font-black text-white">CareerLens Report</p>
+                    <p className="text-sm font-black text-white">{APP_CONFIG.appName} Report</p>
                   </div>
                 </div>
                 <p className="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Personality Type</p>
@@ -1074,11 +1075,11 @@ export default function Home() {
             SECTION 5 — BEFORE vs AFTER
         ══════════════════════════════════════════════════════════════ */}
         <section className="relative z-10 w-full max-w-6xl mx-auto px-6 sm:px-10 pb-16">
-          <p className="text-2xl sm:text-3xl font-black text-white text-center mb-8">Before vs after CareerLens</p>
+          <p className="text-2xl sm:text-3xl font-black text-white text-center mb-8">Before vs after {APP_CONFIG.appName}</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Before */}
             <div className="bg-red-500/5 border border-red-500/15 rounded-2xl p-6">
-              <p className="text-xs font-black text-red-400 uppercase tracking-widest mb-4">Before CareerLens</p>
+              <p className="text-xs font-black text-red-400 uppercase tracking-widest mb-4">Before {APP_CONFIG.appName}</p>
               <ul className="space-y-3">
                 {[
                   'Not sure which subjects to choose',
@@ -1094,7 +1095,7 @@ export default function Home() {
             </div>
             {/* After */}
             <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-2xl p-6">
-              <p className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-4">After CareerLens</p>
+              <p className="text-xs font-black text-emerald-400 uppercase tracking-widest mb-4">After {APP_CONFIG.appName}</p>
               <ul className="space-y-3">
                 {[
                   'Clear subject choices based on your profile',
@@ -1120,7 +1121,7 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
             {[
               {
-                quote: 'I thought I wanted pre-med just because everyone else did. CareerLens showed me I\'m built for engineering. Best 20 minutes I\'ve spent.',
+                quote: `I thought I wanted pre-med just because everyone else did. ${APP_CONFIG.appName} showed me I'm built for engineering. Best 20 minutes I've spent.`,
                 name: 'Omar', school: 'A-Levels, Faisalabad',
                 img: '/avatar-omar.jpg', ring: 'ring-blue-400/30',
               },
@@ -1130,7 +1131,7 @@ export default function Home() {
                 img: '/avatar-bilal.jpg', ring: 'ring-indigo-400/30',
               },
               {
-                quote: 'I knew I liked physics but didn\'t know what to do with it. CareerLens pointed me to data science — never even considered it before.',
+                quote: `I knew I liked physics but didn't know what to do with it. ${APP_CONFIG.appName} pointed me to data science — never even considered it before.`,
                 name: 'Danish', school: 'A-Levels, Daska',
                 img: '/avatar-danish.jpg', ring: 'ring-violet-400/30',
               },
@@ -1230,7 +1231,7 @@ export default function Home() {
                 <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center">
                   <Brain className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-semibold text-slate-800">CareerLens</span>
+                <span className="font-semibold text-slate-800">{APP_CONFIG.appName}</span>
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-sm text-slate-500">Question {adaptiveState.answered_ids.length + 1}</span>
@@ -1436,7 +1437,7 @@ export default function Home() {
               <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
                 <Brain className="w-4 h-4 text-white" />
               </div>
-              <span className="text-sm font-black tracking-tight text-slate-900">CareerLens</span>
+              <span className="text-sm font-black tracking-tight text-slate-900">{APP_CONFIG.appName}</span>
             </div>
             <div className="text-xs font-bold text-slate-400 uppercase tracking-widest">Round {roundIndex} of 6 Complete</div>
           </header>
@@ -1486,7 +1487,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center">
               <Brain className="w-4 h-4 text-white" />
             </div>
-            <span className="text-sm font-black tracking-tight text-slate-900">CareerLens</span>
+            <span className="text-sm font-black tracking-tight text-slate-900">{APP_CONFIG.appName}</span>
           </div>
           <div className="text-right">
             <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Round {roundIndex + 1} of 6</p>
