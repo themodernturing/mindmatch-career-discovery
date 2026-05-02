@@ -1180,6 +1180,44 @@ function CareersTab({ matchedCareers, scores, userStage, userGoals, currentSubje
             </div>
           </section>
 
+          {/* 2. Current Subjects */}
+          {(currentSubjects && currentSubjects.length > 0) && (
+            <section className="bg-white border-2 border-slate-100 rounded-3xl p-6 md:p-8 space-y-4 shadow-sm">
+              <h3 className="font-black text-slate-800 text-xl flex items-center gap-2">
+                <BookOpen className="w-6 h-6 text-slate-500" /> Your Current Subjects
+              </h3>
+              <p className="text-base text-slate-600 font-medium">You are currently studying:</p>
+              <div className="flex flex-wrap gap-3 mt-2">
+                {currentSubjects.map((subject, idx) => (
+                  <span key={idx} className="bg-slate-50 text-slate-700 font-bold px-4 py-2 rounded-xl text-base border border-slate-200">
+                    {subject}
+                  </span>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* 3. Reflection + dual-purpose line */}
+          <section className="bg-blue-50 border-2 border-blue-100 rounded-3xl p-6 md:p-8 space-y-4 shadow-sm">
+            <h3 className="font-bold text-blue-900 text-lg flex items-center gap-2">
+              <Compass className="w-5 h-5 text-blue-500" /> Direction Check
+            </h3>
+            <div className="space-y-4 text-slate-700 font-medium leading-relaxed">
+              <p>
+                If your current subjects are very different from the ones above, it may be worth reviewing your direction.
+              </p>
+              <p>
+                This does not mean you made a bad choice, but it may explain why some subjects feel difficult, boring, or disconnected from your strengths.
+              </p>
+              <div className="bg-white/60 p-4 rounded-2xl border border-blue-100/50 mt-4">
+                <p className="text-sm font-semibold text-blue-800 leading-relaxed">
+                  If you&apos;re early in your A-levels or Intermediate, this helps you check your direction.<br/>
+                  If you&apos;re closer to finishing, this shows where your subjects can take you.
+                </p>
+              </div>
+            </div>
+          </section>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* College specific: Degree paths */}
             {matchedCareers[0]?.education_pathways && (

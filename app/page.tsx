@@ -394,7 +394,7 @@ export default function Home() {
         goals: userGoals.trim() || undefined,
       }).eq('id', authUser.id).then(() => {/* silent */})
     }
-    if (userStage === 'school' && currentSubjects.length > 0) {
+    if ((userStage === 'school' || userStage === 'college') && currentSubjects.length > 0) {
       localStorage.setItem('mind_match_current_subjects', JSON.stringify(currentSubjects))
     }
     const initialState = { ...initializeAdaptiveState(), precision_mode: precisionMode }
@@ -670,12 +670,15 @@ export default function Home() {
             />
           </div>
 
-          {/* Subjects (School only) */}
-          {userStage === 'school' && (
+          {/* Subjects (School and College) */}
+          {(userStage === 'school' || userStage === 'college') && (
             <div className="mb-8">
               <label className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3 block">What subjects are you currently studying? <span className="text-slate-600 normal-case font-normal">(optional)</span></label>
               <div className="flex flex-wrap gap-2">
-                {['Physics', 'Chemistry', 'Biology', 'Mathematics', 'Computer Science / IT', 'Business / Commerce', 'Accounting', 'Economics', 'Art / Design', 'Media / Design', 'English / Literature', 'Other'].map(sub => (
+                {(userStage === 'school' 
+                  ? ['Physics', 'Chemistry', 'Biology', 'Mathematics', 'Computer Science / IT', 'Business / Commerce', 'Accounting', 'Economics', 'Art / Design', 'Media / Design', 'English / Literature', 'Other']
+                  : ['Physics', 'Chemistry', 'Biology', 'Mathematics', 'Computer Science / IT', 'Accounting', 'Business Studies', 'Economics', 'Psychology', 'Sociology', 'Media / Design', 'Art / Design', 'English / Literature', 'Other']
+                ).map(sub => (
                   <button
                     key={sub}
                     onClick={() => {
